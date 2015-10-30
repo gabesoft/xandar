@@ -1,6 +1,6 @@
 default: test
 
-MOCHA   = node_modules/.bin/mocha -u tdd --check-leaks
+MOCHA   = $(CURDIR)/node_modules/.bin/mocha -u tdd --check-leaks
 VERSION = $(shell node -pe 'require("./package.json").version')
 
 all: test
