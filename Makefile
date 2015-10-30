@@ -1,7 +1,8 @@
 default: test
 
-MOCHA   = $(CURDIR)/node_modules/.bin/mocha -u tdd --check-leaks
-VERSION = $(shell node -pe 'require("./package.json").version')
+BIN = $(CURDIR)/node_modules/.bin
+MOCHA = $(BIN)/mocha -u tdd --check-leaks
+VERSION = $(SHELL node -pe 'require("./package.json").version')
 
 all: test
 
@@ -32,6 +33,8 @@ jshint:
 
 loc:
 	@find src/ -name *.js | xargs wc -l
+
+deps: setup
 
 setup:
 	@npm install . -d

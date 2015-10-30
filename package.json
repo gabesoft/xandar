@@ -1,18 +1,32 @@
 {
-  "name": "xandar",
-  "version": "0.0.1",
-  "description": "Blog reader app",
-  "preferGlobal": false,
-  "main": "./lib/index.js",
+  "author": {
+    "email": "gabesoft@gmail.com",
+    "name": "Gabriel Adomnicai"
+  },
   "bin": {},
-  "dependencies": {},
-  "devDependencies": {},
+  "dependencies": {
+    "hapi": "^11.0.3",
+    "materialize-css": "^0.97.1",
+    "node-sass": "^3.4.1",
+    "react": "^0.14.1",
+    "react-dom": "^0.14.1"
+  },
+  "description": "Blog reader web application",
+  "devDependencies": {
+    "babel-eslint": "^4.1.3",
+    "eslint": "^1.8.0",
+    "eslint-config-airbnb": "^0.1.0",
+    "eslint-plugin-react": "^3.6.3",
+    "mpr": "^0.1.15",
+    "node-dev": "^2.7.1"
+  },
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "name": "xandar",
+  "preferGlobal": false,
   "repository": {
     "type": "git",
     "url": "git@github.com:gabesoft/xandar.git"
   },
-  "author": {
-    "name": "Gabriel Adomnicai",
-    "email": "gabesoft@gmail.com"
-  }
+  "version": "0.0.1"
 }
