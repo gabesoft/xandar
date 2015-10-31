@@ -27,9 +27,8 @@ test-slow:
 test-all:
 	@NODE_ENV=test $(MOCHA) -R spec test/*.js --timeout 10000
 
-jshint:
-	jshint lib/**
-	jshint test/**
+lint:
+	$(ESLINT) .
 
 loc:
 	@find src/ -name *.js | xargs wc -l
