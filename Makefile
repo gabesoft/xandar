@@ -1,6 +1,7 @@
 default: test
 
 BIN = $(CURDIR)/node_modules/.bin
+MPR = $(BIN)/mpr
 MOCHA = $(BIN)/mocha -u tdd --check-leaks
 VERSION = $(SHELL node -pe 'require("./package.json").version')
 
