@@ -1,6 +1,8 @@
 default: test
 
 BIN = $(CURDIR)/node_modules/.bin
+NODE_DEV = $(BIN)/node-dev
+ESLINT = $(BIN)/eslint
 MPR = $(BIN)/mpr
 MOCHA = $(BIN)/mocha -u tdd --check-leaks
 VERSION = $(SHELL node -pe 'require("./package.json").version')
@@ -33,6 +35,9 @@ lint:
 
 loc:
 	@find src/ -name *.js | xargs wc -l
+
+run:
+	@$(NODE_DEV) server.js
 
 deps: setup
 
