@@ -1,6 +1,7 @@
 const React = require('react');
-const Script = require('./script.jsx');
-const Link = require('./link.jsx');
+const Navbar = require('./navbar.jsx');
+const Footer = require('./footer.jsx');
+const url = require('url');
 
 module.exports = React.createClass({
   propTypes: {
@@ -9,6 +10,9 @@ module.exports = React.createClass({
     title: React.PropTypes.string
   },
   render: function render() {
+    const assets = this.props.assets;
+    const vendor = this.props.vendor;
+
     return (
       <html>
         <head>
@@ -16,16 +20,22 @@ module.exports = React.createClass({
           <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
           <meta name="viewport" content="width=device-width, initial-scale=1"/>
           <title>{this.props.title}</title>
-          <Link assets={this.props.assets} path="main.css"/>
+
+          <link rel="stylesheet" href={url.resolve(assets, 'app.css')}/>
+          <link rel="stylesheet" href={url.resolve(vendor, 'materialize-css/dist/css/materialize.min.css' )} media="screen,projection"/>
+          <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons"/>
         </head>
         <body>
-          <div id="app-mount"
+          <Navbar/>
+          <div className="app-container" id="app-mount"
             dangerouslySetInnerHTML={{ __html: this.props.remount }}>
           </div>
           <script id="app-state"
             dangerouslySetInnerHTML={{ __html: this.props.state }}>
           </script>
-          <Script assets={this.props.assets} path="app.js" />
+          <script src={url.resolve(assets, 'vendor.js')}></script>
+          <script src={url.resolve(assets, 'app.js')}></script>
+          <Footer/>
         </body>
       </html>
     );

@@ -4,9 +4,9 @@ module.exports = React.createClass({
   propTypes: {},
   render: function render() {
     return (
-      <div>
-        <div>Main App {this.props.data}</div>
-        <div>More stuff here</div>
+      <div className="row">
+        <div className="nav-panel col s12 m3 l3 grey">Navigation Panel</div>
+        <div className="main-content col s12 m9 l9 teal">{this.props.data}</div>
       </div>
     );
   }

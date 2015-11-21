@@ -7,7 +7,8 @@ module.exports = React.createClass({
     return (
       <link
         rel={this.props.rel || 'stylesheet'}
-        href={path.join(this.props.assets, this.props.path)}/>
+        href={path.join(this.props.assets, this.props.path)}
+        media={this.props.media}/>
     );
   }
 });

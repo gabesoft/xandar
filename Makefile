@@ -3,6 +3,7 @@ default: test
 BIN = $(CURDIR)/node_modules/.bin
 NODE_DEV = $(BIN)/node-dev
 ESLINT = $(BIN)/eslint
+BROCCOLI = $(BIN)/broccoli
 MPR = $(BIN)/mpr
 MOCHA = $(BIN)/mocha -u tdd --check-leaks
 VERSION = $(SHELL node -pe 'require("./package.json").version')
@@ -21,6 +22,15 @@ tag:
 tag-push: tag
 	@git push --tags origin HEAD:master
 
+clean:
+	@$(RM) -r dist
+
+build: clean
+	@$(BROCCOLI) build dist
+
+build-prod: clean
+	@NODE_ENV=production @$(BROCCOLI) build dist
+
 test:
 	@NODE_ENV=test $(MOCHA) -R spec test/*.js --grep @slow --invert
 
@@ -32,6 +42,9 @@ test-all:
 
 lint:
 	$(ESLINT) .
+
+lint-fix:
+	$(ESLINT) . --fix
 
 loc:
 	@find src/ -name *.js | xargs wc -l
