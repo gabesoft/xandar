@@ -23,7 +23,6 @@ module.exports = React.createClass({
 
           <link rel="stylesheet" href={url.resolve(assets, 'app.css')}/>
           <link rel="stylesheet" href={url.resolve(vendor, 'materialize-css/dist/css/materialize.min.css' )} media="screen,projection"/>
-          <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons"/>
         </head>
         <body>
           <Navbar/>

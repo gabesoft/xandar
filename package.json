@@ -27,7 +27,7 @@
     "babel-preset-react": "^6.1.18",
     "babel-register": "^6.1.18",
     "babelify": "^7.2.0",
-    "broccoli": "^1.0.0-beta.5",
+    "broccoli": "https://github.com/gabesoft/broccoli.git",
     "broccoli-cli": "^1.0.0",
     "broccoli-funnel": "^1.0.0",
     "broccoli-merge-trees": "^1.0.0",
@@ -43,6 +43,7 @@
     "node-dev": "^2.7.1",
     "rsvp": "^3.1.0",
     "uglify-js": "^2.6.1",
+    "uglifycss": "0.0.18",
     "webpack": "^1.12.6"
   },
   "license": "MIT",

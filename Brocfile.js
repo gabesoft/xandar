@@ -2,23 +2,29 @@ const Funnel = require('broccoli-funnel'),
       path = require('path'),
       Merge = require('broccoli-merge-trees'),
       Sass = require('broccoli-sass'),
-      Uglify = require('./broc/uglify'),
+      UglifyJs = require('./broc/uglify-js'),
+      UglifyCss = require('./broc/uglify-css'),
       Browserify = require('./broc/browserify'),
       prod = process.env.NODE_ENV === 'production';
 
 function buildSass() {
-  const vendorDir = 'node_modules',
-        materializeDir = path.join(vendorDir, 'materialize-css/sass'),
-        materialize = new Funnel(materializeDir, {
-          destDir: 'vendor',
-          include: ['**/*.scss']
-        }),
-        style = new Funnel('style', {
-          destDir: '/',
-          include: ['**/*.scss']
-        });
+  const vendorDir = 'node_modules';
+  const materializeDir = path.join(vendorDir, 'materialize-css');
 
-  return new Sass([style, materialize], 'app.scss', 'app.css');
+  const materialize = new Funnel(path.join(materializeDir, 'sass'), {
+    destDir: 'vendor',
+    include: ['**/*.scss']
+  });
+  const font = new Funnel(path.join(materializeDir, 'dist/font'), {
+    destDir: 'font'
+  });
+  const sass = new Funnel('style', {
+    destDir: '/',
+    include: ['**/*.scss']
+  });
+  const css = new Sass([sass, materialize], 'app.scss', 'app.css');
+
+  return new Merge([new UglifyCss(css), font]);
 }
 
 function buildJs() {
@@ -38,7 +44,7 @@ function buildJs() {
   });
   const all = new Merge([ vendor, lib ]);
 
-  return prod ? new Uglify(all) : all;
+  return prod ? new UglifyJs(all) : all;
 }
 
 function buildAll() {

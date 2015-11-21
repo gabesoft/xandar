@@ -28,17 +28,21 @@ clean:
 build: clean
 	@$(BROCCOLI) build dist
 
-build-prod: clean
-	@NODE_ENV=production @$(BROCCOLI) build dist
+build-serve:
+	@$(BROCCOLI) serve --cors
 
+build-prod: export NODE_ENV=production
+build-prod: build
+
+test: export NODE_ENV=test
 test:
-	@NODE_ENV=test $(MOCHA) -R spec test/*.js --grep @slow --invert
+	@$(MOCHA) -R spec test/*.js --grep @slow --invert
 
 test-slow:
-	@NODE_ENV=test $(MOCHA) -R spec test/*.js --grep @slow --timeout 10000
+	@$(MOCHA) -R spec test/*.js --grep @slow --timeout 10000
 
 test-all:
-	@NODE_ENV=test $(MOCHA) -R spec test/*.js --timeout 10000
+	@$(MOCHA) -R spec test/*.js --timeout 10000
 
 lint:
 	$(ESLINT) .
