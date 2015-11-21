@@ -5,7 +5,7 @@ module.exports = React.createClass({
   render: function render() {
     return (
       <div className="row">
-        <div className="nav-panel col s12 m3 l3 grey">Navigation Panel</div>
+        <div className="nav-panel col s12 m3 l3 blue-grey">navigation panel</div>
         <div className="main-content col s12 m9 l9 teal">{this.props.data}</div>
       </div>
     );

@@ -1,6 +1,7 @@
 const React = require('react');
 const Navbar = require('./navbar.jsx');
 const Footer = require('./footer.jsx');
+const Loader = require('./loader.jsx');
 const url = require('url');
 
 module.exports = React.createClass({
@@ -11,7 +12,6 @@ module.exports = React.createClass({
   },
   render: function render() {
     const assets = this.props.assets;
-    const vendor = this.props.vendor;
 
     return (
       <html>
@@ -22,12 +22,11 @@ module.exports = React.createClass({
           <title>{this.props.title}</title>
 
           <link rel="stylesheet" href={url.resolve(assets, 'app.css')}/>
-          <link rel="stylesheet" href={url.resolve(vendor, 'materialize-css/dist/css/materialize.min.css' )} media="screen,projection"/>
         </head>
         <body>
           <Navbar/>
-          <div className="app-container" id="app-mount"
-            dangerouslySetInnerHTML={{ __html: this.props.remount }}>
+          <div className="app-container" id="app-mount">
+            <Loader/>
           </div>
           <script id="app-state"
             dangerouslySetInnerHTML={{ __html: this.props.state }}>

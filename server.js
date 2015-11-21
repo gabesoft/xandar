@@ -40,18 +40,6 @@ server.register([Inert, Vision, StatusDecorator, {
 
   server.route({
     method: 'GET',
-    path: '/lib/app.bundle.js',
-    handler: { file: path.join(__dirname, 'lib', 'app.bundle.js') }
-  });
-
-  server.route({
-    method: 'GET',
-    path: '/css/main.css',
-    handler: { file: path.join(__dirname, 'css', 'main.css') }
-  });
-
-  server.route({
-    method: 'GET',
     path: '/node_modules/{path*}',
     handler: (request, reply) => {
       const file = path.join(__dirname, 'node_modules', request.params.path);
@@ -63,31 +51,18 @@ server.register([Inert, Vision, StatusDecorator, {
     method: 'GET',
     path: '/{route*}',
     handler: (request, reply) => {
-      // TODO: use request.url for the react router
+      const state = { data: 'main content' };
+      const context = {
+        title: 'Blog reader',
+        assets: process.env === 'production' ? '/dist' : '//localhost:4200/',
+        state: `window.state = ${JSON.stringify(state)};`,
+        runtimeOptions: {
+          doctype: '<!DOCTYPE html>',
+          renderMethod: 'renderToString'
+        }
+      };
 
-      const state = { data: 'main content' },
-            opts = {
-              runtimeOptions: {
-                doctype: '<!DOCTYPE html>',
-                renderMethod: 'renderToString'
-              }
-            };
-
-      server.render('app', state, opts, (appErr, appOut) => {
-        const context = {
-          remount: appOut,
-          title: 'Blog reader',
-          assets: process.env === 'production' ? '/dist' : '//localhost:4200/',
-          vendor: '/node_modules',
-          state: `window.state = ${JSON.stringify(state)};`
-        };
-
-        server.render('html', context, (htmlErr, htmlOut) => {
-          console.log('appOut', appErr, appOut);
-          console.log('htmlOut', htmlErr, htmlOut);
-          reply(htmlOut);
-        });
-      });
+      server.render('html', context, (htmlErr, htmlOut) => htmlErr ? reply(htmlErr) : reply(htmlOut));
     }
   });
 
