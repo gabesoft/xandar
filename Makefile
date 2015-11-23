@@ -29,7 +29,7 @@ build: clean
 	@$(BROCCOLI) build dist
 
 build-serve:
-	@$(BROCCOLI) serve --cors
+	@$(BROCCOLI) serve --cors --port 4400
 
 build-prod: export NODE_ENV=production
 build-prod: build

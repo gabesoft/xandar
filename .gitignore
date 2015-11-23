@@ -20,3 +20,4 @@ pids
 results
 tmp
 dist
+conf/github.json

@@ -6,9 +6,9 @@ module.exports = React.createClass({
     return (
       <nav>
         <div className="nav-wrapper">
-          <a href="#" className="brand-logo">Xandar</a>
-          <ul id="nav-mobile" className="right hide-on-med-and-down">
-            <li><a href="menu.html">menu</a></li>
+          <a href="javascript:void(0);" className="brand-logo">Xandar</a>
+          <ul id="nav-mobile" className="right hide-on-small-only">
+            <li><a href="/logout">{this.props.login}</a></li>
           </ul>
         </div>
       </nav>

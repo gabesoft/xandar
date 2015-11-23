@@ -19,16 +19,17 @@ module.exports = React.createClass({
           <meta name="viewport" content="width=device-width, initial-scale=1"/>
           <title>{this.props.title}</title>
 
-          <link rel="stylesheet" href={url.resolve(assets, 'app.css')}/>
+          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+          <link href={url.resolve(assets, 'app.css')} rel="stylesheet" />
         </head>
         <body>
-          <Navbar login={this.props.login}/>
-          <div className="app-container" id="app-mount"></div>
-          <script id="app-state"
-            dangerouslySetInnerHTML={{ __html: this.props.state }}>
-          </script>
-          <script src={url.resolve(assets, 'vendor.js')}></script>
-          <script src={url.resolve(assets, 'app.js')}></script>
+          <Navbar/>
+          <div className="app-container" id="app-mount">
+            <a href={this.props.loginUrl} className="waves-effect waves-light btn-large">
+              <i className="material-icons left">lock</i>
+              Login with Github
+            </a>
+          </div>
           <Footer/>
         </body>
       </html>
