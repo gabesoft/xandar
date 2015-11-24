@@ -1,7 +1,8 @@
 {
     "app": {
         "port": 8009,
-        "assets-url": "http://localhost:4400"
+        "assets-url": "http://localhost:4400",
+        "auth-secret": "top-secret"
     },
     "api": {
         "url": "http://localhost:8006"

@@ -5,7 +5,10 @@
   },
   "bin": {},
   "dependencies": {
+    "async": "^1.5.0",
     "babel-core": "^6.1.21",
+    "chalk": "^1.1.1",
+    "glob": "^6.0.1",
     "good": "^6.4.0",
     "good-console": "^5.2.0",
     "hapi": "^11.1.2",
@@ -21,6 +24,7 @@
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
     "request": "^2.67.0",
+    "srunner": "^0.1.12",
     "vision": "^4.0.1"
   },
   "description": "Blog reader",

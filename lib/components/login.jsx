@@ -5,7 +5,6 @@ const url = require('url');
 
 module.exports = React.createClass({
   propTypes: {
-    state: React.PropTypes.string.isRequired,
     title: React.PropTypes.string
   },
   render: function render() {
