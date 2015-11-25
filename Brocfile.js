@@ -32,11 +32,11 @@ function buildJs() {
     debug: !prod,
     inputNodes: [ 'node_modules' ],
     outputFile: 'vendor.js',
-    require: ['react', 'react-dom']
+    require: ['react', 'react-dom', 'jquery']
   });
   const lib = new Browserify({
     debug: !prod,
-    external: ['react', 'react-dom'],
+    external: ['react', 'react-dom', 'jquery'],
     entries: [ 'app.js' ],
     inputNodes: [ 'lib' ],
     outputFile: 'app.js',

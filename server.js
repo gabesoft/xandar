@@ -28,6 +28,7 @@ function setupServer(cb) {
 
   server.path(__dirname);
 
+  server.decorate('request', 'conf', key => conf.get(key));
   server.decorate('reply', 'conf', key => conf.get(key));
   cb();
 }
