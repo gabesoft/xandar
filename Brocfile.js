@@ -4,7 +4,10 @@ const Funnel = require('broccoli-funnel'),
       Sass = require('broccoli-sass'),
       UglifyJs = require('./broc/uglify-js'),
       UglifyCss = require('./broc/uglify-css'),
+      Autoprefixer = require('./broc/autoprefixer'),
+      PostCss = require('broccoli-postcss'),
       Browserify = require('./broc/browserify'),
+      autoprefixer = require('autoprefixer'),
       prod = process.env.NODE_ENV === 'production';
 
 function buildSass() {
@@ -23,20 +26,29 @@ function buildSass() {
     include: ['**/*.scss']
   });
   const css = new Sass([sass, materialize], 'app.scss', 'app.css');
+  const cssPrefixed = new Autoprefixer(css);
+  const cssMinified = new UglifyCss(cssPrefixed);
 
-  return new Merge([new UglifyCss(css), font]);
+  return new Merge([cssMinified, font]);
 }
 
 function buildJs() {
+  const vendorRequire = [
+    'jquery',
+    'react',
+    'react-addons-css-transition-group',
+    'react-dom',
+    'trans'
+  ];
   const vendor = new Browserify({
     debug: !prod,
     inputNodes: [ 'node_modules' ],
     outputFile: 'vendor.js',
-    require: ['react', 'react-dom', 'jquery']
+    require: vendorRequire
   });
   const lib = new Browserify({
     debug: !prod,
-    external: ['react', 'react-dom', 'jquery'],
+    external: vendorRequire,
     entries: [ 'app.js' ],
     inputNodes: [ 'lib' ],
     outputFile: 'app.js',

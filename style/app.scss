@@ -5,6 +5,7 @@ body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+  background-color: #FCFCFC; // TODO: add to site-theme
 }
 
 .loader {
@@ -22,25 +23,86 @@ body {
   margin: 0 auto;
 }
 
+.collapsible-header {
+  user-select: none;
+}
+
+.fade-in-appear {
+  opacity: 0.01;
+  transition: opacity 300ms;
+
+  &.fade-in-appear-active {
+    opacity: 1;
+  }
+}
+
+.slide-in-appear {
+  max-height: 0px;
+  transition: max-height 300ms ease-in-out;
+  
+  &.slide-in-appear-active {
+    max-height: 300px;
+  }
+}
+
+.slide-in-enter,
+.slide-in-leave {
+  transform-origin: top;
+}
+
+.slide-in-enter {
+  max-height: 0px;
+  transform: scaleY(0);
+  transition: max-height 500ms, transform 200ms;
+  
+  &.slide-in-enter-active {
+    max-height: 200px;
+    transform: scaleY(1);
+  }
+}
+
+.slide-in-leave {
+  max-height: 200px;
+  transform: scaleY(1);
+  transition: max-height 300ms, transform 1000ms;
+  
+  &.slide-in-leave-active {
+    max-height: 0px;
+    transform: scaleY(0);
+  }
+}
+
 .feed-list {
+  .collapsible-body {
+    display: block;
+    overflow: hidden;
+  }
+
   .feed-item {
-    .title,
-    .author,
-    .info,
+    position: relative;
+
+    .badge {
+      position: relative;
+      padding: 2px 6px;
+      min-width: 10px;
+
+      &:not(.new) {
+        display: inline-block;
+        min-width: 50px;
+      }
+    }
+
+    .title-info,
     .post-count {
       display: inline-block;
     }
 
     .title {
-      width: 100%;
+      text-transform: capitalize;
     }
 
-    .info {
+    .title-info {
       width: 80%;
-    }
-
-    .author {
-      margin: 0 5px;
     }
 
     .post-count {
