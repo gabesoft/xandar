@@ -1,4 +1,5 @@
 const Funnel = require('broccoli-funnel'),
+      trans = require('trans'),
       path = require('path'),
       Merge = require('broccoli-merge-trees'),
       Sass = require('broccoli-sass'),
@@ -46,8 +47,13 @@ function buildJs() {
   ];
   const vendor = new Browserify({
     debug: !prod,
-    inputNodes: [ 'node_modules' ],
+    inputNodes: trans(vendorRequire)
+      .map('.', ['replace', /\/[^/]*$/, ''])
+      .uniq()
+      .map('.', dir => path.join('node_modules', dir))
+      .value(),
     outputFile: 'vendor.js',
+    name: 'browserify-vendor',
     require: vendorRequire
   });
   const lib = new Browserify({
@@ -56,6 +62,7 @@ function buildJs() {
     entries: [ 'app.js' ],
     inputNodes: [ 'lib' ],
     outputFile: 'app.js',
+    name: 'browserify-lib',
     transforms: [{ name: 'babelify', options: { presets: ['es2015', 'react'] } }]
   });
   const all = new Merge([ vendor, lib ]);
