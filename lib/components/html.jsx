@@ -18,7 +18,6 @@ module.exports = React.createClass({
           <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
           <meta name="viewport" content="width=device-width, initial-scale=1"/>
           <title>{this.props.title}</title>
-
           <link rel="stylesheet" href={url.resolve(assets, 'app.css')}/>
         </head>
         <body>

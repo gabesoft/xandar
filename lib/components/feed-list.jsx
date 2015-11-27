@@ -36,14 +36,13 @@ module.exports = React.createClass({
         .mapf('subscribed', subscriptions, Boolean)
         .mapf('newCount', counts)
         .value();
-      console.log(feeds);
       this.setState({ feeds: feeds });
     });
   },
 
   render() {
     const feeds = this.state.feeds;
-    const items = feeds.map(feed => <Feed key={feed.id} {...feed}/>);
+    const items = feeds.map(feed => <Feed key={feed.id} feed={feed}/>);
     return (
       <ul className="collapsible feed-list" dataCollapsible="expandable">{items}</ul>
     );

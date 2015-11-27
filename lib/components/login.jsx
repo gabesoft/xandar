@@ -17,8 +17,6 @@ module.exports = React.createClass({
           <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
           <meta name="viewport" content="width=device-width, initial-scale=1"/>
           <title>{this.props.title}</title>
-
-          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
           <link href={url.resolve(assets, 'app.css')} rel="stylesheet" />
         </head>
         <body>
