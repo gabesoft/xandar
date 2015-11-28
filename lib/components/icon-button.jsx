@@ -14,6 +14,8 @@ module.exports = React.createClass({
     return (
       <a
         className={`${this.className} ${this.props.className}`}
+        href={this.props.href}
+        target={this.props.target}
         onClick={this.props.onClick || this.onClick}>
         <i title={this.props.title} className="small material-icons">
           {this.props.icon}

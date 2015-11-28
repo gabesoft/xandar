@@ -2,6 +2,10 @@
     "extends": "airbnb",
     "plugins": ["react"],
     "ecmaFeatures": { "jsx": true },
+    "env": {
+        "node": true,
+        "browser": true
+    },
     "rules": {
         "comma-dangle": 0,
         "strict": 0,

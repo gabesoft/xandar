@@ -20,16 +20,17 @@ module.exports = React.createClass({
         {feedId: '563aec33d9ccd0b9cf91b9f5', count: 2},
       ];
       const subscriptions = trans(data.subscriptions)
-        .object('feedId', 'userId')
+        .object('feedId', 'id')
         .value();
       const counts = trans(tempNewCounts)
         .object('feedId', 'count')
         .value();
       const feeds = trans(data.feeds)
-        .mapff('id', 'subscribed')
+        .mapff('id', 'subscriptionId')
         .mapff('id', 'newCount')
-        .mapf('subscribed', subscriptions, Boolean)
+        .mapf('subscriptionId', subscriptions)
         .mapf('newCount', counts)
+        .sort('title', 'toLowerCase')
         .value();
       this.setState({ feeds: feeds });
     });
@@ -37,8 +38,8 @@ module.exports = React.createClass({
 
   onSubscribe(feed) {
     api.subscribe(feed.id)
-      .done(() => {
-        this.updateSubscription(feed, true);
+      .done(data => {
+        this.updateSubscription(feed, data);
         Materialize.toast(`Subscribed to feed ${feed.title}`, 2000, 'success');
       })
       .fail(() => {
@@ -47,9 +48,9 @@ module.exports = React.createClass({
   },
 
   onUnsubscribe(feed) {
-    api.unsubscribe(feed.id)
+    api.unsubscribe(feed.id, feed.subscriptionId)
       .done(() => {
-        this.updateSubscription(feed, false);
+        this.updateSubscription(feed);
         Materialize.toast(`Unsubscribed from feed ${feed.title}`, 2000, 'success');
       })
       .fail(() => {
@@ -57,16 +58,31 @@ module.exports = React.createClass({
       });
   },
 
-  updateSubscription(feed, value) {
+  onDelete(feed) {
+    api.deleteFeed(feed.id)
+      .done(() => {
+        const index = this.state.feeds.findIndex(fd => fd.id === feed.id);
+        if (index !== -1) {
+          this.state.feeds.splice(index, 1);
+          this.setState(this.state);
+        }
+        Materialize.toast(`Deleted feed ${feed.title}`, 2000, 'success');
+      })
+      .fail(() => {
+        Materialize.toast(`Failed to delete feed ${feed.title}`, 2000, 'error');
+      });
+  },
+
+  updateSubscription(feed, subscription) {
     trans(this.state.feeds)
       .filter('id', id => id === feed.id)
-      .mapf('subscribed', () => value);
+      .mapf('subscriptionId', () => (subscription || {}).id);
     this.setState(this.state);
   },
 
   subscriptionCount() {
     return trans(this.state.feeds)
-      .filter('subscribed', Boolean)
+      .filter('subscriptionId', Boolean)
       .value()
       .length;
   },
@@ -80,15 +96,19 @@ module.exports = React.createClass({
           feed={feed}
           onSubscribe={this.onSubscribe}
           onUnsubscribe={this.onUnsubscribe}
+        onDelete={this.onDelete}
         />
       ); });
     return (
       <div>
         <div className="card blue-grey darken-1">
           <div className="card-content white-text right-align">
-            <p>
-              {this.subscriptionCount() + ' Subscriptions'}
-            </p>
+            <a
+              title="Add new feed"
+              className="btn-floating waves-effect waves-light add-feed-btn">
+              <i className="material-icons">add</i>
+            </a>
+            <p>{this.subscriptionCount() + ' Subscriptions'}</p>
           </div>
         </div>
         <ul className="collapsible feed-list" dataCollapsible="expandable">{items}</ul>

@@ -40,6 +40,7 @@ function buildJs() {
     'materialize-css/js/toasts',
     'materialize-css/js/velocity.min',
     'materialize-css/js/waves',
+    'moment',
     'react',
     'react-addons-css-transition-group',
     'react-dom',
