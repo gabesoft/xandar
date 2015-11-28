@@ -108,7 +108,7 @@ module.exports = React.createClass({
               className="btn-floating waves-effect waves-light add-feed-btn">
               <i className="material-icons">add</i>
             </a>
-            <p>{this.subscriptionCount() + ' Subscriptions'}</p>
+            <p>{this.subscriptionCount() + '/' + this.state.feeds.length + ' Subscriptions'}</p>
           </div>
         </div>
         <ul className="collapsible feed-list" dataCollapsible="expandable">{items}</ul>
