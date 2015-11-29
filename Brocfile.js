@@ -38,13 +38,17 @@ function buildJs() {
     'jquery',
     'materialize-css/js/global',
     'materialize-css/js/toasts',
-    'materialize-css/js/velocity.min',
     'materialize-css/js/waves',
     'moment',
     'react',
-    'react-addons-css-transition-group',
+    'react-addons-transition-group',
     'react-dom',
-    'trans'
+    'trans',
+    'velocity-animate',
+    'velocity-animate/velocity.ui',
+    'velocity-react/velocity-component',
+    'velocity-react/velocity-helpers',
+    'velocity-react/velocity-transition-group'
   ];
   const vendor = new Browserify({
     debug: !prod,

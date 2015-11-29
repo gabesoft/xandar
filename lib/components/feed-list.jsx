@@ -2,9 +2,12 @@ const React = require('react');
 const api = require('../app/api');
 const Feed = require('./feed.jsx');
 const trans = require('trans');
-const Materialize = window.Materialize;
+const Toast = require('../mixins/toast');
+const VelTrans = require('velocity-react/velocity-transition-group');
 
 module.exports = React.createClass({
+  mixins: [Toast],
+
   getInitialState() {
     return { feeds: [] };
   },
@@ -38,38 +41,32 @@ module.exports = React.createClass({
 
   onSubscribe(feed) {
     api.subscribe(feed.id)
+      .fail(() => this.error(`Failed to subscribe to feed ${feed.title}`))
       .done(data => {
         this.updateSubscription(feed, data);
-        Materialize.toast(`Subscribed to feed ${feed.title}`, 2000, 'success');
-      })
-      .fail(() => {
-        Materialize.toast(`Failed to subscribe to feed ${feed.title}`, 2000, 'error');
+        this.success(`Subscribed to feed ${feed.title}`);
       });
   },
 
   onUnsubscribe(feed) {
     api.unsubscribe(feed.id, feed.subscriptionId)
+      .fail(() => this.error(`Failed to unsubscribe from feed ${feed.title}`))
       .done(() => {
         this.updateSubscription(feed);
-        Materialize.toast(`Unsubscribed from feed ${feed.title}`, 2000, 'success');
-      })
-      .fail(() => {
-        Materialize.toast(`Failed to unsubscribe from feed ${feed.title}`, 2000, 'error');
+        this.success(`Unsubscribed from feed ${feed.title}`);
       });
   },
 
   onDelete(feed) {
     api.deleteFeed(feed.id)
+      .fail(() => this.error(`Failed to delete feed ${feed.title}`))
       .done(() => {
         const index = this.state.feeds.findIndex(fd => fd.id === feed.id);
         if (index !== -1) {
           this.state.feeds.splice(index, 1);
           this.setState(this.state);
         }
-        Materialize.toast(`Deleted feed ${feed.title}`, 2000, 'success');
-      })
-      .fail(() => {
-        Materialize.toast(`Failed to delete feed ${feed.title}`, 2000, 'error');
+        this.success(`Deleted feed ${feed.title}`);
       });
   },
 
@@ -81,38 +78,56 @@ module.exports = React.createClass({
   },
 
   subscriptionCount() {
-    return trans(this.state.feeds)
-      .filter('subscriptionId', Boolean)
-      .value()
-      .length;
+    return trans(this.state.feeds).filter('subscriptionId', Boolean).count();
   },
 
-  render() {
+  renderHeader() {
+    const subCounts = `${this.subscriptionCount()} Subscriptions`;
+    const feedCounts = `${this.state.feeds.length} Feeds`;
+
+    return (
+      <div className="card blue-grey darken-1">
+        <div className="card-content white-text right-align">
+          <a
+            title="Add new feed"
+            className="btn-floating waves-effect waves-light add-feed-btn">
+            <i className="material-icons">add</i>
+          </a>
+          <p>{subCounts + ' ' + feedCounts}</p>
+        </div>
+      </div>
+    );
+  },
+
+  renderItems() {
     const feeds = this.state.feeds;
     const items = feeds.map(feed => {
       return (
-        <Feed
-          key={feed.id}
-          feed={feed}
-          onSubscribe={this.onSubscribe}
-          onUnsubscribe={this.onUnsubscribe}
-        onDelete={this.onDelete}
-        />
+        <VelTrans key={feed.id} enter={{animation: 'fadeIn'}} leave={{animation: 'fadeOut'}} runOnMount>
+          <Feed
+            key={feed.id}
+            feed={feed}
+            onSubscribe={this.onSubscribe}
+            onUnsubscribe={this.onUnsubscribe}
+            onDelete={this.onDelete}
+          />
+        </VelTrans>
       ); });
+
+    return (
+      <ul className="collapsible feed-list">
+        {items}
+      </ul>
+    );
+  },
+
+  render() {
     return (
       <div>
-        <div className="card blue-grey darken-1">
-          <div className="card-content white-text right-align">
-            <a
-              title="Add new feed"
-              className="btn-floating waves-effect waves-light add-feed-btn">
-              <i className="material-icons">add</i>
-            </a>
-            <p>{this.subscriptionCount() + '/' + this.state.feeds.length + ' Subscriptions'}</p>
-          </div>
-        </div>
-        <ul className="collapsible feed-list" dataCollapsible="expandable">{items}</ul>
+        {this.renderHeader()}
+        {this.renderItems()}
       </div>
     );
   }
 });
+

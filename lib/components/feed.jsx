@@ -1,8 +1,8 @@
 const React = require('react');
-const Transitions = require('react-addons-css-transition-group');
 const FeedActions = require('./feed-actions.jsx');
 const moment = require('moment');
 const api = require('../app/api');
+const VelTrans = require('velocity-react/velocity-transition-group');
 
 module.exports = React.createClass({
   getInitialState() {
@@ -35,7 +35,7 @@ module.exports = React.createClass({
     return false;
   },
 
-  renderPostSummary(post) {
+  postSummary(post) {
     if (post.summary && post.summary !== 'null') {
       return post.summary;
     } else if (post.description && post.description !== 'null') {
@@ -52,17 +52,19 @@ module.exports = React.createClass({
           className="post-title truncate"
           href={post.link}
           target="_blank"
-          title={this.renderPostSummary(post)}>
+          title={this.postSummary(post)}>
           {post.title}
         </a>
-        <span className="post-date right">{moment(post.date).format('MM/DD/YYYY')}</span>
+        <span className="post-date right">
+          {moment(post.date).format('MM/DD/YYYY')}
+        </span>
       </div>
     );
   },
 
   renderDetails() {
     const feed = this.props.feed;
-    const posts = this.state.posts.map(post => {
+    const posts = (this.state.posts || []).map(post => {
       return (
         <li className="collection-item" key={post.id}>{this.renderPost(post)}</li>
       );
@@ -84,47 +86,48 @@ module.exports = React.createClass({
     );
   },
 
+  renderNewCount() {
+    return (
+      <span className="badge new">
+        {this.props.feed.newCount}
+      </span>
+    );
+  },
+
+  renderPostCount() {
+    return (
+      <span className="badge hide-on-small-only">
+        {this.props.feed.postCount}
+      </span>
+    );
+  },
+
   render() {
     const feed = this.props.feed;
-    const newBadge = () => {
-      return (
-        <span className="badge new">{feed.newCount}</span>
-      );
-    };
 
     return (
       <li className={this.state.className}>
         <div className="collapsible-header">
-          <Transitions
-            transitionName="fade-in"
-            transitionAppear
-            transitionAppearTimeout={300}
-            transitionEnterTimeout={300}
-            transitionLeaveTimeout={300} >
-            <FeedActions
-              feed={this.props.feed}
-              className="actions"
-              onDelete={this.onDelete}
-              onSubscribe={this.onSubscribe}
-              onUnsubscribe={this.onUnsubscribe} />
-            <div className="title-info truncate" onClick = {this.onHeaderClick}>
-              <span className="title">{feed.title}</span>
-              <span className="author hide-on-small-only">
-                {feed.author ? ' - ' + feed.author : ''}
-              </span>
-            </div>
-            <div className="post-count">
-              {feed.newCount ? newBadge() : ''}
-              <span className="badge hide-on-small-only">{feed.postCount}</span>
-            </div>
-          </Transitions>
+          <FeedActions
+            feed={this.props.feed}
+            className="actions"
+            onDelete={this.onDelete}
+            onSubscribe={this.onSubscribe}
+            onUnsubscribe={this.onUnsubscribe}/>
+          <div className="title-info truncate" onClick = {this.onHeaderClick}>
+            <span className="title">{feed.title}</span>
+            <span className="author hide-on-small-only">
+              {feed.author ? ` - ${feed.author}` : ''}
+            </span>
+          </div>
+          <div className="post-count">
+            {feed.newCount ? this.renderNewCount() : ''}
+            {this.renderPostCount()}
+          </div>
         </div>
-        <Transitions
-          transitionName="slide-in"
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={300}>
-          {this.state.open ? this.renderDetails() : ''}
-        </Transitions>
+        <VelTrans enter={{animation: 'slideDown'}} leave={{animation: 'slideUp'}} runOnMount>
+          {this.state.open ? this.renderDetails() : undefined}
+        </VelTrans>
       </li>
     );
   }

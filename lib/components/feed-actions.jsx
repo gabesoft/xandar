@@ -25,10 +25,10 @@ module.exports = React.createClass({
   },
 
   render() {
-    const feed = this.props.feed;
+    const { feed, className, onDelete } = this.props;
 
     return (
-      <div className={this.props.className}>
+      <div className={className}>
         {feed.subscriptionId ? this.renderUnsubscribeBtn() : this.renderSubscribeBtn()}
         <IconBtn
           icon="open_in_new"
@@ -39,7 +39,7 @@ module.exports = React.createClass({
         <IconBtn
           icon="delete"
           title="Delete this feed"
-          onClick={this.props.onDelete}
+          onClick={onDelete}
           className="error"/>
       </div>
     );
