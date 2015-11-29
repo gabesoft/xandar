@@ -1,6 +1,6 @@
 const React = require('react');
 const Transitions = require('react-addons-css-transition-group');
-const IconBtn = require('./icon-button.jsx');
+const FeedActions = require('./feed-actions.jsx');
 const moment = require('moment');
 const api = require('../app/api');
 
@@ -32,10 +32,6 @@ module.exports = React.createClass({
 
   onDelete() {
     this.props.onDelete(this.props.feed);
-    return false;
-  },
-
-  onOpenFeed() {
     return false;
   },
 
@@ -95,22 +91,6 @@ module.exports = React.createClass({
         <span className="badge new">{feed.newCount}</span>
       );
     };
-    const subscribeBtn = () => {
-      return (
-        <IconBtn
-          onClick={this.onSubscribe}
-          icon="add_circle_outline"
-          title="Subscribe to this feed"/>
-      );
-    };
-    const unsubscribeBtn = () => {
-      return (
-        <IconBtn
-          onClick={this.onUnsubscribe}
-          icon="remove_circle_outline"
-          title="Unsubscribe from this feed"/>
-      );
-    };
 
     return (
       <li className={this.state.className}>
@@ -121,20 +101,12 @@ module.exports = React.createClass({
             transitionAppearTimeout={300}
             transitionEnterTimeout={300}
             transitionLeaveTimeout={300} >
-            <div className="actions">
-              {feed.subscriptionId ? unsubscribeBtn() : subscribeBtn()}
-              <IconBtn
-                icon="open_in_new"
-                title="Open feed in new window"
-                href={feed.link}
-                onClick={this.onOpenFeed}
-                target="_blank"/>
-              <IconBtn
-                icon="delete"
-                title="Delete this feed"
-                onClick={this.onDelete}
-                className="error"/>
-            </div>
+            <FeedActions
+              feed={this.props.feed}
+              className="actions"
+              onDelete={this.onDelete}
+              onSubscribe={this.onSubscribe}
+              onUnsubscribe={this.onUnsubscribe} />
             <div className="title-info truncate" onClick = {this.onHeaderClick}>
               <span className="title">{feed.title}</span>
               <span className="author hide-on-small-only">

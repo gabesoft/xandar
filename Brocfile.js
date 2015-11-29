@@ -16,7 +16,7 @@ function buildSass() {
   const robotoFontsDir = path.join(materializeDir, 'dist', 'font', 'roboto');
 
   const materialize = new Funnel(path.join(materializeDir, 'sass'), {
-    destDir: 'vendor',
+    destDir: 'materialize',
     include: ['**/*.scss']
   });
   const materialFonts = new Funnel(materialFontsDir, { destDir: 'font/icons' });
