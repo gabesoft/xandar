@@ -1,85 +1,62 @@
 const React = require('react');
-const api = require('../app/api');
+const api = require('../api/client');
 const Feed = require('./feed.jsx');
 const trans = require('trans');
-const Toast = require('../mixins/toast');
+const toast = require('../mixins/toast');
+const fc = require('../feed-constants');
+const dispatcher = require('../flux/dispatcher');
+const store = require('../flux/feed-store');
+const actions = require('../flux/feed-actions');
 const VelTrans = require('velocity-react/velocity-transition-group');
 
-module.exports = React.createClass({
-  mixins: [Toast],
+dispatcher.register(action => {
+  switch (action.type) {
+    case fc.SUBSCRIBE_DONE:
+      toast.success(`Subscribed to feed ${action.feed.title}`);
+      break;
+    case fc.SUBSCRIBE_FAIL:
+      toast.success(`Failed to subscribe to feed ${action.feed.title}`);
+      break;
+    case fc.UNSUBSCRIBE_DONE:
+      toast.success(`Unsubscribed from feed ${action.feed.title}`);
+      break;
+    case fc.UNSUBSCRIBE_FAIL:
+      toast.success(`Failed to unsubscribe from feed ${action.feed.title}`);
+      break;
+    case fc.DELETE_DONE:
+      toast.success(`Deleted feed ${action.feed.title}`);
+      break;
+    case fc.DELETE_FAIL:
+      toast.success(`Failed to delete feed ${action.feed.title}`);
+      break;
+    default:
+      break;
+  }
+});
 
-  getInitialState() {
-    return { feeds: [] };
-  },
+module.exports = class FeedList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { feeds: store.getFeeds() };
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChange() {
+    this.setState({ feeds: store.getFeeds() });
+  }
 
   componentDidMount() {
-    api.feeds().then(data => {
-      // TODO: use data.newPosts instead of temp
+    store.addListener(fc.STORE_FEEDS_CHANGE, this.onChange);
+    actions.loadFeeds();
+  }
 
-      const tempNewCounts = [
-        {feedId: '563aec31d9ccd0b9cf91b804', count: 4},
-        {feedId: '563aec32d9ccd0b9cf91b89d', count: 37},
-        {feedId: '563aec32d9ccd0b9cf91b8d6', count: 18},
-        {feedId: '563aec33d9ccd0b9cf91b9f5', count: 2},
-      ];
-      const subscriptions = trans(data.subscriptions)
-        .object('feedId', 'id')
-        .value();
-      const counts = trans(tempNewCounts)
-        .object('feedId', 'count')
-        .value();
-      const feeds = trans(data.feeds)
-        .mapff('id', 'subscriptionId')
-        .mapff('id', 'newCount')
-        .mapf('subscriptionId', subscriptions)
-        .mapf('newCount', counts)
-        .sort('title', 'toLowerCase')
-        .value();
-      this.setState({ feeds: feeds });
-    });
-  },
-
-  onSubscribe(feed) {
-    api.subscribe(feed.id)
-      .fail(() => this.error(`Failed to subscribe to feed ${feed.title}`))
-      .done(data => {
-        this.updateSubscription(feed, data);
-        this.success(`Subscribed to feed ${feed.title}`);
-      });
-  },
-
-  onUnsubscribe(feed) {
-    api.unsubscribe(feed.id, feed.subscriptionId)
-      .fail(() => this.error(`Failed to unsubscribe from feed ${feed.title}`))
-      .done(() => {
-        this.updateSubscription(feed);
-        this.success(`Unsubscribed from feed ${feed.title}`);
-      });
-  },
-
-  onDelete(feed) {
-    api.deleteFeed(feed.id)
-      .fail(() => this.error(`Failed to delete feed ${feed.title}`))
-      .done(() => {
-        const index = this.state.feeds.findIndex(fd => fd.id === feed.id);
-        if (index !== -1) {
-          this.state.feeds.splice(index, 1);
-          this.setState(this.state);
-        }
-        this.success(`Deleted feed ${feed.title}`);
-      });
-  },
-
-  updateSubscription(feed, subscription) {
-    trans(this.state.feeds)
-      .filter('id', id => id === feed.id)
-      .mapf('subscriptionId', () => (subscription || {}).id);
-    this.setState(this.state);
-  },
+  componentWillUnmount() {
+    store.removeListener(fc.STORE_FEEDS_CHANGE, this.onChange);
+  }
 
   subscriptionCount() {
-    return trans(this.state.feeds).filter('subscriptionId', Boolean).count();
-  },
+    return trans(this.state.feeds).filter('subscription', Boolean).count();
+  }
 
   renderHeader() {
     const subCounts = `${this.subscriptionCount()} Subscriptions`;
@@ -97,29 +74,24 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
   renderItems() {
     const feeds = this.state.feeds;
     const items = feeds.map(feed => {
       return (
         <VelTrans key={feed.id} enter={{animation: 'fadeIn'}} leave={{animation: 'fadeOut'}} runOnMount>
-          <Feed
-            key={feed.id}
-            feed={feed}
-            onSubscribe={this.onSubscribe}
-            onUnsubscribe={this.onUnsubscribe}
-            onDelete={this.onDelete}
-          />
+          <Feed key={feed.id} feed={feed}/>
         </VelTrans>
-      ); });
+      );
+    });
 
     return (
       <ul className="collapsible feed-list">
         {items}
       </ul>
     );
-  },
+  }
 
   render() {
     return (
@@ -129,5 +101,5 @@ module.exports = React.createClass({
       </div>
     );
   }
-});
+};
 

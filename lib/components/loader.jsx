@@ -1,51 +1,23 @@
 const React = require('react');
+const Spinner = require('./spinner.jsx');
 
-module.exports = React.createClass({
-  render: function() {
+module.exports = class Loader extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const colors = ['blue', 'red', 'yellow', 'green'];
+    const spinners = colors.map(color => {
+      return <Spinner key={color} color={color}/>;
+    });
+
     return (
-      <div className="loader">
-        <div className="preloader-wrapper big active">
-          <div className="spinner-layer spinner-blue">
-            <div className="circle-clipper left">
-              <div className="circle"></div>
-            </div><div className="gap-patch">
-              <div className="circle"></div>
-            </div><div className="circle-clipper right">
-              <div className="circle"></div>
-            </div>
-          </div>
-
-          <div className="spinner-layer spinner-red">
-            <div className="circle-clipper left">
-              <div className="circle"></div>
-            </div><div className="gap-patch">
-              <div className="circle"></div>
-            </div><div className="circle-clipper right">
-              <div className="circle"></div>
-            </div>
-          </div>
-
-          <div className="spinner-layer spinner-yellow">
-            <div className="circle-clipper left">
-              <div className="circle"></div>
-            </div><div className="gap-patch">
-              <div className="circle"></div>
-            </div><div className="circle-clipper right">
-              <div className="circle"></div>
-            </div>
-          </div>
-
-          <div className="spinner-layer spinner-green">
-            <div className="circle-clipper left">
-              <div className="circle"></div>
-            </div><div className="gap-patch">
-              <div className="circle"></div>
-            </div><div className="circle-clipper right">
-              <div className="circle"></div>
-            </div>
-          </div>
+      <div className={this.props.className + ' loader'}>
+        <div className={`preloader-wrapper ${this.props.size} active`}>
+          {spinners}
         </div>
       </div>
     );
   }
-});
+};

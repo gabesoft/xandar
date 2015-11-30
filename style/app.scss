@@ -9,13 +9,6 @@ body {
   flex-direction: column;
 }
 
-.loader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 20em;
-}
-
 .toast {
   &.error {
     background-color: $error-color;
@@ -136,6 +129,13 @@ body {
       float: right;
       text-align: right;
       width: $post-count-width;
+    }
+
+    .details-loader {
+      display: inline-block;
+      position: absolute;
+      right: 3px;
+      top: 3px;
     }
 
     .details {

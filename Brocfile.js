@@ -34,6 +34,8 @@ function buildSass() {
 
 function buildJs() {
   const vendorRequire = [
+    'events', 
+    'flux',
     'hammerjs',
     'jquery',
     'materialize-css/js/global',

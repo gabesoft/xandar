@@ -1,39 +1,63 @@
 const React = require('react');
 const FeedActions = require('./feed-actions.jsx');
 const moment = require('moment');
-const api = require('../app/api');
+const fc = require('../feed-constants');
+const actions = require('../flux/feed-actions');
+const store = require('../flux/feed-store');
+const Loader = require('./loader.jsx');
 const VelTrans = require('velocity-react/velocity-transition-group');
 
-module.exports = React.createClass({
-  getInitialState() {
-    return { open: false, className: 'feed-item' };
-  },
+module.exports = class Feed extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { open: false, className: 'feed-item' };
+    this.onChange = this.onChange.bind(this);
+    this.onHeaderClick = this.onHeaderClick.bind(this);
+  }
+
+  componentDidMount() {
+    store.addListener(fc.STORE_POSTS_CHANGE, this.onChange);
+  }
+
+  componentWillUnmount() {
+    store.removeListener(fc.STORE_POSTS_CHANGE, this.onChange);
+  }
+
+  onChange(feedId) {
+    if (feedId === this.props.feed.id) {
+      this.state.posts = store.getPosts(this.props.feed.id);
+      this.state.open = this.state.loading;
+      this.state.loading = false;
+      this.setState(this.state);
+    }
+  }
 
   onHeaderClick() {
-    api.feedPosts(this.props.feed.id, 5).then(data => {
-      const state = {
-        open: !this.state.open,
-        className: this.state.open ? 'feed-item' : 'feed-item active',
-        posts: data
-      };
-      this.setState(state);
+    const posts = store.getPosts(this.props.feed.id);
+    let loading = false;
+    if (!this.state.open && posts.length === 0) {
+      actions.loadPosts(this.props.feed);
+      loading = true;
+    }
+    this.setState({
+      loading: loading,
+      open: !this.state.open && !loading,
+      className: this.state.open ? 'feed-item' : 'feed-item active',
+      posts: posts
     });
-  },
+  }
 
   onSubscribe() {
-    this.props.onSubscribe(this.props.feed);
-    return false;
-  },
+    actions.subscribe(this.props.feed);
+  }
 
   onUnsubscribe() {
-    this.props.onUnsubscribe(this.props.feed);
-    return false;
-  },
+    actions.unsubscribe(this.props.feed);
+  }
 
   onDelete() {
-    this.props.onDelete(this.props.feed);
-    return false;
-  },
+    actions.deleteFeed(this.props.feed);
+  }
 
   postSummary(post) {
     if (post.summary && post.summary !== 'null') {
@@ -43,7 +67,7 @@ module.exports = React.createClass({
     }
 
     return '';
-  },
+  }
 
   renderPost(post) {
     return (
@@ -60,7 +84,7 @@ module.exports = React.createClass({
         </span>
       </div>
     );
-  },
+  }
 
   renderDetails() {
     const feed = this.props.feed;
@@ -84,7 +108,7 @@ module.exports = React.createClass({
         <ul className="collection post-list">{posts}</ul>
       </div>
     );
-  },
+  }
 
   renderNewCount() {
     return (
@@ -92,7 +116,7 @@ module.exports = React.createClass({
         {this.props.feed.newCount}
       </span>
     );
-  },
+  }
 
   renderPostCount() {
     return (
@@ -100,10 +124,13 @@ module.exports = React.createClass({
         {this.props.feed.postCount}
       </span>
     );
-  },
+  }
 
   render() {
     const feed = this.props.feed;
+    const loader = () => {
+      return (this.state.loading ? <Loader size="small" className="details-loader"/> : undefined);
+    };
 
     return (
       <li className={this.state.className}>
@@ -114,6 +141,7 @@ module.exports = React.createClass({
             onDelete={this.onDelete}
             onSubscribe={this.onSubscribe}
             onUnsubscribe={this.onUnsubscribe}/>
+          {loader()}
           <div className="title-info truncate" onClick = {this.onHeaderClick}>
             <span className="title">{feed.title}</span>
             <span className="author hide-on-small-only">
@@ -131,4 +159,4 @@ module.exports = React.createClass({
       </li>
     );
   }
-});
+};

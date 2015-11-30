@@ -29,7 +29,7 @@ module.exports = React.createClass({
 
     return (
       <div className={className}>
-        {feed.subscriptionId ? this.renderUnsubscribeBtn() : this.renderSubscribeBtn()}
+        {feed.subscription ? this.renderUnsubscribeBtn() : this.renderSubscribeBtn()}
         <IconBtn
           icon="open_in_new"
           title="Open feed in new window"
