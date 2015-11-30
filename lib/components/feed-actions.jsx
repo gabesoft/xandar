@@ -1,10 +1,29 @@
 const React = require('react');
 const IconBtn = require('./icon-button.jsx');
+const Modal = require('./feed-delete-modal.jsx');
 
-module.exports = React.createClass({
+module.exports = class FeedActions extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { modalIsOpen: false };
+  }
+
   onOpenFeed() {
     return false;
-  },
+  }
+
+  onDeleteAttempt() {
+    this.setState({ modalIsOpen: true });
+  }
+
+  onDeleteAccept() {
+    this.setState({ modalIsOpen: false });
+    this.props.onDelete();
+  }
+
+  onDeleteCancel() {
+    this.setState({ modalIsOpen: false });
+  }
 
   renderSubscribeBtn() {
     return (
@@ -13,7 +32,7 @@ module.exports = React.createClass({
         icon="add_circle_outline"
         title="Subscribe to this feed"/>
     );
-  },
+  }
 
   renderUnsubscribeBtn() {
     return (
@@ -22,10 +41,10 @@ module.exports = React.createClass({
         icon="remove_circle_outline"
         title="Unsubscribe from this feed"/>
     );
-  },
+  }
 
   render() {
-    const { feed, className, onDelete } = this.props;
+    const { feed, className } = this.props;
 
     return (
       <div className={className}>
@@ -39,9 +58,14 @@ module.exports = React.createClass({
         <IconBtn
           icon="delete"
           title="Delete this feed"
-          onClick={onDelete}
+          onClick={this.onDeleteAttempt.bind(this)}
           className="error"/>
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          feed={this.props.feed}
+          onAcceptClick={this.onDeleteAccept.bind(this)}
+          onCancelClick={this.onDeleteCancel.bind(this)}/>
       </div>
     );
   }
-});
+};

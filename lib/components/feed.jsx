@@ -13,6 +13,9 @@ module.exports = class Feed extends React.Component {
     this.state = { open: false, className: 'feed-item' };
     this.onChange = this.onChange.bind(this);
     this.onHeaderClick = this.onHeaderClick.bind(this);
+    this.onDelete = this.onDelete.bind(this);
+    this.onSubscribe = this.onSubscribe.bind(this);
+    this.onUnsubscribe = this.onUnsubscribe.bind(this);
   }
 
   componentDidMount() {
@@ -129,7 +132,7 @@ module.exports = class Feed extends React.Component {
   render() {
     const feed = this.props.feed;
     const loader = () => {
-      return (this.state.loading ? <Loader size="small" className="details-loader"/> : undefined);
+      return (this.state.loading ? <Loader size="small" className="details-loader"/> : null);
     };
 
     return (
@@ -154,7 +157,7 @@ module.exports = class Feed extends React.Component {
           </div>
         </div>
         <VelTrans enter={{animation: 'slideDown'}} leave={{animation: 'slideUp'}} runOnMount>
-          {this.state.open ? this.renderDetails() : undefined}
+          {this.state.open ? this.renderDetails() : null}
         </VelTrans>
       </li>
     );
