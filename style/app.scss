@@ -154,13 +154,15 @@ body {
     }
 
     .title-info {
-      width: calc(100% - (#{$actions-width} + #{$post-count-width} + 2px));
+      width: calc(100% - (#{$actions-width} + #{$post-count-width} + 15px));
+      vertical-align: middle;
     }
 
     .post-count {
       float: right;
       text-align: right;
       width: $post-count-width;
+      margin: 5px 0 0 0;
     }
 
     .details-loader {
@@ -172,6 +174,11 @@ body {
 
     .details {
       padding: 10px;
+
+      a {
+        // TODO: style this
+        color: color("blue-grey", "base");
+      }
     }
   }
 }
