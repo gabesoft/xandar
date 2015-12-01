@@ -38,6 +38,7 @@ function buildJs() {
     'flux',
     'hammerjs',
     'jquery',
+    'materialize-css/js/forms',
     'materialize-css/js/global',
     'materialize-css/js/toasts',
     'materialize-css/js/waves',

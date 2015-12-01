@@ -74,7 +74,7 @@ module.exports = class Feed extends React.Component {
 
   renderPost(post) {
     return (
-      <div className="post">
+      <div className="post" >
         <a
           className="post-title truncate"
           href={post.link}
@@ -136,8 +136,8 @@ module.exports = class Feed extends React.Component {
     };
 
     return (
-      <li className={this.state.className}>
-        <div className="collapsible-header">
+      <li className={this.state.className + ' ' + (this.props.added ? 'feed-added' : '')}>
+        <div className="collapsible-header feed-content">
           <FeedActions
             feed={this.props.feed}
             className="actions"

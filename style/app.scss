@@ -96,6 +96,12 @@ body {
   left: -7px;
 }
 
+.add-feed-loader {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+
 .feed-list {
   .collapsible-body {
     display: block;
@@ -127,6 +133,14 @@ body {
     $actions-width: 100px;
     $post-count-width: 100px;
     position: relative;
+
+    .feed-content {
+      transition: background-color 0.5s ease-in-out;
+    }
+    
+    &.feed-added .feed-content {
+      background-color: $primary-color;
+    }
 
     .badge {
       position: relative;
@@ -177,7 +191,7 @@ body {
 
       a {
         // TODO: style this
-        color: color("blue-grey", "base");
+        color: color("blue-grey", "darken-1");
       }
     }
   }

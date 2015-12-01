@@ -6,5 +6,8 @@
     },
     "api": {
         "url": "http://localhost:8006"
+    },
+    "feed-finder": {
+        "url": "http://localhost:8008"
     }
 }
