@@ -30,10 +30,14 @@ module.exports = class Feed extends React.Component {
   componentDidUpdate() {
     if (this.props.added) {
       const el = ReactDOM.findDOMNode(this);
-      el.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
+      if (el.scrollIntoViewIfNeeded) {
+        el.scrollIntoViewIfNeeded(true);
+      } else if (el.scrollIntoViewNeeded) {
+        el.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
     }
   }
 
