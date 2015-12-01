@@ -1,4 +1,5 @@
 const React = require('react');
+const ReactDOM = require('react-dom');
 const FeedActions = require('./feed-actions.jsx');
 const moment = require('moment');
 const fc = require('../feed-constants');
@@ -24,6 +25,16 @@ module.exports = class Feed extends React.Component {
 
   componentWillUnmount() {
     store.removeListener(fc.STORE_POSTS_CHANGE, this.onChange);
+  }
+
+  componentDidUpdate() {
+    if (this.props.added) {
+      const el = ReactDOM.findDOMNode(this);
+      el.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   }
 
   onChange(feedId) {
