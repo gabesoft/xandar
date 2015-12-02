@@ -6,10 +6,12 @@ module.exports = class FeedAddModal extends React.Component {
     super(props);
     this.state = { uri: null };
     this.onChange = this.onChange.bind(this);
+    this.onAccept= this.onAccept.bind(this);
   }
 
-  onAcceptClick() {
+  onAccept(event) {
     this.props.onAcceptClick(this.state.uri);
+    event.preventDefault();
   }
 
   onChange(event) {
@@ -35,33 +37,35 @@ module.exports = class FeedAddModal extends React.Component {
         closeTimeoutMS={150}
         className="modal"
         style={styles}>
-        <div className="modal-content">
-          <h5>Add a new feed</h5>
-          <div className="input-field">
-            <input
-              id="feed-url"
-              type="url"
-              className="validate"
-              pattern="https?://.+" required
-              onChange={this.onChange}
-            />
-            <label htmlFor="feed-url" data-error="Invalid url">Feed url</label>
+        <form onSubmit={this.onAccept}>
+          <div className="modal-content">
+            <h5>Add a new feed</h5>
+            <div className="input-field">
+              <input
+                id="feed-url"
+                type="url"
+                className="validate"
+                pattern="https?://.+" required
+                onChange={this.onChange}
+              />
+              <label htmlFor="feed-url" data-error="Invalid url">Feed url</label>
+            </div>
           </div>
-        </div>
-        <div className="modal-footer">
-          <a
-            onClick={this.onAcceptClick.bind(this)}
-            className="modal-action modal-close waves-effect waves-teal btn-flat"
-            href="javascript:void(0)">
-            Submit
-          </a>
-          <a
-            onClick={this.props.onCancelClick}
-            className="modal-action modal-close waves-effect waves-teal btn-flat"
-            href="javascript:void(0)">
-            Cancel
-          </a>
-        </div>
+          <div className="modal-footer">
+            <a
+              onClick={this.onAccept}
+              className="modal-action modal-close waves-effect waves-teal btn-flat"
+              href="javascript:void(0)">
+              Submit
+            </a>
+            <a
+              onClick={this.props.onCancelClick}
+              className="modal-action modal-close waves-effect waves-teal btn-flat"
+              href="javascript:void(0)">
+              Cancel
+            </a>
+          </div>
+        </form>
       </Modal>
     );
   }

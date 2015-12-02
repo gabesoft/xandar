@@ -47,11 +47,23 @@ dispatcher.register(action => {
   }
 });
 
+function debounce(fn, delay) {
+  let timer = null;
+  return function debounced() {
+    const context = this, args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(context, args);
+    }, delay);
+  };
+}
+
 module.exports = class FeedList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { feeds: store.getFeeds(), isModalOpen: false };
+    this.state = { feeds: store.getFeeds(), isModalOpen: false, filter: '' };
     this.onChange = this.onChange.bind(this);
+    this.onSearch = this.onSearch.bind(this);
     this.onFeedAddAttempt = this.onFeedAddAttempt.bind(this);
     this.onFeedAddAccept = this.onFeedAddAccept.bind(this);
     this.onFeedAddCancel = this.onFeedAddCancel.bind(this);
@@ -59,6 +71,11 @@ module.exports = class FeedList extends React.Component {
 
   onChange() {
     this.state.feeds = store.getFeeds();
+    this.setState(this.state);
+  }
+
+  onSearch(event) {
+    this.state.filter = event.target.value;
     this.setState(this.state);
   }
 
@@ -79,6 +96,15 @@ module.exports = class FeedList extends React.Component {
   onFeedAddCancel() {
     this.state.isModalOpen = false;
     this.setState(this.state);
+  }
+
+  filteredFeeds() {
+    const filter = (this.state.filter || '').toLowerCase();
+    return this.state.feeds.filter(feed => {
+      const author = (feed.author || '').toLowerCase();
+      const title = (feed.title || '').toLowerCase();
+      return title.match(filter) || author.match(filter);
+    });
   }
 
   componentDidMount() {
@@ -130,11 +156,15 @@ module.exports = class FeedList extends React.Component {
 
   renderHeader() {
     const subCounts = `${this.subscriptionCount()} Subscriptions`;
-    const feedCounts = `${this.state.feeds.length} Feeds`;
+    const feedCounts = `${this.filteredFeeds().length} Feeds`;
 
     return (
       <div className="card blue-grey darken-1">
         <div className="card-content white-text right-align">
+          <div className="input-field feed-search">
+            <input id="feed-search-input" type="text" onChange={debounce(this.onSearch, 150)}/>
+            <label htmlFor="feed-search-input">Feed Search</label>
+          </div>
           {this.state.loading ? this.renderAddLoader() : this.renderAddButton()}
           <p>{subCounts + ' ' + feedCounts}</p>
         </div>
@@ -147,7 +177,7 @@ module.exports = class FeedList extends React.Component {
   }
 
   renderItems() {
-    const feeds = this.state.feeds;
+    const feeds = this.filteredFeeds();
     const items = feeds.map(feed => {
       return (
         <VelTrans key={feed.id} enter={{animation: 'fadeIn'}} leave={{animation: 'fadeOut'}} runOnMount>

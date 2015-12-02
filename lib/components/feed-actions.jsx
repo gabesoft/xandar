@@ -8,8 +8,8 @@ module.exports = class FeedActions extends React.Component {
     this.state = { modalIsOpen: false };
   }
 
-  onOpenFeed() {
-    return false;
+  onOpenFeed(event) {
+    event.stopPropagation();
   }
 
   onDeleteAttempt() {
@@ -53,6 +53,13 @@ module.exports = class FeedActions extends React.Component {
           icon="open_in_new"
           title="Open feed in new window"
           href={feed.link}
+          onClick={this.onOpenFeed}
+          target="_blank"/>
+        <IconBtn
+          icon="wifi"
+          title="Open rss in new window"
+          className="rss-icon"
+          href={feed.uri}
           onClick={this.onOpenFeed}
           target="_blank"/>
         <IconBtn

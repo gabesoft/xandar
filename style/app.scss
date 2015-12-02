@@ -89,6 +89,10 @@ body {
   }
 }
 
+.rss-icon {
+  transform: rotate(45deg);
+}
+
 .add-feed-btn {
   position: relative;
   float: left;
@@ -109,7 +113,7 @@ body {
   }
 
   .post {
-    $date-width: 65px;
+    $date-width: 75px;
 
     .post-title,
     .post-date {
@@ -126,11 +130,15 @@ body {
   }
 
   .post-list {
-    border: 1px solid #eee;
+    padding: 15px;
+  }
+
+  .feed-search {
+    margin: 0;
   }
 
   .feed-item {
-    $actions-width: 100px;
+    $actions-width: 120px;
     $post-count-width: 100px;
     position: relative;
 

@@ -118,12 +118,9 @@ module.exports = class Feed extends React.Component {
             {`last post ${moment(feed.lastPostDate).fromNow()}`}
           </span>
         </div>
-        <span className="uri">
-          <a target="_blank" href={feed.uri}>{feed.uri}</a>
-        </span>
         <blockquote className="description">{feed.description}</blockquote>
         <h6>Latest posts</h6>
-        <ul className="collection post-list">{posts}</ul>
+        <ul className="post-list">{posts}</ul>
       </div>
     );
   }
