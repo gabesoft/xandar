@@ -13,6 +13,8 @@ $primary-color-dark: false !default;
 }
 
 $secondary-color: color("teal", "lighten-1") !default;
+$secondary-color-dark: darken($secondary-color, 15%);
+
 $success-color: color("green", "base") !default;
 $error-color: color("red", "base") !default;
 $warning-color: color("yellow", "darken-2") !default;

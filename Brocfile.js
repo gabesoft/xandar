@@ -34,6 +34,7 @@ function buildSass() {
 
 function buildJs() {
   const vendorRequire = [
+    'awesomplete',
     'events',
     'flux',
     'hammerjs',
@@ -47,6 +48,7 @@ function buildJs() {
     'react-addons-transition-group',
     'react-dom',
     'react-modal',
+    'react-tagsinput',
     'trans',
     'velocity-animate',
     'velocity-animate/velocity.ui',

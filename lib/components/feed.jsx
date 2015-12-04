@@ -7,12 +7,15 @@ const actions = require('../flux/feed-actions');
 const store = require('../flux/feed-store');
 const Loader = require('./loader.jsx');
 const VelTrans = require('velocity-react/velocity-transition-group');
+const TagsInput = require('react-tagsinput');
+const Awesomplete = require('awesomplete');
 
 module.exports = class Feed extends React.Component {
   constructor(props) {
     super(props);
     this.state = { open: false, className: 'feed-item' };
     this.onChange = this.onChange.bind(this);
+    this.onTagsChange = this.onTagsChange.bind(this);
     this.onHeaderClick = this.onHeaderClick.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.onSubscribe = this.onSubscribe.bind(this);
@@ -77,6 +80,13 @@ module.exports = class Feed extends React.Component {
     actions.deleteFeed(this.props.feed);
   }
 
+  onTagsChange(tags) {
+    console.log('change', tags);
+    const subscription = this.props.feed.subscription;
+    subscription.tags = tags;
+    actions.saveSubscription(subscription);
+  }
+
   postSummary(post) {
     if (post.summary && post.summary !== 'null') {
       return post.summary;
@@ -104,6 +114,36 @@ module.exports = class Feed extends React.Component {
     );
   }
 
+  renderTag(props) {
+    const {tag, key, onRemove} = props;
+    return (
+      <div key={key} className="react-tagsinput-tag" props>
+        {tag}
+        <i onClick={() => onRemove(key)} className="material-icons">
+          close
+        </i>
+      </div>
+    );
+  }
+
+  initAwesomplete(cmp) {
+    if (cmp !== null) {
+      const input = cmp.refs.input;
+      const init = input.getAttribute('data-initalized');
+
+      if (!init) {
+        const awesomplete = new Awesomplete(input);
+        // TODO: pass the tag list here (get from store)
+        awesomplete.autoFirst = true;
+        input.setAttribute('data-initalized', true);
+        input.addEventListener('awesomplete-select', event => {
+          input.value = event.text;
+          cmp.setState({tag: event.text});
+        });
+      }
+    }
+  }
+
   renderDetails() {
     const feed = this.props.feed;
     const posts = (this.state.posts || []).map(post => {
@@ -111,6 +151,26 @@ module.exports = class Feed extends React.Component {
         <li className="collection-item" key={post.id}>{this.renderPost(post)}</li>
       );
     });
+    const tagsInput = () => {
+      const attr = {
+        className: 'react-tagsinput-input awesomplete',
+        list: 'tag-list'
+      };
+      return (
+        <div>
+          <h6>Tags</h6>
+
+          <TagsInput
+            ref={this.initAwesomplete.bind(this)}
+            inputProps={attr}
+            value={feed.subscription.tags}
+            renderTag={this.renderTag}
+            addKeys={[9, 13, 32]}
+            onChange={this.onTagsChange}/>
+        </div>
+      );
+    };
+
     return (
       <div className="collapsible-body details">
         <div>
@@ -119,6 +179,7 @@ module.exports = class Feed extends React.Component {
           </span>
         </div>
         <blockquote className="description">{feed.description}</blockquote>
+        {this.props.feed.subscription ? tagsInput() : null}
         <h6>Latest posts</h6>
         <ul className="post-list">{posts}</ul>
       </div>

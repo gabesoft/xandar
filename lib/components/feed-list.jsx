@@ -47,6 +47,7 @@ dispatcher.register(action => {
   }
 });
 
+// TODO: move to a util class
 function debounce(fn, delay) {
   let timer = null;
   return function debounced() {
@@ -61,7 +62,13 @@ function debounce(fn, delay) {
 module.exports = class FeedList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { feeds: store.getFeeds(), isModalOpen: false, filter: '' };
+    this.state = {
+      feeds: store.getFeeds(),
+      isModalOpen: false,
+      filter: '',
+      // TODO: get tags from store
+      tags: [ 'javascript', 'java', 'web', 'framework', 'css', 'sass', 'angular', 'react', 'programming', 'front-end', 'web-design', 'node-js', 'emacs', 'vim', 'sublime', 'editor' ]
+    };
     this.onChange = this.onChange.bind(this);
     this.onSearch = this.onSearch.bind(this);
     this.onFeedAddAttempt = this.onFeedAddAttempt.bind(this);
@@ -176,6 +183,15 @@ module.exports = class FeedList extends React.Component {
     );
   }
 
+  renderTags() {
+    const items = this.state.tags.map(tag => <option key={tag}>{tag}</option>);
+    return (
+      <datalist id="tag-list">
+        {items}
+      </datalist>
+    );
+  }
+
   renderItems() {
     const feeds = this.filteredFeeds();
     const items = feeds.map(feed => {
@@ -198,6 +214,7 @@ module.exports = class FeedList extends React.Component {
       <div>
         {this.renderHeader()}
         {this.renderItems()}
+        {this.renderTags()}
       </div>
     );
   }
