@@ -64,8 +64,9 @@ module.exports = class FeedList extends React.Component {
     super(props);
     this.state = {
       feeds: store.getFeeds(),
+      filter: '',
       isModalOpen: false,
-      filter: ''
+      loading: true
     };
     this.onStoreChange = this.onStoreChange.bind(this);
     this.onSearch = this.onSearch.bind(this);
@@ -75,7 +76,7 @@ module.exports = class FeedList extends React.Component {
   }
 
   onStoreChange() {
-    this.setState({ feeds: store.getFeeds() });
+    this.setState({ feeds: store.getFeeds(), loading: false });
   }
 
   onSearch(event) {
@@ -129,10 +130,6 @@ module.exports = class FeedList extends React.Component {
     dispatcher.unregister(this.tokenId);
   }
 
-  subscriptionCount() {
-    return trans(this.state.feeds).filter('subscription', Boolean).count();
-  }
-
   renderAddButton() {
     return (
       <a
@@ -151,18 +148,21 @@ module.exports = class FeedList extends React.Component {
   }
 
   renderHeader() {
-    const subCounts = `${this.subscriptionCount()} Subscriptions`;
-    const feedCounts = `${this.filteredFeeds().length} Feeds`;
+    const subCount = store.subscriptionCount();
+    const subCountText = subCount > 0 ? `${subCount} Subscriptions` : '';
+
+    const feedCount = this.filteredFeeds().length;
+    const feedCountText = feedCount > 0 ? `${feedCount} Feeds` : '';
 
     return (
-      <div className="card blue-grey darken-1">
+      <div className="feed-list-header card blue-grey darken-1">
         <div className="card-content white-text right-align">
           <div className="input-field feed-search">
             <input id="feed-search-input" type="text" onChange={debounce(this.onSearch, 150)}/>
             <label htmlFor="feed-search-input">Feed Search</label>
           </div>
           {this.state.loading ? this.renderAddLoader() : this.renderAddButton()}
-          <p>{subCounts + ' ' + feedCounts}</p>
+          <p>{subCountText + ' ' + feedCountText}</p>
         </div>
         <Modal
           isOpen={this.state.isModalOpen}

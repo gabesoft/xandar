@@ -11,6 +11,12 @@
   position: absolute;
 }
 
+.feed-list-header {
+  .card-content {
+    min-height: 133px;
+  }
+}
+
 .feed-list {
   .post {
     $date-width: 75px;

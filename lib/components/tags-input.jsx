@@ -30,7 +30,9 @@ module.exports = class AutocompleteTagsInput extends React.Component {
 
   componentDidMount() {
     store.addListener(tc.STORE_CHANGE, this.onStoreChange);
-    actions.loadTags();
+    if (this.state.tags.length === 0) {
+      actions.loadTags();
+    }
   }
 
   componentWillUnmount() {
