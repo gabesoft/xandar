@@ -43,6 +43,7 @@
 
   background-color: $secondary-color;
   border-radius: 2px;
+  font-weight: normal;
   height: 24px;
   line-height: 24px;
   margin: 1px;
@@ -156,11 +157,6 @@ body {
 }
 
 .feed-list {
-  .collapsible-body {
-    display: block;
-    overflow: hidden;
-  }
-
   .post {
     $date-width: 75px;
 
@@ -194,7 +190,7 @@ body {
     .feed-content {
       transition: background-color 0.5s ease-in-out;
     }
-    
+
     &.feed-added .feed-content {
       background-color: $primary-color;
     }
@@ -245,10 +241,10 @@ body {
 
     .details {
       padding: 10px;
+      display: block;
 
       a {
-        // TODO: style this
-        color: color("blue-grey", "darken-1");
+        color: $primary-color;
       }
     }
   }

@@ -65,44 +65,36 @@ module.exports = class FeedList extends React.Component {
     this.state = {
       feeds: store.getFeeds(),
       isModalOpen: false,
-      filter: '',
-      // TODO: get tags from store
-      tags: [ 'javascript', 'java', 'web', 'framework', 'css', 'sass', 'angular', 'react', 'programming', 'front-end', 'web-design', 'node-js', 'emacs', 'vim', 'sublime', 'editor' ]
+      filter: ''
     };
-    this.onChange = this.onChange.bind(this);
+    this.onStoreChange = this.onStoreChange.bind(this);
     this.onSearch = this.onSearch.bind(this);
     this.onFeedAddAttempt = this.onFeedAddAttempt.bind(this);
     this.onFeedAddAccept = this.onFeedAddAccept.bind(this);
     this.onFeedAddCancel = this.onFeedAddCancel.bind(this);
   }
 
-  onChange() {
-    this.state.feeds = store.getFeeds();
-    this.setState(this.state);
+  onStoreChange() {
+    this.setState({ feeds: store.getFeeds() });
   }
 
   onSearch(event) {
-    this.state.filter = event.target.value;
-    this.setState(this.state);
+    this.setState({ filter: event.target.value });
   }
 
   onFeedAddAttempt() {
-    this.state.isModalOpen = true;
-    this.setState(this.state);
+    this.setState({ isModalOpen: true });
   }
 
   onFeedAddAccept(uri) {
     if (uri) {
       actions.findFeed(uri);
-      this.state.isModalOpen = false;
-      this.state.loading = true;
-      this.setState(this.state);
+      this.setState({ isModalOpen: false, loading: true });
     }
   }
 
   onFeedAddCancel() {
-    this.state.isModalOpen = false;
-    this.setState(this.state);
+    this.setState({ isModalOpen: false });
   }
 
   filteredFeeds() {
@@ -115,16 +107,13 @@ module.exports = class FeedList extends React.Component {
   }
 
   componentDidMount() {
-    store.addListener(fc.STORE_FEEDS_CHANGE, this.onChange);
+    store.addListener(fc.STORE_FEEDS_CHANGE, this.onStoreChange);
     this.tokenId = dispatcher.register(action => {
       switch (action.type) {
         case fc.FIND_FEED_DONE:
-          this.state.addedId = action.data.feed.id;
-          this.state.loading = false;
-          this.setState(this.state);
+          this.setState({ loading: false, addedId: action.data.feed.id });
           setTimeout(() => {
-            this.state.addedId = null;
-            this.setState(this.state);
+            this.setState({ addedId: null });
           }, fc.FEED_ADDED_ACTIVE_DELAY);
           break;
         default:
@@ -136,7 +125,7 @@ module.exports = class FeedList extends React.Component {
   }
 
   componentWillUnmount() {
-    store.removeListener(fc.STORE_FEEDS_CHANGE, this.onChange);
+    store.removeListener(fc.STORE_FEEDS_CHANGE, this.onStoreChange);
     dispatcher.unregister(this.tokenId);
   }
 
@@ -183,15 +172,6 @@ module.exports = class FeedList extends React.Component {
     );
   }
 
-  renderTags() {
-    const items = this.state.tags.map(tag => <option key={tag}>{tag}</option>);
-    return (
-      <datalist id="tag-list">
-        {items}
-      </datalist>
-    );
-  }
-
   renderItems() {
     const feeds = this.filteredFeeds();
     const items = feeds.map(feed => {
@@ -214,7 +194,6 @@ module.exports = class FeedList extends React.Component {
       <div>
         {this.renderHeader()}
         {this.renderItems()}
-        {this.renderTags()}
       </div>
     );
   }
