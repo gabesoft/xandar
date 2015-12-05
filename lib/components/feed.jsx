@@ -146,7 +146,7 @@ module.exports = class Feed extends React.Component {
   renderNewCount() {
     return (
       <span className="badge new">
-        {this.props.feed.newCount}
+        {this.props.feed.unreadCount}
       </span>
     );
   }
@@ -182,7 +182,7 @@ module.exports = class Feed extends React.Component {
             </span>
           </div>
           <div className="post-count">
-            {feed.newCount ? this.renderNewCount() : ''}
+            {(feed.subscription && feed.unreadCount) ? this.renderNewCount() : ''}
             {this.renderPostCount()}
           </div>
         </div>
