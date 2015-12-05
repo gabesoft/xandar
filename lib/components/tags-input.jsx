@@ -16,8 +16,9 @@ module.exports = class AutocompleteTagsInput extends React.Component {
 
   onTagsChange(tags) {
     this.props.onChange(tags);
-    // TODO: save tags only if new added
-    actions.saveTags(tags);
+    if (store.hasNewTags(tags)) {
+      actions.saveTags(tags);
+    }
   }
 
   onStoreChange() {
@@ -63,10 +64,10 @@ module.exports = class AutocompleteTagsInput extends React.Component {
       };
 
       const item = (text, search) => {
-        const html = text.replace(RegExp($.regExpEscape(search.trim()), 'gi'), '<mark>$&</mark>');
+        const value = text.replace(RegExp($.regExpEscape(search.trim()), 'gi'), '<mark>$&</mark>');
         const close = '<i class="material-icons">close</i>';
         return $.create('li', {
-          innerHTML: `${close} ${html}`,
+          innerHTML: `${close} ${value}`,
           'aria-selected': false
         });
       };
