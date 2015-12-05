@@ -1,0 +1,106 @@
+.add-feed-btn {
+  position: relative;
+  float: left;
+  top: -7px;
+  left: -7px;
+}
+
+.add-feed-loader {
+  bottom: 0px;
+  left: 8px;
+  position: absolute;
+}
+
+.feed-list {
+  .post {
+    $date-width: 75px;
+
+    .post-title,
+    .post-date {
+      display: inline-block;
+    }
+
+    .post-title {
+      width: calc(100% - #{$date-width});
+    }
+
+    .post-date {
+      width: $date-width;
+    }
+  }
+
+  .post-list {
+    padding: 15px;
+  }
+
+  .feed-search {
+    margin: 0;
+  }
+
+  .feed-item {
+    $actions-width: 120px;
+    $post-count-width: 100px;
+    position: relative;
+
+    .feed-content {
+      transition: background-color 0.5s ease-in-out;
+    }
+
+    &.feed-added .feed-content {
+      background-color: $primary-color;
+    }
+
+    .badge {
+      position: relative;
+      padding: 2px 6px;
+      min-width: 10px;
+
+      &:not(.new) {
+        display: inline-block;
+        min-width: 50px;
+      }
+    }
+
+    .title-info,
+    .actions,
+    .post-count {
+      display: inline-block;
+    }
+
+    .title {
+      text-transform: capitalize;
+    }
+
+    .actions {
+      width: $actions-width;
+    }
+
+    .title-info {
+      width: calc(100% - (#{$actions-width} + #{$post-count-width} + 15px));
+      vertical-align: middle;
+    }
+
+    .post-count {
+      float: right;
+      text-align: right;
+      width: $post-count-width;
+      margin: 5px 0 0 0;
+    }
+
+    .details-loader {
+      display: inline-block;
+      position: absolute;
+      right: 3px;
+      top: 3px;
+    }
+
+    .details {
+      padding: 10px;
+      display: block;
+
+      a {
+        color: $primary-color;
+      }
+    }
+  }
+}

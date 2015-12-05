@@ -1,0 +1,48 @@
+.react-tagsinput {
+  padding: 5px 0;
+}
+
+.react-tagsinput-tag {
+  @extend .chip;
+  @extend .z-depth-1;
+  @extend .white-text;
+
+  background-color: $secondary-color;
+  border-radius: 2px;
+  font-weight: normal;
+  height: 24px;
+  line-height: 24px;
+  margin: 1px;
+
+  i.material-icons {
+    line-height: 24px;
+
+    &:hover {
+      color: $error-color;
+    }
+  }
+}
+
+input.react-tagsinput-input {
+  background: transparent;
+  border: 0;
+  height: auto;
+  margin: 0;
+  outline: none;
+  padding: 5px;
+  width: 80px;
+
+  &:focus:not([readonly]) {
+    border: 0;
+    box-shadow: none;
+  }
+}
+
+.react-tagsinput-remove {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.react-tagsinput-tag a::before {
+  content: " x";
+}

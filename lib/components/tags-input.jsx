@@ -16,7 +16,7 @@ module.exports = class AutocompleteTagsInput extends React.Component {
 
   onTagsChange(tags) {
     this.props.onChange(tags);
-    if (store.hasNewTags(tags)) {
+    if (store.anyNew(tags)) {
       actions.saveTags(tags);
     }
   }

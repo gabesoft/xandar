@@ -6,7 +6,7 @@ module.exports = class FeedAddModal extends React.Component {
     super(props);
     this.state = { uri: null };
     this.onChange = this.onChange.bind(this);
-    this.onAccept= this.onAccept.bind(this);
+    this.onAccept = this.onAccept.bind(this);
   }
 
   onAccept(event) {
@@ -21,8 +21,7 @@ module.exports = class FeedAddModal extends React.Component {
   render() {
     const styles = {
       overlay: {
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        zIndex: 1000
+        backgroundColor: 'rgba(0, 0, 0, 0.7)'
       },
       content: {
         backgroundColor: 'rgb(250, 250, 250)',
