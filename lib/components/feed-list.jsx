@@ -1,6 +1,5 @@
 const React = require('react');
 const Feed = require('./feed.jsx');
-const trans = require('trans');
 const toast = require('../mixins/toast');
 const fc = require('../feed-constants');
 const dispatcher = require('../flux/dispatcher');

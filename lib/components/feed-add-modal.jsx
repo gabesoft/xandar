@@ -1,4 +1,5 @@
 const React = require('react');
+const ReactDOM = require('react-dom');
 const Modal = require('react-modal');
 
 module.exports = class FeedAddModal extends React.Component {
@@ -16,6 +17,15 @@ module.exports = class FeedAddModal extends React.Component {
 
   onChange(event) {
     this.setState({ uri: event.target.value });
+  }
+
+  componentDidUpdate() {
+    setTimeout(() => {
+      const input = ReactDOM.findDOMNode(this.refs.addInput);
+      if (input) {
+        input.focus();
+      }
+    }, 0);
   }
 
   render() {
@@ -41,6 +51,8 @@ module.exports = class FeedAddModal extends React.Component {
             <h5>Add a new feed</h5>
             <div className="input-field">
               <input
+                autoFocus
+                ref="addInput"
                 id="feed-url"
                 type="url"
                 className="validate"

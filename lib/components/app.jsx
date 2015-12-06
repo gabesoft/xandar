@@ -1,17 +1,25 @@
 const React = require('react');
-const FeedList = require('./feed-list.jsx');
+const router = require('react-router');
+const Link = router.Link;
 
-module.exports = React.createClass({
-  propTypes: {},
-  render: function render() {
+module.exports = class App extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
     return (
       <div className="container">
         <div className="row">
-          <div className="col s12 m12 l12">
-            <FeedList/>
-          </div>
+          <ul>
+            <li><Link to="/feeds">Feeds</Link></li>
+            <li><Link to="/posts">Posts</Link></li>
+          </ul>
+        </div>
+        <div className="row">
+          {this.props.children}
         </div>
       </div>
     );
   }
-});
+};
