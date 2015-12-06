@@ -17,6 +17,15 @@ body {
   flex-direction: column;
 }
 
+.dropdown-button {
+  outline: none;
+}
+
+.search-form {
+  float: left;
+  width: calc(100% - 150px);
+}
+
 #toast-container {
   pointer-events: none;
 }

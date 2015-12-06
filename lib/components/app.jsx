@@ -1,24 +1,18 @@
 const React = require('react');
-const router = require('react-router');
-const Link = router.Link;
+const Navbar = require('./navbar.jsx');
+const Footer = require('./footer.jsx');
+const Link = require('react-router').Link;
 
 module.exports = class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
+    const user = this.props.route.user;
     return (
-      <div className="container">
-        <div className="row">
-          <ul>
-            <li><Link to="/feeds">Feeds</Link></li>
-            <li><Link to="/posts">Posts</Link></li>
-          </ul>
+      <div>
+        <Navbar login={user.meta.login} {...this.props}/>
+        <div className="container">
+          <div className="row">{this.props.children}</div>
         </div>
-        <div className="row">
-          {this.props.children}
-        </div>
+        <Footer/>
       </div>
     );
   }

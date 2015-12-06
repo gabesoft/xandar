@@ -1,6 +1,4 @@
 const React = require('react');
-const Navbar = require('./navbar.jsx');
-const Footer = require('./footer.jsx');
 const url = require('url');
 
 module.exports = React.createClass({
@@ -21,14 +19,12 @@ module.exports = React.createClass({
           <link rel="stylesheet" href={url.resolve(assets, 'app.css')}/>
         </head>
         <body>
-          <Navbar login={this.props.login}/>
           <div className="app-container" id="app-mount"></div>
           <script id="app-state"
             dangerouslySetInnerHTML={{ __html: this.props.state }}>
           </script>
           <script src={url.resolve(assets, 'vendor.js')}></script>
           <script src={url.resolve(assets, 'app.js')}></script>
-          <Footer/>
         </body>
       </html>
     );
