@@ -3,7 +3,7 @@ const TagsInput = require('react-tagsinput');
 const Awesomplete = require('awesomplete');
 const actions = require('../flux/tag-actions');
 const store = require('../flux/tag-store');
-const tc = require('../tag-constants');
+const tc = require('../constants').tags;
 
 module.exports = class AutocompleteTagsInput extends React.Component {
   constructor(props) {

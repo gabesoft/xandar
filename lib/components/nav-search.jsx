@@ -1,4 +1,5 @@
 const React = require('react');
+const actions = require('../flux/nav-actions');
 
 module.exports = class NavSearch extends React.Component {
   constructor(props) {
@@ -10,10 +11,13 @@ module.exports = class NavSearch extends React.Component {
 
   onClear() {
     this.setState({ value: '' });
+    actions.feedSearch('');
   }
 
   onChange(event) {
-    this.setState({ value: event.target.value });
+    const query = event.target.value;
+    this.setState({ value: query });
+    actions.feedSearch(query);
   }
 
   render() {

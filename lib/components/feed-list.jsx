@@ -1,62 +1,14 @@
 const React = require('react');
 const Feed = require('./feed.jsx');
-const toast = require('../mixins/toast');
-const fc = require('../feed-constants');
+const debounce = require('../util').debounce;
+const ct = require('../constants');
+const fc = ct.feeds;
 const dispatcher = require('../flux/dispatcher');
 const store = require('../flux/feed-store');
 const actions = require('../flux/feed-actions');
 const VelTrans = require('velocity-react/velocity-transition-group');
 const Loader = require('./loader.jsx');
 const Modal = require('./feed-add-modal.jsx');
-
-/* TODO move to a better place */
-dispatcher.register(action => {
-  switch (action.type) {
-    case fc.SUBSCRIBE_DONE:
-      toast.success(`Subscribed to feed ${action.feed.title}`);
-      break;
-    case fc.SUBSCRIBE_FAIL:
-      toast.error(`Failed to subscribe to feed ${action.feed.title}`);
-      break;
-    case fc.UNSUBSCRIBE_DONE:
-      toast.success(`Unsubscribed from feed ${action.feed.title}`);
-      break;
-    case fc.UNSUBSCRIBE_FAIL:
-      toast.error(`Failed to unsubscribe from feed ${action.feed.title}`);
-      break;
-    case fc.DELETE_DONE:
-      toast.success(`Deleted feed ${action.feed.title}`);
-      break;
-    case fc.DELETE_FAIL:
-      toast.error(`Failed to delete feed ${action.feed.title}`);
-      break;
-    case fc.FIND_FEED_DONE:
-      const feed = action.data.feed;
-      if (feed.isNew) {
-        toast.success(`Added feed ${feed.title}`);
-      } else {
-        toast.warn(`Feed ${feed.title} already exists`);
-      }
-      break;
-    case fc.FIND_FEED_FAIL:
-      toast.error(`Failed to find a feed for ${action.uri}`);
-      break;
-    default:
-      break;
-  }
-});
-
-// TODO: move to a util class
-function debounce(fn, delay) {
-  let timer = null;
-  return function debounced() {
-    const context = this, args = arguments;
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      fn.apply(context, args);
-    }, delay);
-  };
-}
 
 module.exports = class FeedList extends React.Component {
   constructor(props) {
@@ -78,8 +30,8 @@ module.exports = class FeedList extends React.Component {
     this.setState({ feeds: store.getFeeds(), loading: false });
   }
 
-  onSearch(event) {
-    this.setState({ filter: event.target.value });
+  onSearch(query) {
+    this.setState({ filter: query });
   }
 
   onFeedAddAttempt() {
@@ -108,13 +60,18 @@ module.exports = class FeedList extends React.Component {
 
   componentDidMount() {
     store.addListener(fc.STORE_FEEDS_CHANGE, this.onStoreChange);
+
+    const onSearch = debounce(this.onSearch, 150);
     this.tokenId = dispatcher.register(action => {
       switch (action.type) {
         case fc.FIND_FEED_DONE:
           this.setState({ loading: false, addedId: action.data.feed.id });
           setTimeout(() => {
             this.setState({ addedId: null });
-          }, fc.FEED_ADDED_ACTIVE_DELAY);
+          }, fc.ADDED_ACTIVE_DELAY);
+          break;
+        case ct.nav.SEARCH:
+          onSearch(action.query);
           break;
         default:
           break;
@@ -156,10 +113,6 @@ module.exports = class FeedList extends React.Component {
     return (
       <div className="feed-list-header card blue-grey darken-1">
         <div className="card-content white-text right-align">
-          <div className="input-field feed-search">
-            <input id="feed-search-input" type="text" onChange={debounce(this.onSearch, 150)}/>
-            <label htmlFor="feed-search-input">Feed Search</label>
-          </div>
           {this.state.loading ? this.renderAddLoader() : this.renderAddButton()}
           <p>{subCountText + ' ' + feedCountText}</p>
         </div>

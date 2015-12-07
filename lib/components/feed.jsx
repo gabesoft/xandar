@@ -2,7 +2,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const FeedActions = require('./feed-actions.jsx');
 const moment = require('moment');
-const fc = require('../feed-constants');
+const fc = require('../constants').feeds;
 const actions = require('../flux/feed-actions');
 const store = require('../flux/feed-store');
 const Loader = require('./loader.jsx');
@@ -146,7 +146,7 @@ module.exports = class Feed extends React.Component {
   renderNewCount() {
     return (
       <span className="badge new">
-        {this.props.feed.unreadCount}
+        {this.props.feed.subscription.unreadCount}
       </span>
     );
   }
@@ -182,7 +182,7 @@ module.exports = class Feed extends React.Component {
             </span>
           </div>
           <div className="post-count">
-            {(feed.subscription && feed.unreadCount) ? this.renderNewCount() : ''}
+            {(feed.subscription && feed.subscription.unreadCount) ? this.renderNewCount() : ''}
             {this.renderPostCount()}
           </div>
         </div>
