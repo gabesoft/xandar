@@ -1,3 +1,9 @@
+.count-display {
+  &:not(:last-child) {
+    padding: 0 5px 0 0;
+  }
+}
+
 .add-feed-btn {
   position: relative;
   float: left;
@@ -46,6 +52,7 @@
   .feed-item {
     $actions-width: 120px;
     $post-count-width: 115px;
+    $post-count-width-small: 70px;
     position: relative;
 
     .feed-content {
@@ -91,6 +98,16 @@
       text-align: right;
       width: $post-count-width;
       margin: 5px 0 0 0;
+    }
+
+    @media #{$small-and-down} {
+      .post-count {
+        width: $post-count-width-small;
+      }
+
+      .title-info {
+        width: calc(100% - (#{$actions-width} + #{$post-count-width-small} + 15px));
+      }
     }
 
     .details-loader {

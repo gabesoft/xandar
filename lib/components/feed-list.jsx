@@ -9,6 +9,7 @@ const actions = require('../flux/feed-actions');
 const VelTrans = require('velocity-react/velocity-transition-group');
 const Loader = require('./loader.jsx');
 const Modal = require('./feed-add-modal.jsx');
+const Count = require('./count-display.jsx');
 
 module.exports = class FeedList extends React.Component {
   constructor(props) {
@@ -104,17 +105,18 @@ module.exports = class FeedList extends React.Component {
   }
 
   renderHeader() {
-    const subCount = store.subscriptionCount();
-    const subCountText = subCount > 0 ? `${subCount} Subscriptions` : '';
-
-    const feedCount = this.filteredFeeds().length;
-    const feedCountText = feedCount > 0 ? `${feedCount} Feeds` : '';
+    const filteredCount = this.filteredFeeds().length;
+    const feedCount = this.state.feeds.length;
+    const filtered = filteredCount !== feedCount ? `${filteredCount}/` : '';
 
     return (
       <div className="feed-list-header card blue-grey darken-1">
         <div className="card-content white-text right-align">
           {this.state.loading ? this.renderAddLoader() : this.renderAddButton()}
-          <p>{subCountText + ' ' + feedCountText}</p>
+          <p>
+            <Count value={store.subscriptionCount()} label="Subscriptions"/>
+            <Count value={`${filtered}${feedCount}`} label="Feeds"/>
+          </p>
         </div>
         <Modal
           isOpen={this.state.isModalOpen}
