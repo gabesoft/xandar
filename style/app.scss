@@ -44,8 +44,14 @@ body {
   }
 }
 
-.app-container {
-  flex: 1 0 auto;
+.app-main {
+  display: flex;
+  flex-flow: column;
+  min-height: 100vh;
+}
+
+.container {
+  flex: 1;
 }
 
 .center-align-block {

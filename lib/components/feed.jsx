@@ -66,10 +66,10 @@ module.exports = class Feed extends React.Component {
       loading = true;
     }
     this.setState({
-      loading: loading,
+      loading,
       open: !this.state.open && !loading,
       className: this.state.open ? 'feed-item' : 'feed-item active',
-      posts: posts
+      posts
     });
   }
 
@@ -106,7 +106,7 @@ module.exports = class Feed extends React.Component {
           {post.title}
         </a>
         <span className="post-date right">
-          {moment(post.date).format('MM/DD/YYYY')}
+          {moment(post.date).fromNow(true)}
         </span>
       </div>
     );
@@ -173,7 +173,8 @@ module.exports = class Feed extends React.Component {
             className="actions"
             onDelete={this.onDelete}
             onSubscribe={this.onSubscribe}
-            onUnsubscribe={this.onUnsubscribe}/>
+            onUnsubscribe={this.onUnsubscribe}
+          />
           {loader()}
           <div className="title-info truncate" onClick = {this.onHeaderClick}>
             <span className="title">{feed.title}</span>
@@ -186,7 +187,7 @@ module.exports = class Feed extends React.Component {
             {this.renderPostCount()}
           </div>
         </div>
-        <VelTrans enter={{animation: 'slideDown'}} leave={{animation: 'slideUp'}} runOnMount>
+        <VelTrans enter={{ animation: 'slideDown' }} leave={{ animation: 'slideUp' }} runOnMount>
           {this.state.open ? this.renderDetails() : null}
         </VelTrans>
       </li>

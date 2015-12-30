@@ -8,13 +8,14 @@ const tc = require('../constants').tags;
 module.exports = class AutocompleteTagsInput extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { tags: store.getTags() };
+    this.state = { tags: store.getTags(), value: props.tags };
     this.onTagsChange = this.onTagsChange.bind(this);
     this.initAwesomplete = this.initAwesomplete.bind(this);
     this.onStoreChange = this.onStoreChange.bind(this);
   }
 
   onTagsChange(tags) {
+    this.setState({ value: tags });
     this.props.onChange(tags);
     if (store.anyNew(tags)) {
       actions.saveTags(tags);
@@ -42,7 +43,7 @@ module.exports = class AutocompleteTagsInput extends React.Component {
   }
 
   renderTag(props) {
-    const {tag, key, onRemove} = props;
+    const { tag, key, onRemove } = props;
     return (
       <div key={key} className="react-tagsinput-tag" props>
         {tag}
@@ -88,7 +89,7 @@ module.exports = class AutocompleteTagsInput extends React.Component {
           actions.deleteTag(value);
         } else {
           input.value = value;
-          cmp.setState({tag: value});
+          cmp.setState({ tag: value });
         }
       });
 
@@ -100,11 +101,11 @@ module.exports = class AutocompleteTagsInput extends React.Component {
     return (
       <TagsInput
         ref={this.initAwesomplete}
-        value={this.props.tags}
+        value={this.state.value}
         renderTag={this.renderTag}
         addKeys={[9, 13, 32]}
-        onChange={this.onTagsChange}/>
+        onChange={this.onTagsChange}
+      />
     );
   }
 };
-

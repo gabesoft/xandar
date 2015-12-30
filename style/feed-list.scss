@@ -25,7 +25,7 @@
 
 .feed-list {
   .post {
-    $date-width: 75px;
+    $date-width: 90px;
 
     .post-title,
     .post-date {
@@ -38,11 +38,20 @@
 
     .post-date {
       width: $date-width;
+      text-align: right;
     }
   }
 
   .post-list {
     padding: 15px;
+
+    li {
+      padding: 3px 5px;
+    }
+
+    li:nth-child(odd) {
+      background: rgba(0,0,0,0.02);
+    }
   }
 
   .feed-search {
@@ -123,6 +132,7 @@
 
       a {
         color: $primary-color;
+        vertical-align: middle;
       }
     }
   }
