@@ -95,18 +95,18 @@ module.exports = class Feed extends React.Component {
     return '';
   }
 
-  renderPost(post) {
+  renderPost(data) {
     return (
       <div className="post" >
         <a
           className="post-title truncate"
-          href={post.link}
+          href={data.post.link}
           target="_blank"
-          title={this.postSummary(post)}>
-          {post.title}
+          title={this.postSummary(data.post)}>
+          {data.post.title}
         </a>
         <span className="post-date right">
-          {moment(post.date).fromNow(true)}
+          {moment(data.post.date).fromNow(true)}
         </span>
       </div>
     );
@@ -116,7 +116,7 @@ module.exports = class Feed extends React.Component {
     const feed = this.props.feed;
     const posts = (this.state.posts || []).map(post => {
       return (
-        <li className="collection-item" key={post.id}>{this.renderPost(post)}</li>
+        <li className="collection-item" key={post.postId}>{this.renderPost(post)}</li>
       );
     });
     const tagsInput = () => {
