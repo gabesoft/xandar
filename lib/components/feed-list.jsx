@@ -54,7 +54,7 @@ module.exports = class FeedList extends React.Component {
     const filter = (this.state.filter || '').toLowerCase();
     return this.state.feeds.filter(feed => {
       const author = (feed.author || '').toLowerCase();
-      const title = (feed.title || '').toLowerCase();
+      const title = ((feed.subscription || {}).title || feed.title || '').toLowerCase();
       return title.match(filter) || author.match(filter);
     });
   }
@@ -121,7 +121,8 @@ module.exports = class FeedList extends React.Component {
         <Modal
           isOpen={this.state.isModalOpen}
           onAcceptClick={this.onFeedAddAccept}
-          onCancelClick={this.onFeedAddCancel}/>
+          onCancelClick={this.onFeedAddCancel}
+        />
       </div>
     );
   }
@@ -130,7 +131,7 @@ module.exports = class FeedList extends React.Component {
     const feeds = this.filteredFeeds();
     const items = feeds.map(feed => {
       return (
-        <VelTrans key={feed.id} enter={{animation: 'fadeIn'}} leave={{animation: 'fadeOut'}} runOnMount>
+        <VelTrans key={feed.id} enter={{ animation: 'fadeIn' }} leave={{ animation: 'fadeOut' }} runOnMount>
           <Feed key={feed.id} feed={feed} added={this.state.addedId === feed.id}/>
         </VelTrans>
       );
@@ -152,4 +153,3 @@ module.exports = class FeedList extends React.Component {
     );
   }
 };
-

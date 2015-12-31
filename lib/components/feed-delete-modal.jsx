@@ -3,6 +3,7 @@ const Modal = require('react-modal');
 
 module.exports = class FeedDeleteModal extends React.Component {
   render() {
+    const title = (this.props.feed.subscription || {}).title || this.props.feed.title;
     const styles = {
        overlay: {
          backgroundColor: 'rgba(0, 0, 0, 0.7)',
@@ -24,7 +25,7 @@ module.exports = class FeedDeleteModal extends React.Component {
         <div className="modal-content">
           <h5>Delete Feed Confirmation</h5>
           <p>
-            Are you sure you want to delete the feed <b>{this.props.feed.title}</b> and all its posts?
+            Are you sure you want to delete the feed <b>{title}</b> and all its posts?
           </p>
         </div>
         <div className="modal-footer">

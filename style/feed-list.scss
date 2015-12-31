@@ -126,6 +126,15 @@
       top: 3px;
     }
 
+    .details-header {
+      display: inline-block;
+      width: 100%;
+
+      input {
+        width: 250px;
+      }
+    }
+
     .details {
       padding: 10px;
       display: block;

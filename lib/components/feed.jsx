@@ -12,9 +12,14 @@ const TagsInput = require('./tags-input.jsx');
 module.exports = class Feed extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { open: false, className: 'feed-item' };
+    this.state = {
+      open: false,
+      className: 'feed-item',
+      title: (this.props.feed.subscription || {}).title
+    };
     this.onChange = this.onChange.bind(this);
     this.onTagsChange = this.onTagsChange.bind(this);
+    this.onTitleChange = this.onTitleChange.bind(this);
     this.onHeaderClick = this.onHeaderClick.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.onSubscribe = this.onSubscribe.bind(this);
@@ -49,12 +54,22 @@ module.exports = class Feed extends React.Component {
     actions.saveSubscription(sub);
   }
 
+  onTitleChange(event) {
+    this.setState({ title: event.target.value });
+
+    const sub = this.props.feed.subscription;
+    sub.title = event.target.value;
+    actions.saveSubscription(sub);
+  }
+
   onChange(feedId) {
     if (feedId === this.props.feed.id) {
-      this.state.posts = store.getPosts(this.props.feed.id);
-      this.state.open = this.state.loading;
-      this.state.loading = false;
-      this.setState(this.state);
+      this.setState({
+        posts: store.getPosts(this.props.feed.id),
+        open: this.state.loading,
+        loading: false,
+        title: (this.props.feed.subscription || {}).title
+      });
     }
   }
 
@@ -116,7 +131,9 @@ module.exports = class Feed extends React.Component {
     const feed = this.props.feed;
     const posts = (this.state.posts || []).map(post => {
       return (
-        <li className="collection-item" key={post.postId}>{this.renderPost(post)}</li>
+        <li className="collection-item" key={post.postId}>
+          {this.renderPost(post)}
+        </li>
       );
     });
     const tagsInput = () => {
@@ -127,16 +144,24 @@ module.exports = class Feed extends React.Component {
         </div>
       );
     };
+    const titleInput = () => {
+      return (
+        <input type="text" value={this.state.title} onChange={this.onTitleChange}/>
+      );
+    };
 
     return (
       <div className="collapsible-body details">
-        <div>
+        <div className="details-header">
+          <span className="left">
+            {feed.subscription ? titleInput() : null}
+          </span>
           <span className="right">
             {`last post ${moment(feed.lastPostDate).fromNow()}`}
           </span>
         </div>
         <blockquote className="description">{feed.description}</blockquote>
-        {this.props.feed.subscription ? tagsInput() : null}
+        {feed.subscription ? tagsInput() : null}
         <h6>Latest posts</h6>
         <ul className="post-list">{posts}</ul>
       </div>
@@ -177,7 +202,7 @@ module.exports = class Feed extends React.Component {
           />
           {loader()}
           <div className="title-info truncate" onClick = {this.onHeaderClick}>
-            <span className="title">{feed.title}</span>
+            <span className="title">{this.state.title || feed.title}</span>
             <span className="author hide-on-small-only">
               {feed.author ? ` - ${feed.author}` : ''}
             </span>

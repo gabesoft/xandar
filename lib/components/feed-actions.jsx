@@ -30,7 +30,8 @@ module.exports = class FeedActions extends React.Component {
       <IconBtn
         onClick={this.props.onSubscribe}
         icon="add_circle_outline"
-        title="Subscribe to this feed"/>
+        title="Subscribe to this feed"
+      />
     );
   }
 
@@ -39,7 +40,8 @@ module.exports = class FeedActions extends React.Component {
       <IconBtn
         onClick={this.props.onUnsubscribe}
         icon="remove_circle_outline"
-        title="Unsubscribe from this feed"/>
+        title="Unsubscribe from this feed"
+      />
     );
   }
 
@@ -54,24 +56,28 @@ module.exports = class FeedActions extends React.Component {
           title="Open feed in new window"
           href={feed.link}
           onClick={this.onOpenFeed}
-          target="_blank"/>
+          target="_blank"
+        />
         <IconBtn
           icon="wifi"
           title="Open rss in new window"
           className="rss-icon"
           href={feed.uri}
           onClick={this.onOpenFeed}
-          target="_blank"/>
+          target="_blank"
+        />
         <IconBtn
           icon="delete"
           title="Delete this feed"
           onClick={this.onDeleteAttempt.bind(this)}
-          className="error"/>
+          className="error"
+        />
         <Modal
           isOpen={this.state.modalIsOpen}
           feed={this.props.feed}
           onAcceptClick={this.onDeleteAccept.bind(this)}
-          onCancelClick={this.onDeleteCancel.bind(this)}/>
+          onCancelClick={this.onDeleteCancel.bind(this)}
+        />
       </div>
     );
   }
