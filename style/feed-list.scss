@@ -50,7 +50,7 @@
     }
 
     li:nth-child(odd) {
-      background: rgba(0,0,0,0.02);
+      background: $list-hover-color;
     }
   }
 
@@ -64,8 +64,19 @@
     $post-count-width-small: 70px;
     position: relative;
 
-    .feed-content {
+    .collapsible-header {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      line-height: normal;
+    }
+
+    .feed-header {
       transition: background-color 0.5s ease-in-out;
+
+      &:hover {
+        background-color: $list-hover-color;
+      }
     }
 
     &.feed-added .feed-content {
@@ -99,14 +110,12 @@
 
     .title-info {
       width: calc(100% - (#{$actions-width} + #{$post-count-width} + 15px));
-      vertical-align: middle;
+      padding: 8px 0;
     }
 
     .post-count {
-      float: right;
       text-align: right;
       width: $post-count-width;
-      margin: 5px 0 0 0;
     }
 
     @media #{$small-and-down} {

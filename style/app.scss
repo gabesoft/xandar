@@ -65,11 +65,20 @@ body {
 }
 
 .btn-icon {
+  $size: 24px;
+
   padding: 0;
-  height: auto;
+  height: $size;
+  line-height: $size;
 
   i {
+    font-size: 18px;
+    height: $size;
+    line-height: $size;
     margin: 0;
+    padding: 0;
+    text-align: center;
+    width: $size;
   }
 
   &:hover {
@@ -81,6 +90,6 @@ body {
   }
 }
 
-.rss-icon {
-  transform: rotate(45deg);
+.fullscreen-icon i {
+  font-size: 24px;
 }

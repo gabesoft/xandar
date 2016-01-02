@@ -3,6 +3,8 @@
 }
 
 .react-tagsinput-tag {
+  $size: 24px;
+
   @extend .chip;
   @extend .z-depth-1;
   @extend .white-text;
@@ -10,12 +12,17 @@
   background-color: $secondary-color;
   border-radius: 2px;
   font-weight: normal;
-  height: 24px;
-  line-height: 24px;
+  height: $size;
+  line-height: $size;
   margin: 1px;
+  padding: 0 3px 0 10px;
 
   i.material-icons {
-    line-height: 24px;
+    line-height: $size;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    width: $size;
 
     &:hover {
       color: $error-color;

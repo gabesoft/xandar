@@ -192,7 +192,7 @@ module.exports = class Feed extends React.Component {
 
     return (
       <li className={this.state.className + ' ' + (this.props.added ? 'feed-added' : '')}>
-        <div className="collapsible-header feed-content">
+        <div className="collapsible-header feed-header">
           <FeedActions
             feed={this.props.feed}
             className="actions"
@@ -201,7 +201,7 @@ module.exports = class Feed extends React.Component {
             onUnsubscribe={this.onUnsubscribe}
           />
           {loader()}
-          <div className="title-info truncate" onClick = {this.onHeaderClick}>
+          <div className="title-info truncate" onClick={this.onHeaderClick}>
             <span className="title">{this.state.title || feed.title}</span>
             <span className="author hide-on-small-only">
               {feed.author ? ` - ${feed.author}` : ''}

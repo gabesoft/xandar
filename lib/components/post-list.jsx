@@ -1,7 +1,7 @@
 const React = require('react');
+const Post = require('./post.jsx');
 const ct = require('../constants');
 const pc = ct.posts;
-const moment = require('moment');
 const store = require('../flux/post-store');
 const actions = require('../flux/post-actions');
 
@@ -21,7 +21,7 @@ module.exports = class PostList extends React.Component {
 
   componentDidMount() {
     store.addListener(pc.STORE_POSTS_CHANGE, this.onStoreChange);
-    actions.loadPosts(50);
+    actions.loadPosts(80);
   }
 
   componentWillUnmount() {
@@ -29,20 +29,12 @@ module.exports = class PostList extends React.Component {
   }
 
   renderPosts() {
-    const posts = this.state.posts;
-    const items = posts.map(data => {
-      const post = data._source.post;
-      return (
-        <li key={data._id}>
-          <span className="feed-title">{data._source.title}</span>
-          <span className="post-title">{post.title}</span>
-          <span className="date right">{moment(post.date).fromNow(true)}</span>
-        </li>
-      );
-    });
+    const items = this.state
+      .posts
+      .map(data => <Post key={data._id} post={data}/>);
 
     return (
-      <ul className="collapsible post-list">{items}</ul>
+      <ul className="collapsible post-list collection">{items}</ul>
     );
   }
 

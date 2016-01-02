@@ -61,7 +61,7 @@ module.exports = class AutocompleteTagsInput extends React.Component {
       const $ = Awesomplete.$;
 
       const replace = function replace(text) {
-        const value = (text || '').replace(/^close\s+/, '');
+        const value = (text || '').replace(/\s+close\s*$/, '');
         this.input.value = value;
         return value;
       };
@@ -70,7 +70,7 @@ module.exports = class AutocompleteTagsInput extends React.Component {
         const value = text.replace(RegExp($.regExpEscape(search.trim()), 'gi'), '<mark>$&</mark>');
         const close = '<i class="material-icons">close</i>';
         return $.create('li', {
-          innerHTML: `${close} ${value}`,
+          innerHTML: `<span>${value}</span> ${close}`,
           'aria-selected': false
         });
       };
@@ -101,6 +101,7 @@ module.exports = class AutocompleteTagsInput extends React.Component {
     return (
       <TagsInput
         ref={this.initAwesomplete}
+        id={this.props.id}
         value={this.state.value}
         renderTag={this.renderTag}
         addKeys={[9, 13, 32]}

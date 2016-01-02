@@ -71,17 +71,26 @@ div.awesomplete > ul:before {
 }
 
 div.awesomplete > ul > li {
-  position: relative;
-  padding: .2em .5em;
+  $icon-size: 14px;
+
+  align-items: center;
   cursor: pointer;
-  white-space: nowrap;
+  display: flex;
   overflow: hidden;
+  padding: .2em .5em;
+  position: relative;
+  white-space: nowrap;
+
+  span {
+    flex-grow: 1;
+    margin-right: 1em;
+  }
 
   i.material-icons {
-    position: relative;
-    line-height: 12px;
-    font-size: 12px;
-    top: 2px;
+    font-size: $icon-size;
+    line-height: $icon-size;
+    margin: 0;
+    padding: 0;
 
     &:hover {
       color: $error-color;

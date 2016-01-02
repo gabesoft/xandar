@@ -1,6 +1,159 @@
+@mixin nowrap() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.post-item {
+  transition: background-color 0.5s;
+}
+
 .post-list {
-  .feed-title {
-    font-weight: 600;
-    padding: 5px;
+  /* TODO move post-content to own file */
+  .post-content,
+  .post-content-fullscreen {
+    padding: 30px;
+    margin: 0 auto;
+
+    a {
+      color: $primary-color;
+    }
+
+    img[height="1"] {
+      width: 1px;
+      height: 1px;
+    }
+
+    img {
+      display: block;
+      height: auto;
+      padding-bottom: 30px;
+      margin: 0 auto;
+      max-width: 100%;
+    }
+
+    p {
+      margin: 1.5rem 0;
+    }
+  }
+
+  .post-content-fullscreen {
+    display: none;
+    height: 100%;
+    overflow: scroll;
+    width: 100%;
+
+    &:fullscreen {
+      display: block;
+    }
+  }
+
+  .post-header {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    position: relative;
+
+    &:hover {
+      background-color: $list-hover-color;
+    }
+
+    .edit-tags-popup {
+      position: absolute;
+      max-width: 35em;
+      z-index: 2;
+      top: 42px;
+      left: 47px;
+      padding: .6em .8em;
+      border-radius: .3em;
+      background: #ffe;
+      border: 1px solid rgba(0,0,0,.3);
+      box-shadow: .05em .2em .6em rgba(0,0,0,.2);
+      transition: .5s cubic-bezier(.25,.1,.3,1.5) transform;
+      transform-origin: 1.4em -.4em;
+
+      &:before {
+        content: "";
+        position: absolute;
+        top: -.4em;
+        left: 1em;
+        padding: .35em;
+        background: inherit;
+        border: inherit;
+        border-right: 0;
+        border-bottom: 0;
+        transform: rotate(45deg);
+      }
+
+      .title {
+        display: flex;
+        align-items: center;
+      }
+
+      .feed-title {
+        padding: 0 5px 0 0;
+        min-width: 0;
+      }
+
+      .post-title {
+        padding: 0;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .edit-tags-popup:not(.active) {
+      transform: scale(0);
+      transition: .25s transform;
+    }
+
+    .post-actions {
+      align-items: center;
+      bottom: 0;
+      display: flex;
+      left: 10px;
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      width: 180px;
+      z-index: 1;
+    }
+
+    .feed-title {
+      @include nowrap();
+
+      display: inline-block;
+      font-weight: 200;
+      text-transform: capitalize;
+      min-width: 180px;
+    }
+
+    .post-actions:hover {
+      opacity: 1;
+    }
+
+    .post-actions:hover ~ .feed-title {
+      opacity: 0;
+    }
+
+    .edit-tags-popup.active ~ .post-actions {
+      opacity: 1;
+    }
+
+    .edit-tags-popup.active ~ .feed-title {
+      opacity: 0;
+    }
+
+    .post-title {
+      @include nowrap();
+
+      flex-grow: 1;
+      padding: 8px 0;
+    }
+
+    .date {
+      min-width: 100px;
+      text-align: right;
+    }
   }
 }
