@@ -30,6 +30,7 @@
     "history": "^1.17.0",
     "http-status-decorator": "0.0.2",
     "inert": "^3.2.0",
+    "joi": "^7.1.0",
     "jquery": "^2.1.4",
     "lodash": "^3.10.1",
     "material-design-icons": "^2.1.3",

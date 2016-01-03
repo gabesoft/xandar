@@ -1,0 +1,41 @@
+.post-list {
+  .post-content,
+  .post-content-fullscreen {
+    padding: 30px;
+    margin: 0 auto;
+    position: relative;
+
+    a {
+      color: $primary-color;
+    }
+
+    img[height="1"] {
+      width: 1px;
+      height: 1px;
+    }
+
+    img {
+      display: block;
+      height: auto;
+      padding-bottom: 30px;
+      margin: 0 auto;
+      max-width: 100%;
+      float: none;
+    }
+
+    p {
+      margin: 1.5rem 0;
+    }
+  }
+
+  .post-content-fullscreen {
+    display: none;
+    height: 100%;
+    overflow: scroll;
+    width: 100%;
+
+    &:fullscreen {
+      display: block;
+    }
+  }
+}

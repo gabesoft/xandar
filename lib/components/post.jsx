@@ -15,7 +15,8 @@ module.exports = class Post extends React.Component {
     this.state = {
       open: false,
       popupClass: 'edit-tags-popup',
-      popupOpen: false
+      popupOpen: false,
+      postItemClass: this.postItemClass()
     };
     this.onFullscreen = this.onFullscreen.bind(this);
     this.onEditTags = this.onEditTags.bind(this);
@@ -23,6 +24,10 @@ module.exports = class Post extends React.Component {
     this.onHeaderClick = this.onHeaderClick.bind(this);
     this.onEditTagsMouseEnter = this.onEditTagsMouseEnter.bind(this);
     this.onEditTagsMouseLeave = this.onEditTagsMouseLeave.bind(this);
+  }
+
+  postItemClass() {
+    return this.props.post._source.read ? 'post-item' : 'post-item unread';
   }
 
   onHeaderClick() {
@@ -33,10 +38,11 @@ module.exports = class Post extends React.Component {
   markAsRead() {
     const post = this.props.post;
     const data = post._source;
-    if (!data.read) {
+    // if (!data.read) {
       data.read = true;
+      this.setState({ postItemClass: this.postItemClass() });
       actions.savePost(post);
-    }
+    // }
   }
 
   onTagsChange(tags) {
@@ -152,9 +158,8 @@ module.exports = class Post extends React.Component {
   render() {
     const data = this.props.post;
     const post = data._source.post;
-    const cls = data._source.read ? 'post-item' : 'post-item unread';
     return (
-      <li className={cls}>
+      <li className={this.state.postItemClass}>
         <div className="post-header collapsible-header">
           {this.renderPopup()}
           <Actions

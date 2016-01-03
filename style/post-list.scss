@@ -4,56 +4,15 @@
   white-space: nowrap;
 }
 
-.post-item {
-  transition: background-color 0.5s;
-
-  &.unread .post-title {
-    text-shadow: 0 0 .1em #fff, 0 0 .3em #ccc;
-    font-weight: 500;
-  }
-}
-
 .post-list {
   overflow: visible;
 
-  /* TODO move post-content to own file */
-  .post-content,
-  .post-content-fullscreen {
-    padding: 30px;
-    margin: 0 auto;
-    position: relative;
+  .post-item {
+    transition: background-color 0.5s;
 
-    a {
-      color: $primary-color;
-    }
-
-    img[height="1"] {
-      width: 1px;
-      height: 1px;
-    }
-
-    img {
-      display: block;
-      height: auto;
-      padding-bottom: 30px;
-      margin: 0 auto;
-      max-width: 100%;
-      float: none;
-    }
-
-    p {
-      margin: 1.5rem 0;
-    }
-  }
-
-  .post-content-fullscreen {
-    display: none;
-    height: 100%;
-    overflow: scroll;
-    width: 100%;
-
-    &:fullscreen {
-      display: block;
+    &.unread .post-title {
+      text-shadow: 0 0 .1em #fff, 0 0 .3em #ccc;
+      font-weight: 500;
     }
   }
 

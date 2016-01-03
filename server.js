@@ -84,8 +84,10 @@ function setupRoutes(cb) {
       routes.forEach(route => {
         try {
           server.route(route);
+          log.info(`added routes from ${file}`);
         } catch (e) {
-          log.error(`failed to add routes for ${file}`, e);
+          log.error(`failed to add routes for ${file}`);
+          log.error(e.message);
         }
       });
     });
