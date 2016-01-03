@@ -6,14 +6,22 @@
 
 .post-item {
   transition: background-color 0.5s;
+
+  &.unread .post-title {
+    text-shadow: 0 0 .1em #fff, 0 0 .3em #ccc;
+    font-weight: 500;
+  }
 }
 
 .post-list {
+  overflow: visible;
+
   /* TODO move post-content to own file */
   .post-content,
   .post-content-fullscreen {
     padding: 30px;
     margin: 0 auto;
+    position: relative;
 
     a {
       color: $primary-color;
@@ -30,6 +38,7 @@
       padding-bottom: 30px;
       margin: 0 auto;
       max-width: 100%;
+      float: none;
     }
 
     p {

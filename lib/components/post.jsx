@@ -27,6 +27,16 @@ module.exports = class Post extends React.Component {
 
   onHeaderClick() {
     this.setState({ open: !this.state.open });
+    this.markAsRead();
+  }
+
+  markAsRead() {
+    const post = this.props.post;
+    const data = post._source;
+    if (!data.read) {
+      data.read = true;
+      actions.savePost(post);
+    }
   }
 
   onTagsChange(tags) {
@@ -72,6 +82,7 @@ module.exports = class Post extends React.Component {
   }
 
   onFullscreen() {
+    this.markAsRead();
     if (this.contentEl) {
       const ref = ReactDOM.findDOMNode(this.contentEl);
       if (ref.requestFullscreen) {
@@ -141,8 +152,9 @@ module.exports = class Post extends React.Component {
   render() {
     const data = this.props.post;
     const post = data._source.post;
+    const cls = data._source.read ? 'post-item' : 'post-item unread';
     return (
-      <li className="post-item">
+      <li className={cls}>
         <div className="post-header collapsible-header">
           {this.renderPopup()}
           <Actions
