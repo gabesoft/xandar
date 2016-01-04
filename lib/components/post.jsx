@@ -36,13 +36,21 @@ module.exports = class Post extends React.Component {
   }
 
   markAsRead() {
+    this.markPostAs(true);
+  }
+
+  markAsUnread() {
+    this.markPostAs(false);
+  }
+
+  markPostAs(read) {
     const post = this.props.post;
     const data = post._source;
-    // if (!data.read) {
-      data.read = true;
+    if (data.read !== read) {
+      data.read = read;
       this.setState({ postItemClass: this.postItemClass() });
       actions.savePost(post);
-    // }
+    }
   }
 
   onTagsChange(tags) {

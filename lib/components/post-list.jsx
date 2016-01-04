@@ -21,7 +21,7 @@ module.exports = class PostList extends React.Component {
 
   componentDidMount() {
     store.addListener(pc.STORE_POSTS_CHANGE, this.onStoreChange);
-    actions.loadPosts(80);
+    actions.loadPosts(100);
   }
 
   componentWillUnmount() {

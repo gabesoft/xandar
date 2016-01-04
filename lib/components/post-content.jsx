@@ -6,10 +6,17 @@ module.exports = class PostContent extends React.Component {
   }
 
   render() {
-    const post = this.props.post._source.post;
+    const data = this.props.post;
+    const post = data._source.post;
     const html = { __html: post.description };
     return (
-      <div className={this.props.className} dangerouslySetInnerHTML={html}></div>
+      <div className={this.props.className}>
+        <div className="post-header">
+          <span className="feed-title">{data._source.title}</span>
+          <span className="post-title right">{post.title}</span>
+        </div>
+        <div className="post-content-data" dangerouslySetInnerHTML={html}></div>
+      </div>
     );
   }
 };
