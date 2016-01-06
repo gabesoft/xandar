@@ -106,6 +106,10 @@
 
     .actions {
       width: $actions-width;
+
+      .btn-icon {
+        float: left;
+      }
     }
 
     .title-info {

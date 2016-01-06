@@ -5,7 +5,11 @@
 }
 
 .post-list {
-  overflow: visible;
+  position: relative;
+
+  ul {
+    overflow: visible;
+  }
 
   .post-item {
     transition: background-color 0.5s;

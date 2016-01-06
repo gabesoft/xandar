@@ -102,6 +102,8 @@ module.exports = class AutocompleteTagsInput extends React.Component {
         value={this.state.value}
         renderTag={this.renderTag}
         addKeys={[9, 13, 32]}
+        onFocus={this.props.onFocus}
+        onBlur={this.props.onBlur}
         onChange={this.onTagsChange}
       />
     );

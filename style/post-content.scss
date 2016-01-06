@@ -20,7 +20,7 @@
       padding-bottom: 30px;
       margin: 0 auto;
       max-width: 100%;
-      float: none;
+      float: none !important;
     }
 
     p {
@@ -29,6 +29,8 @@
   }
 
   .post-content {
+    .panel-left,
+    .panel-right,
     .post-header {
       display: none;
     }
@@ -40,6 +42,8 @@
     overflow: scroll;
     position: relative;
     width: 100%;
+    position: relative;
+    background-color: #ddd;
 
     &:fullscreen {
       display: block;
@@ -57,18 +61,66 @@
       }
     }
 
+    .panel-left,
+    .panel-right {
+      background-color: transparent;
+      bottom: 0;
+      margin: 15% 0;
+      min-width: 64px;
+      position: absolute;
+      top: 0;
+      width: 5%;
+
+      .btn-icon {
+        height: 100%;
+        width: 100%;
+        color: $secondary-color;
+
+        &:hover {
+          background-color: rgba(0,0,0,.1);
+        }
+      }
+    }
+
+    .panel-left {
+      left: 0;
+    }
+
+    .panel-right {
+      right: 0;
+    }
+
+    &.off-right.from-right .post-content-data {
+      animation-name: slideOutLeft;
+    }
+
+    &.off-left.from-left .post-content-data {
+      animation-name: slideOutRight;
+    }
+
+    &.from-right .post-content-data {
+      animation-name: slideInRight;
+    }
+
+    &.from-left .post-content-data {
+      animation-name: slideInLeft;
+    }
+
     .post-content-data {
-      background-color: $list-hover-color;
+      background-color: #eee;
       border-radius: 3px;
       border: 1px solid rgba(0,0,0,0.2);
       left: 50%;
       max-height: 80%;
-      max-width: 100%;
+      max-width: 80%;
       overflow: scroll;
       padding: 1em 2em;
       position: absolute;
       top: 50%;
       transform: translate(-50%, -50%);
+      animation-duration: .3s;
+      animation-fill-mode: both;
+      animation-direction: alternate;
     }
   }
 }

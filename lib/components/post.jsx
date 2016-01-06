@@ -1,5 +1,4 @@
 const React = require('react');
-const ReactDOM = require('react-dom');
 const Actions = require('./post-actions.jsx');
 const actions = require('../flux/post-actions');
 const Content = require('./post-content.jsx');
@@ -15,12 +14,13 @@ module.exports = class Post extends React.Component {
     this.state = {
       open: false,
       popupClass: 'edit-tags-popup',
-      popupOpen: false,
-      postItemClass: this.postItemClass()
+      popupOpen: false
     };
     this.onFullscreen = this.onFullscreen.bind(this);
     this.onEditTags = this.onEditTags.bind(this);
     this.onTagsChange = this.onTagsChange.bind(this);
+    this.onTagsFocus = this.onTagsFocus.bind(this);
+    this.onTagsBlur = this.onTagsBlur.bind(this);
     this.onHeaderClick = this.onHeaderClick.bind(this);
     this.onEditTagsMouseEnter = this.onEditTagsMouseEnter.bind(this);
     this.onEditTagsMouseLeave = this.onEditTagsMouseLeave.bind(this);
@@ -48,7 +48,6 @@ module.exports = class Post extends React.Component {
     const data = post._source;
     if (data.read !== read) {
       data.read = read;
-      this.setState({ postItemClass: this.postItemClass() });
       actions.savePost(post);
     }
   }
@@ -71,7 +70,7 @@ module.exports = class Post extends React.Component {
   closeEditTagsAsync() {
     clearTimeout(this.editTagsTimeoutId);
     this.editTagsTimeoutId = setTimeout(() => {
-      if (this.state.popupHover) {
+      if (this.state.popupActive) {
         this.closeEditTagsAsync();
       } else {
         this.toggleEditTags(false);
@@ -79,48 +78,32 @@ module.exports = class Post extends React.Component {
     }, pc.EDIT_TAGS_TIMEOUT);
   }
 
+  onTagsFocus() {
+    this.setState({ popupActive: true });
+  }
+
+  onTagsBlur() {
+    this.setState({ popupActive: false });
+  }
+
   onEditTagsMouseEnter() {
-    this.setState({ popupHover: true });
+    this.setState({ popupActive: true });
   }
 
   onEditTagsMouseLeave() {
-    this.setState({ popupHover: false });
+    this.setState({ popupActive: false });
   }
 
   toggleEditTags(open) {
     this.setState({
       popupClass: open ? 'edit-tags-popup active' : 'edit-tags-popup',
-      popupOpen: open,
-      popupHover: false
+      popupOpen: open
     });
   }
 
   onFullscreen() {
     this.markAsRead();
-    if (this.contentEl) {
-      const ref = ReactDOM.findDOMNode(this.contentEl);
-      if (ref.requestFullscreen) {
-        ref.requestFullscreen();
-      } else if (ref.msRequestFullscreen) {
-        ref.msRequestFullscreen();
-      } else if (ref.mozRequestFullScreen) {
-        ref.mozRequestFullScreen();
-      } else if (ref.webkitRequestFullscreen) {
-        ref.webkitRequestFullscreen();
-      }
-    }
-  }
-
-  onContentClose() {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
-    } else if (document.mozCancelFullScreen) {
-      document.mozCancelFullScreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    }
+    this.props.onFullscreenClick(this.props.postIndex);
   }
 
   componentDidMount() {
@@ -158,7 +141,13 @@ module.exports = class Post extends React.Component {
           <span className="post-title">{post.title}</span>
         </div>
         <label htmlFor={`tags-edit${data._id}`}>Tags</label>
-        <TagsInput id={`tags-edit${data._id}`} tags={data._source.tags} onChange={this.onTagsChange}/>
+        <TagsInput
+          id={`tags-edit${data._id}`}
+          tags={data._source.tags}
+          onFocus={this.onTagsFocus}
+          onBlur={this.onTagsBlur}
+          onChange={this.onTagsChange}
+        />
       </div>
     );
   }
@@ -167,7 +156,7 @@ module.exports = class Post extends React.Component {
     const data = this.props.post;
     const post = data._source.post;
     return (
-      <li className={this.state.postItemClass}>
+      <li className={this.postItemClass()}>
         <div className="post-header collapsible-header">
           {this.renderPopup()}
           <Actions
@@ -183,11 +172,6 @@ module.exports = class Post extends React.Component {
         <VelTrans enter={{ animation: 'slideDown' }} leave={{ animation: 'slideUp' }} runOnMount>
           {this.state.open ? this.renderDetails() : null}
         </VelTrans>
-        <Content
-          className="post-content-fullscreen"
-          ref={el => this.contentEl = el}
-          post={this.props.post}
-        />
       </li>
     );
   }

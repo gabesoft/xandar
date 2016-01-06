@@ -11,7 +11,7 @@
         "strict": 0,
         "one-var": 0,
         "indent": 0,
-        "id-length": [2, {"min": 2, "max": 20, "properties": "never", "exceptions": ["$", "x", "y", "e", "_", "i", "j"]}],
+        "id-length": [2, {"min": 2, "max": 35, "properties": "never", "exceptions": ["$", "x", "y", "e", "i", "j", "k", "_"]}],
         "no-shadow": [2, {"builtinGlobals": false, "hoist": "functions", "allow": [ "_", "e", "err" ]}],
         "no-script-url": 0,
         "no-param-reassign": 0,
