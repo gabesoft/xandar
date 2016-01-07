@@ -3,6 +3,11 @@ const ReactDOM = require('react-dom');
 const IconBtn = require('./icon-button.jsx');
 
 module.exports = class PostContent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onKeyDown = this.onKeyDown.bind(this);
+  }
+
   onNav(move) {
     const next = move === 'next';
     const method = next ? 'onNext' : 'onPrev';
@@ -28,6 +33,22 @@ module.exports = class PostContent extends React.Component {
     if (el) {
       el.classList.remove('off-left', 'off-right');
     }
+  }
+
+  onKeyDown(event) {
+    if (event.which === 37) {
+      this.onNav('prev');
+    } else if (event.which === 39) {
+      this.onNav('next');
+    }
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.onKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.onKeyDown);
   }
 
   render() {

@@ -14,9 +14,13 @@
   .post-item {
     transition: background-color 0.5s;
 
-    &.unread .post-title {
+    &.post-unread .post-title {
       text-shadow: 0 0 .1em #fff, 0 0 .3em #ccc;
       font-weight: 500;
+    }
+
+    &.post-closed .post-header {
+      background-color: $primary-color;
     }
   }
 
@@ -26,6 +30,7 @@
     display: flex;
     justify-content: center;
     position: relative;
+    transition: background-color 0.5s;
 
     &:hover {
       background-color: $list-hover-color;

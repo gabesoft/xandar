@@ -1,6 +1,8 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 const Post = require('./post.jsx');
+const util = require('../util');
+const timeout = util.timeout;
 const ct = require('../constants');
 const pc = ct.posts;
 const store = require('../flux/post-store');
@@ -12,6 +14,7 @@ module.exports = class PostList extends React.Component {
     super(props);
     this.state = {
       posts: store.getPosts(),
+      limit: 50,
       loading: true,
       fullscreenPostIndex: 0,
       fullscreenHasNext: true
@@ -19,6 +22,8 @@ module.exports = class PostList extends React.Component {
     this.onStoreChange = this.onStoreChange.bind(this);
     this.onFullscreenClick = this.onFullscreenClick.bind(this);
     this.onFullscreenClose = this.onFullscreenClose.bind(this);
+    this.onLoadMore = this.onLoadMore.bind(this);
+    this.onFullscreenExit = this.onFullscreenExit.bind(this);
   }
 
   markPostAsRead(post) {
@@ -31,34 +36,20 @@ module.exports = class PostList extends React.Component {
     }
   }
 
+  onLoadMore() {
+    actions.addPosts(this.state.posts.length, this.state.limit);
+  }
+
   onFullscreenClick(postIndex) {
     this.updateFullscreenIndex(postIndex);
     this.markPostAsRead(this.state.fullscreenPost);
 
-    if (this.fullscreenEl) {
-      const ref = ReactDOM.findDOMNode(this.fullscreenEl);
-      if (ref.requestFullscreen) {
-        ref.requestFullscreen();
-      } else if (ref.msRequestFullscreen) {
-        ref.msRequestFullscreen();
-      } else if (ref.mozRequestFullScreen) {
-        ref.mozRequestFullScreen();
-      } else if (ref.webkitRequestFullscreen) {
-        ref.webkitRequestFullscreen();
-      }
-    }
+    const ref = ReactDOM.findDOMNode(this.fullscreenEl);
+    util.fullscreenEnter(ref);
   }
 
   onFullscreenClose() {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
-    } else if (document.mozCancelFullScreen) {
-      document.mozCancelFullScreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    }
+    util.fullscreenExit();
   }
 
   updateFullscreenIndex(index) {
@@ -83,15 +74,28 @@ module.exports = class PostList extends React.Component {
     this.setState({ posts: store.getPosts(), loading: false });
   }
 
+  onFullscreenExit() {
+    if (util.fullscreenOff()) {
+      this.setState({
+        fullscreenClosedId: this.state.fullscreenPost._id
+      });
+      timeout(pc.CLOSED_ACTIVE_DELAY).then(() => this.setState({
+        fullscreenClosedId: null
+      }));
+    }
+  }
+
   componentDidMount() {
-    store.addListener(pc.STORE_POSTS_CHANGE, this.onStoreChange);
-    store.addListener(pc.STORE_POST_CHANGE, this.onStoreChange);
-    actions.loadPosts(150);
+    store.addListener(pc.STORE_POSTS_CHANGE, this.onStoreChange, false);
+    store.addListener(pc.STORE_POST_CHANGE, this.onStoreChange, false);
+    util.addFullscreenChangeListener(this.onFullscreenExit);
+    actions.loadPosts(this.state.posts.length, this.state.limit);
   }
 
   componentWillUnmount() {
     store.removeListener(pc.STORE_POSTS_CHANGE, this.onStoreChange);
     store.removeListener(pc.STORE_POST_CHANGE, this.onStoreChange);
+    util.removeFullscreenChangeListener(this.onFullscreenExit);
   }
 
   renderPosts() {
@@ -103,6 +107,7 @@ module.exports = class PostList extends React.Component {
             key={data._id}
             post={data}
             postIndex={index}
+            closed={this.state.fullscreenClosedId === data._id}
             onFullscreenClick={this.onFullscreenClick}
           />
         );
@@ -112,6 +117,11 @@ module.exports = class PostList extends React.Component {
   }
 
   render() {
+    const moreButton = (
+      <a className="waves-effect waves-light btn-large" onClick={this.onLoadMore}>
+        Load More (Showing {this.state.posts.length} of {store.getTotalPosts()})
+      </a>
+    );
     return (
       <div className="post-list">
         {this.renderPosts()}
@@ -125,6 +135,7 @@ module.exports = class PostList extends React.Component {
           hasNext={this.state.fullscreenHasNext}
           hasPrev={this.state.fullscreenHasPrev}
         />
+        {store.hasMore() ? moreButton : null}
       </div>
     );
   }

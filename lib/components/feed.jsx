@@ -186,12 +186,13 @@ module.exports = class Feed extends React.Component {
 
   render() {
     const feed = this.props.feed;
+    const added = this.props.added ? 'feed-added' : '';
     const loader = () => {
       return (this.state.loading ? <Loader size="small" className="details-loader"/> : null);
     };
 
     return (
-      <li className={this.state.className + ' ' + (this.props.added ? 'feed-added' : '')}>
+      <li className={`${this.state.className} ${added}`}>
         <div className="collapsible-header feed-header">
           <FeedActions
             feed={this.props.feed}

@@ -1,4 +1,5 @@
 const React = require('react');
+const ReactDOM = require('react-dom');
 const Actions = require('./post-actions.jsx');
 const actions = require('../flux/post-actions');
 const Content = require('./post-content.jsx');
@@ -27,7 +28,9 @@ module.exports = class Post extends React.Component {
   }
 
   postItemClass() {
-    return this.props.post._source.read ? 'post-item' : 'post-item unread';
+    const unread = this.props.post._source.read ? '' : 'post-unread';
+    const closed = this.props.closed ? 'post-closed' : '';
+    return `post-item ${unread} ${closed}`;
   }
 
   onHeaderClick() {
@@ -120,6 +123,20 @@ module.exports = class Post extends React.Component {
           break;
       }
     });
+  }
+
+  componentDidUpdate() {
+    if (this.props.closed) {
+      const el = ReactDOM.findDOMNode(this);
+      if (el.scrollIntoViewIfNeeded) {
+        el.scrollIntoViewIfNeeded(true);
+      } else if (el.scrollIntoViewNeeded) {
+        el.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }
   }
 
   renderDetails() {
