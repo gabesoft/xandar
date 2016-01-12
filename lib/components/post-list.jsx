@@ -8,6 +8,7 @@ const pc = ct.posts;
 const store = require('../flux/post-store');
 const actions = require('../flux/post-actions');
 const Content = require('./post-content.jsx');
+const toast = require('../toast').toast;
 
 module.exports = class PostList extends React.Component {
   constructor(props) {
@@ -54,13 +55,18 @@ module.exports = class PostList extends React.Component {
 
   updateFullscreenIndex(index) {
     const max = this.state.posts.length - 1;
-    index = Math.max(0, Math.min(max, index));
+    const safeIndex = Math.max(0, Math.min(max, index));
     this.setState({
-      fullscreenPostIndex: index,
-      fullscreenPost: this.state.posts[index],
-      fullscreenHasNext: index < max,
-      fullscreenHasPrev: index > 0
+      fullscreenPostIndex: safeIndex,
+      fullscreenPost: this.state.posts[safeIndex],
+      fullscreenHasNext: safeIndex < max,
+      fullscreenHasPrev: safeIndex > 0
     });
+    if (safeIndex > index) {
+      toast.warn('At top');
+    } else if (safeIndex < index) {
+      toast.warn('At end');
+    }
   }
 
   onFullscreenNav(dir) {

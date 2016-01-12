@@ -1,10 +1,12 @@
 const React = require('react');
-const NavSearch = require('./nav-search.jsx');
 const Link = require('react-router').Link;
 
-module.exports = React.createClass({
-  propTypes: {},
-  render: function render() {
+module.exports = class Navbar extends React.Component {
+  componentDidMount() {
+    window.$('.dropdown-button').dropdown({ hover: true });
+  }
+
+  render() {
     const arrowIcon = <i className="material-icons right">arrow_drop_down</i>;
     const history = this.props.history || { isActive: () => false };
     const feedsClass = history.isActive('/feeds') ? 'active' : '';
@@ -12,7 +14,7 @@ module.exports = React.createClass({
 
     return (
       <nav>
-        <ul id="nav-dropdown" className="dropdown-content">
+        <ul id={this.props.id} className="dropdown-content">
           <li className={feedsClass}><Link to="/feeds">Feeds</Link></li>
           <li className={postsClass}><Link to="/posts">Posts</Link></li>
           <li><a href="/logout">Log Out</a></li>
@@ -20,10 +22,12 @@ module.exports = React.createClass({
 
         <div className="nav-wrapper container">
           <div className="row">
-            <NavSearch/>
+            {this.props.children}
             <ul id="site-nav" className="right hide-on-small-only">
               <li>
-                <a className="dropdown-button" href="javascript:void(0)" data-activates="nav-dropdown">
+                <a className="waves-effect waves-light dropdown-button"
+                  href="javascript:void(0)"
+                  data-activates={this.props.id}>
                   {this.props.login}
                   {this.props.login ? arrowIcon : ''}
                 </a>
@@ -34,4 +38,4 @@ module.exports = React.createClass({
       </nav>
     );
   }
-});
+};

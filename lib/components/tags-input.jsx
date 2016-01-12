@@ -35,7 +35,7 @@ module.exports = class AutocompleteTagsInput extends React.Component {
 
   componentWillUnmount() {
     store.removeListener(tc.STORE_CHANGE, this.onStoreChange);
-    this.state.inputInitialized = false;
+    this.awesompleteInitialized = false;
     this.awesomplete = null;
   }
 
@@ -51,9 +51,9 @@ module.exports = class AutocompleteTagsInput extends React.Component {
     );
   }
 
-  initAwesomplete(cmp) {
-    if (cmp !== null && !this.state.inputInitialized) {
-      const input = cmp.refs.input;
+  initAwesomplete(el) {
+    if (el !== null && !this.awesompleteInitialized) {
+      const input = el.refs.input;
       const awesomplete = new Awesomplete(input);
       const $ = Awesomplete.$;
 
@@ -64,15 +64,16 @@ module.exports = class AutocompleteTagsInput extends React.Component {
       };
 
       const item = (text, search) => {
-        const value = text.replace(RegExp($.regExpEscape(search.trim()), 'gi'), '<mark>$&</mark>');
+        const value = RegExp($.regExpEscape(search.trim()), 'gi');
+        const valueHtml = text.replace(value, '<mark>$&</mark>');
         const close = '<i class="material-icons">close</i>';
         return $.create('li', {
-          innerHTML: `<span>${value}</span> ${close}`,
+          innerHTML: `<span>${valueHtml}</span> ${close}`,
           'aria-selected': false
         });
       };
 
-      this.state.inputInitialized = true;
+      this.awesompleteInitialized = true;
 
       awesomplete.list = this.state.tags;
       awesomplete.replace = replace;
@@ -86,7 +87,7 @@ module.exports = class AutocompleteTagsInput extends React.Component {
           actions.deleteTag(value);
         } else {
           input.value = value;
-          cmp.setState({ tag: value });
+          el.setState({ tag: value });
         }
       });
 

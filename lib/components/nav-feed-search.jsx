@@ -1,3 +1,5 @@
+'use strict';
+
 const React = require('react');
 const actions = require('../flux/nav-actions');
 
@@ -22,14 +24,16 @@ module.exports = class NavSearch extends React.Component {
 
   render() {
     return (
-      <form className="search-form">
+      <form onSubmit={this.onSubmit} className="search-form nav-search">
         <div className="input-field">
           <input
             id="search"
             type="search"
+            ref={this.initAwesomplete}
             value={this.state.value}
             onChange={this.onChange}
-            required/>
+            required
+          />
           <label htmlFor="search">
             <i className="material-icons">search</i>
           </label>
@@ -41,4 +45,3 @@ module.exports = class NavSearch extends React.Component {
     );
   }
 };
-

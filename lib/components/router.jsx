@@ -16,8 +16,8 @@ module.exports = class AppRouter extends React.Component {
     return (
       <Router history={history}>
         <Route path="/" component={App} user={this.props.user}>
-          <Route path="/feeds" component={Feeds}/>
-          <Route path="/posts" component={Posts}/>
+          <Route path="/feeds" component={Feeds} user={this.props.user}/>
+          <Route path="/posts" component={Posts} user={this.props.user}/>
         </Route>
       </Router>
     );

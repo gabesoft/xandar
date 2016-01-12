@@ -9,6 +9,7 @@
 @import 'feed-list';
 @import 'post-list';
 @import 'post-content';
+@import 'nav-search';
 
 .modal {
   display: block;
@@ -31,6 +32,7 @@ body {
 
 #toast-container {
   pointer-events: none;
+  z-index: 2147483647;
 }
 
 .toast {
