@@ -7,6 +7,7 @@ const actions = require('../flux/feed-actions');
 const store = require('../flux/feed-store');
 const Loader = require('./loader.jsx');
 const VelTrans = require('velocity-react/velocity-transition-group');
+const debounce = require('../util').debounce;
 const TagsInput = require('./tags-input.jsx');
 
 module.exports = class Feed extends React.Component {
@@ -19,7 +20,8 @@ module.exports = class Feed extends React.Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onTagsChange = this.onTagsChange.bind(this);
-    this.onTitleChange = this.onTitleChange.bind(this);
+    this.onTitleChangeDelayed = this.onTitleChangeDelayed.bind(this);
+    this.onTitleChange = debounce(this.onTitleChange.bind(this), 500);
     this.onHeaderClick = this.onHeaderClick.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.onSubscribe = this.onSubscribe.bind(this);
@@ -54,12 +56,17 @@ module.exports = class Feed extends React.Component {
     actions.saveSubscription(sub);
   }
 
-  onTitleChange(event) {
-    this.setState({ title: event.target.value });
+  onTitleChange(title) {
+    this.setState({ title });
 
     const sub = this.props.feed.subscription;
-    sub.title = event.target.value;
+    sub.title = title;
     actions.saveSubscription(sub);
+  }
+
+  onTitleChangeDelayed(event) {
+    this.setState({ title: event.target.value });
+    this.onTitleChange(event.target.value);
   }
 
   onChange(feedId) {
@@ -146,7 +153,7 @@ module.exports = class Feed extends React.Component {
     };
     const titleInput = () => {
       return (
-        <input type="text" value={this.state.title} onChange={this.onTitleChange}/>
+        <input type="text" value={this.state.title} onChange={this.onTitleChangeDelayed}/>
       );
     };
 

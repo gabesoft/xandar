@@ -11,6 +11,7 @@
       color: rgba(0, 0, 0, 0.87);
       float: none;
       line-height: 32px;
+      margin: 0;
       transition: none;
 
       .id {
@@ -23,6 +24,7 @@
 
       .title {
         flex-grow: 0;
+        font-style: italic;
         text-align: left;
         text-transform: capitalize;
         width: 50px;

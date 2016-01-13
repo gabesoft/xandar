@@ -52,14 +52,8 @@ module.exports = class NavSearch extends React.Component {
 
   getCompletionList() {
     const feeds = this.state.feeds
-      .map(feed => {
-        const id = (feed.title || '')
-          .toLowerCase()
-          .trim()
-          .replace(/[ :,+.'–|»&@#]/g, '-')
-          .replace(/-+/g, '-');
-        return `@${id} : ${feed.title}`;
-      });
+      .filter(feed => Boolean(feed.title))
+      .map(feed => `@${feed.titleId} : ${feed.title}`);
     const tags = this.state.tags.map(tag => `#${tag}`);
     const flags = ['read', 'unread'].map(flag => `:${flag}`);
     return feeds.concat(tags).concat(flags);
