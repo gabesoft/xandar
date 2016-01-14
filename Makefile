@@ -5,7 +5,7 @@ NODE_DEV = $(BIN)/node-dev
 ESLINT = $(BIN)/eslint
 BROCCOLI = $(BIN)/broccoli
 MPR = $(BIN)/mpr
-MOCHA = $(BIN)/mocha -u tdd --check-leaks
+MOCHA = $(BIN)/mocha -u tdd --check-leaks -R mocha-better-spec-reporter
 VERSION = $(SHELL node -pe 'require("./package.json").version')
 
 all: test
@@ -36,13 +36,7 @@ build-prod: build
 
 test: export NODE_ENV=test
 test:
-	@$(MOCHA) -R spec test/*.js --grep @slow --invert
-
-test-slow:
-	@$(MOCHA) -R spec test/*.js --grep @slow --timeout 10000
-
-test-all:
-	@$(MOCHA) -R spec test/*.js --timeout 10000
+	@$(MOCHA) test/*.js
 
 lint:
 	$(ESLINT) .

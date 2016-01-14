@@ -6,6 +6,7 @@ const actions = require('../flux/search-actions');
 const Awesomplete = require('awesomplete');
 const searchStore = require('../flux/search-store');
 const tagStore = require('../flux/tag-store');
+const toast = require('../toast').toast;
 const ct = require('../constants');
 
 module.exports = class NavSearch extends React.Component {
@@ -63,11 +64,13 @@ module.exports = class NavSearch extends React.Component {
     actions.loadFeeds();
     tagStore.addListener(ct.tags.STORE_CHANGE, this.onTagsDataChange);
     searchStore.addListener(ct.search.STORE_FEEDS_CHANGE, this.onFeedDataChange);
+    searchStore.addListener('error', toast.error);
   }
 
   componentWillUnmount() {
     tagStore.removeListener(ct.tags.STORE_CHANGE, this.onTagsDataChange);
     searchStore.removeListener(ct.search.STORE_FEEDS_CHANGE, this.onFeedDataChange);
+    searchStore.removeListener('error', toast.error);
   }
 
   initAwesomplete(el) {

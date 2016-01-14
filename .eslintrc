@@ -14,6 +14,7 @@
         "id-length": [2, {"min": 2, "max": 35, "properties": "never", "exceptions": ["$", "x", "y", "e", "i", "j", "k", "_"]}],
         "no-shadow": [2, {"builtinGlobals": false, "hoist": "functions", "allow": [ "_", "e", "err" ]}],
         "no-script-url": 0,
+        "no-else-return": 0,
         "no-param-reassign": 0,
         "consistent-return": 0,
         "react/prop-types": 0,
