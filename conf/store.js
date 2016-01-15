@@ -6,10 +6,10 @@ const nconf = require('nconf'),
       root = process.cwd();
 
 nconf.overrides({
-  env: env,
+  env,
   github: require('./github.json'),
   path: {
-    root: root,
+    root,
     config: path.join(root, 'config', env) + '.json'
   }
 });
@@ -20,4 +20,3 @@ nconf.file(env, nconf.get('path:config'));
 nconf.defaults(require('./default.json'));
 
 module.exports = nconf;
-

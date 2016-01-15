@@ -1,3 +1,4 @@
+/* eslint no-console:0 */
 'use strict';
 
 const Filter = require('broccoli-persistent-filter'),
@@ -8,7 +9,7 @@ const Filter = require('broccoli-persistent-filter'),
 module.exports = class AutoprefixerBuilder extends Filter {
   constructor(inputNode, options) {
     options = options || {};
-    options.extensions = options.extensions || [ 'css' ];
+    options.extensions = options.extensions || ['css'];
     options.targetExtension = options.targetExtension || 'css';
 
     super(inputNode, pick(options, [
@@ -22,7 +23,7 @@ module.exports = class AutoprefixerBuilder extends Filter {
   }
 
   processString(content) {
-    return postcss([ autoprefixer ])
+    return postcss([autoprefixer])
       .process(content)
       .then(result => {
         result.warnings().forEach(warn => {
@@ -35,4 +36,4 @@ module.exports = class AutoprefixerBuilder extends Filter {
   getDestFilePath(relativePath) {
     return relativePath;
   }
-}
+};
