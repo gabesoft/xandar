@@ -1,17 +1,55 @@
 'use strict';
 
 const expect = require('chai').expect,
+      store = require('../lib/flux/search-store'),
+      queries = require('./support/queries.json'),
+      eyes = require('eyes'),
       parse = require('../lib/post-query').parse;
 
+function inspect(obj) {
+  eyes.inspect(obj);
+}
+
+function printJSON(obj) {
+  console.log(JSON.stringify(obj));
+}
+
 describe('post-query', () => {
-  it('parses a query', () => {
-    const input = '"design" & #css',
-          query = parse(input);
+  before(() => {
+    store.setFeeds({
+      subscriptions: [
+        { id: 123, title: 'Tech News' },
+        { id: 999, title: 'Javascript Tendencies' },
+        { id: 732, title: 'CSS Ninja' }
+      ]
+    });
+  });
 
-    // TODO: write the query.print function and test the input against the
-    //       string output
-    console.log(JSON.stringify(query.searchQuery));
+  const inputs = [
+    ['("design" | @tech-news) & #css & :unread', 0, true],
+    ['@css-ninja', 1, false],
+    [':unread & @tech-news | #javascript', 2, false],
+    [':unread & #css | "breaking news"', 3, true],
+    ['"es6 promise"', 4, true],
+    ['@tech-news & #css & #javascript & #web', 5, false],
+    ['(@css-ninja & "web design") & :unread', 6, true]
+  ];
 
-    expect(query.searchQuery).to.equal(1);
+  describe('conversion to search query', () => {
+    inputs.forEach(input => {
+      it(input[0], () => {
+        const query = parse(input[0]);
+        expect(query.searchQuery).to.deep.equal(queries[input[1]]);
+      });
+    });
+  });
+
+  describe('has text property', () => {
+    inputs.forEach(input => {
+      it(input[0], () => {
+        const query = parse(input[0]);
+        expect(query.hasText).to.equal(input[2]);
+      });
+    });
   });
 });

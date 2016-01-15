@@ -7,6 +7,7 @@ BROCCOLI = $(BIN)/broccoli
 MPR = $(BIN)/mpr
 MOCHA = $(BIN)/mocha -u tdd --check-leaks -R mocha-better-spec-reporter
 VERSION = $(SHELL node -pe 'require("./package.json").version')
+TESTS := $(shell find ./test -name '[^.]*-spec.js')
 
 all: test
 
@@ -36,7 +37,7 @@ build-prod: build
 
 test: export NODE_ENV=test
 test:
-	@$(MOCHA) test/*.js
+	@$(MOCHA) $(TESTS)
 
 lint:
 	$(ESLINT) .

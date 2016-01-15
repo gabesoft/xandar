@@ -1,0 +1,303 @@
+[
+    {
+        "bool": {
+            "must": [
+                {
+                    "bool": {
+                        "should": [
+                            {
+                                "bool": {
+                                    "should": [
+                                        {
+                                            "term": {
+                                                "post.title": "design"
+                                            }
+                                        },
+                                        {
+                                            "term": {
+                                                "post.description": "design"
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "bool": {
+                                    "should": [
+                                        {
+                                            "term": {
+                                                "feedId": 123
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "bool": {
+                        "must": [
+                            {
+                                "bool": {
+                                    "should": [
+                                        {
+                                            "term": {
+                                                "tags": "css"
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "bool": {
+                                    "should": [
+                                        {
+                                            "term": {
+                                                "read": false
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "bool": {
+            "should": [
+                {
+                    "term": {
+                        "feedId": 732
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "bool": {
+            "must": [
+                {
+                    "bool": {
+                        "should": [
+                            {
+                                "term": {
+                                    "read": false
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "bool": {
+                        "should": [
+                            {
+                                "bool": {
+                                    "should": [
+                                        {
+                                            "term": {
+                                                "feedId": 123
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "bool": {
+                                    "should": [
+                                        {
+                                            "term": {
+                                                "tags": "javascript"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "bool": {
+            "must": [
+                {
+                    "bool": {
+                        "should": [
+                            {
+                                "term": {
+                                    "read": false
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "bool": {
+                        "should": [
+                            {
+                                "bool": {
+                                    "should": [
+                                        {
+                                            "term": {
+                                                "tags": "css"
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "bool": {
+                                    "should": [
+                                        {
+                                            "term": {
+                                                "post.title": "breaking news"
+                                            }
+                                        },
+                                        {
+                                            "term": {
+                                                "post.description": "breaking news"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "bool": {
+            "should": [
+                {
+                    "term": {
+                        "post.title": "es6 promise"
+                    }
+                },
+                {
+                    "term": {
+                        "post.description": "es6 promise"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "bool": {
+            "must": [
+                {
+                    "bool": {
+                        "should": [
+                            {
+                                "term": {
+                                    "feedId": 123
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "bool": {
+                        "must": [
+                            {
+                                "bool": {
+                                    "should": [
+                                        {
+                                            "term": {
+                                                "tags": "css"
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "bool": {
+                                    "must": [
+                                        {
+                                            "bool": {
+                                                "should": [
+                                                    {
+                                                        "term": {
+                                                            "tags": "javascript"
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "bool": {
+                                                "should": [
+                                                    {
+                                                        "term": {
+                                                            "tags": "web"
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "bool": {
+            "must": [
+                {
+                    "bool": {
+                        "must": [
+                            {
+                                "bool": {
+                                    "should": [
+                                        {
+                                            "term": {
+                                                "feedId": 732
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "bool": {
+                                    "should": [
+                                        {
+                                            "term": {
+                                                "post.title": "web design"
+                                            }
+                                        },
+                                        {
+                                            "term": {
+                                                "post.description": "web design"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "bool": {
+                        "should": [
+                            {
+                                "term": {
+                                    "read": false
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    }
+]
