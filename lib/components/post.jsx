@@ -30,7 +30,8 @@ module.exports = class Post extends React.Component {
   postItemClass() {
     const unread = this.props.post._source.read ? '' : 'post-unread';
     const closed = this.props.closed ? 'post-closed' : '';
-    return `post-item ${unread} ${closed}`;
+    const tags = this.props.post._source.tags.map(tag => tag.replace(/^#/, ''));
+    return `post-item ${unread} ${closed} ${tags.join(' ')}`;
   }
 
   onHeaderClick() {

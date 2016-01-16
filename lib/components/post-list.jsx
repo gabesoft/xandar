@@ -5,7 +5,9 @@ const util = require('../util');
 const timeout = util.timeout;
 const ct = require('../constants');
 const pc = ct.posts;
+const sc = ct.search;
 const store = require('../flux/post-store');
+const dispatcher = require('../flux/dispatcher');
 const actions = require('../flux/post-actions');
 const Content = require('./post-content.jsx');
 const toast = require('../toast').toast;
@@ -23,7 +25,7 @@ module.exports = class PostList extends React.Component {
     this.onStoreChange = this.onStoreChange.bind(this);
     this.onFullscreenClick = this.onFullscreenClick.bind(this);
     this.onFullscreenClose = this.onFullscreenClose.bind(this);
-    this.onLoadMore = this.onLoadMore.bind(this);
+    this.onLoadMore = () => this.loadPosts(true);
     this.onFullscreenExit = this.onFullscreenExit.bind(this);
   }
 
@@ -35,10 +37,6 @@ module.exports = class PostList extends React.Component {
         actions.savePost(post);
       }
     }
-  }
-
-  onLoadMore() {
-    actions.addPosts(this.state.posts.length, this.state.limit);
   }
 
   onFullscreenClick(postIndex) {
@@ -91,11 +89,38 @@ module.exports = class PostList extends React.Component {
     }
   }
 
+  loadPosts(add) {
+    const opts = this.getPostLoadOptions(add ? this.state.posts.length : 0);
+    actions[add ? 'addPosts' : 'loadPosts'](opts);
+  }
+
+  getPostLoadOptions(skip) {
+    const query = this.searchQuery;
+    const options = { skip: skip || 0, limit: this.state.limit };
+
+    if (query) {
+      options.query = query.getSearchQuery();
+      options.sort = query.getSearchSort();
+    }
+
+    return options;
+  }
+
   componentDidMount() {
     store.addListener(pc.STORE_POSTS_CHANGE, this.onStoreChange, false);
     store.addListener(pc.STORE_POST_CHANGE, this.onStoreChange, false);
     util.addFullscreenChangeListener(this.onFullscreenExit);
-    actions.loadPosts(this.state.posts.length, this.state.limit);
+    this.loadPosts();
+    this.tokenId = dispatcher.register(action => {
+      switch (action.type) {
+        case sc.QUERY_SEARCH_UPDATE:
+          this.searchQuery = action.query;
+          this.loadPosts();
+          break;
+        default:
+          break;
+      }
+    });
   }
 
   componentWillUnmount() {

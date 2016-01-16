@@ -131,7 +131,11 @@ module.exports = class FeedList extends React.Component {
     const feeds = this.filteredFeeds();
     const items = feeds.map(feed => {
       return (
-        <VelTrans key={feed.id} enter={{ animation: 'fadeIn' }} leave={{ animation: 'fadeOut' }} runOnMount>
+        <VelTrans
+          key={feed.id}
+          enter={{ animation: 'fadeIn' }}
+          leave={{ animation: 'fadeOut' }}
+          runOnMount>
           <Feed key={feed.id} feed={feed} added={this.state.addedId === feed.id}/>
         </VelTrans>
       );

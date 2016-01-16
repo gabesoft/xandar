@@ -1,4 +1,30 @@
 .nav-search {
+  .input-field {
+    label {
+      top: 2px;
+    }
+
+    .material-icons {
+      display: inline-block;
+
+      &.search {
+        padding-left: 1rem;
+      }
+
+      &.close {
+        color: transparent;
+        position: absolute;
+        top: 0;
+        right: 1rem;
+      }
+    }
+
+    &.active .material-icons {
+      color: #444;
+    }
+  }
+
+
   .awesomplete {
     height: auto;
     width: 100%;

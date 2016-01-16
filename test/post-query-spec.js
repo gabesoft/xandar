@@ -18,9 +18,9 @@ describe('post-query', () => {
   before(() => {
     store.setFeeds({
       subscriptions: [
-        { id: 123, title: 'Tech News' },
-        { id: 999, title: 'Javascript Tendencies' },
-        { id: 732, title: 'CSS Ninja' }
+        { feedId: 123, title: 'Tech News' },
+        { feedId: 999, title: 'Javascript Tendencies' },
+        { feedId: 732, title: 'CSS Ninja' }
       ]
     });
   });

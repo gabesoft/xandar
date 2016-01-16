@@ -8,13 +8,20 @@ const searchStore = require('../flux/search-store');
 const tagStore = require('../flux/tag-store');
 const toast = require('../toast').toast;
 const ct = require('../constants');
+const query = require('../post-query');
 
 module.exports = class NavSearch extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: '', tags: tagStore.getTags(), feeds: searchStore.getFeeds() };
+    this.state = {
+      value: '', tags: tagStore.getTags(),
+      feeds: searchStore.getFeeds(),
+      className: 'input-field'
+    };
     this.onClear = this.onClear.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.onFocus = this.onFocus.bind(this);
+    this.onBlur = this.onBlur.bind(this);
     this.onTagsDataChange = this.onTagsDataChange.bind(this);
     this.onFeedDataChange = this.onFeedDataChange.bind(this);
     this.initAwesomplete = this.initAwesomplete.bind(this);
@@ -25,16 +32,32 @@ module.exports = class NavSearch extends React.Component {
 
   onSubmit(event) {
     event.preventDefault();
-    console.log('submit', this.state);
+    this.updateQuery();
+  }
+
+  updateQuery() {
+    actions.updateQuerySearch(query.parse(this.state.value));
   }
 
   onClear() {
     this.setState({ value: '' });
+    actions.updateQuery();
   }
 
   onChange(event) {
     const text = event.target.value;
     this.setState({ value: text });
+  }
+
+  onFocus() {
+    this.setState({ className: 'input-field active' });
+  }
+
+  onBlur() {
+    this.setState({ className: 'input-field' });
+    if (!this.state.value) {
+      this.updateQuery();
+    }
   }
 
   onTagsDataChange() {
@@ -126,11 +149,8 @@ module.exports = class NavSearch extends React.Component {
         const before = input.value.match(/^.*[ ()]+|/)[0];
         input.value = before + (text.replace(/\s+.*$/g, ''));
         this.setState({ value: input.value });
+        this.updateQuery();
       };
-
-      input.addEventListener('awesomplete-select', event => {
-        console.log('select', event.text);
-      });
 
       this.awesompleteInitialized = true;
       this.awesomplete = awesomplete;
@@ -140,19 +160,21 @@ module.exports = class NavSearch extends React.Component {
   render() {
     return (
       <form onSubmit={this.onSubmit} className="search-form nav-search">
-        <div className="input-field">
+        <div className={this.state.className}>
           <input
             id="search"
             type="search"
             ref={this.initAwesomplete}
             value={this.state.value}
             onChange={this.onChange}
+            onFocus={this.onFocus}
+            onBlur={this.onBlur}
             required
           />
           <label htmlFor="search">
-            <i className="material-icons">search</i>
+            <i className="material-icons search">search</i>
           </label>
-          <i onClick={this.onClear} className="material-icons">
+          <i onClick={this.onClear} className="material-icons close">
             close
           </i>
         </div>
