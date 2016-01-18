@@ -6,6 +6,7 @@ const fc = ct.feeds;
 const dispatcher = require('../flux/dispatcher');
 const store = require('../flux/feed-store');
 const actions = require('../flux/feed-actions');
+const timeout = require('../util').timeout;
 const VelTrans = require('velocity-react/velocity-transition-group');
 const Loader = require('./loader.jsx');
 const Modal = require('./feed-add-modal.jsx');
@@ -67,9 +68,7 @@ module.exports = class FeedList extends React.Component {
       switch (action.type) {
         case fc.FIND_FEED_DONE:
           this.setState({ loading: false, addedId: action.data.feed.id });
-          setTimeout(() => {
-            this.setState({ addedId: null });
-          }, fc.ADDED_ACTIVE_DELAY);
+          timeout(fc.ADDED_ACTIVE_DELAY).then(() => this.setState({ addedId: null }));
           break;
         case ct.nav.SEARCH:
           onSearch(action.query);

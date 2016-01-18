@@ -9,12 +9,12 @@
                                 "bool": {
                                     "should": [
                                         {
-                                            "term": {
+                                            "match": {
                                                 "post.title": "design"
                                             }
                                         },
                                         {
-                                            "term": {
+                                            "match": {
                                                 "post.description": "design"
                                             }
                                         }
@@ -154,12 +154,12 @@
                                 "bool": {
                                     "should": [
                                         {
-                                            "term": {
+                                            "match": {
                                                 "post.title": "breaking news"
                                             }
                                         },
                                         {
-                                            "term": {
+                                            "match": {
                                                 "post.description": "breaking news"
                                             }
                                         }
@@ -176,12 +176,12 @@
         "bool": {
             "should": [
                 {
-                    "term": {
+                    "match": {
                         "post.title": "es6 promise"
                     }
                 },
                 {
-                    "term": {
+                    "match": {
                         "post.description": "es6 promise"
                     }
                 }
@@ -271,12 +271,12 @@
                                 "bool": {
                                     "should": [
                                         {
-                                            "term": {
+                                            "match": {
                                                 "post.title": "web design"
                                             }
                                         },
                                         {
-                                            "term": {
+                                            "match": {
                                                 "post.description": "web design"
                                             }
                                         }
@@ -299,5 +299,55 @@
                 }
             ]
         }
+    },
+    {
+    "bool": {
+        "should": [
+            {
+                "bool": {
+                    "must": [
+                        {
+                            "bool": {
+                                "should": [
+                                    {
+                                        "term": {
+                                            "read": false
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "bool": {
+                                "should": [
+                                    {
+                                        "term": {
+                                            "tags": "css"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "bool": {
+                    "should": [
+                        {
+                            "match": {
+                                "post.title": "breaking news"
+                            }
+                        },
+                        {
+                            "match": {
+                                "post.description": "breaking news"
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
     }
+}
 ]

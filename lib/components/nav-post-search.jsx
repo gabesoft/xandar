@@ -1,9 +1,18 @@
 'use strict';
 
+const INPUT_CLASS = 'input-field';
+const UNMATCHED_VALUE = '6D622E76-EFEF-4798-965D-3AA6419B37E5';
+
 const React = require('react');
 const ReactDOM = require('react-dom');
+const ReactServer = require('react-dom/server');
 const actions = require('../flux/search-actions');
+const postActions = require('../flux/post-actions');
+const dispatcher = require('../flux/dispatcher');
 const Awesomplete = require('awesomplete');
+const Loader = require('./loader.jsx');
+const Item = require('./nav-post-search-item.jsx');
+const itemFactory = React.createFactory(Item);
 const searchStore = require('../flux/search-store');
 const tagStore = require('../flux/tag-store');
 const toast = require('../toast').toast;
@@ -14,9 +23,9 @@ module.exports = class NavSearch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '', tags: tagStore.getTags(),
+      tags: tagStore.getTags(),
       feeds: searchStore.getFeeds(),
-      className: 'input-field'
+      className: INPUT_CLASS
     };
     this.onClear = this.onClear.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -36,12 +45,19 @@ module.exports = class NavSearch extends React.Component {
   }
 
   updateQuery() {
-    actions.updateQuerySearch(query.parse(this.state.value));
+    try {
+      const queryObj = query.parse(this.state.value);
+      actions.updateQuerySearch({ query: queryObj });
+      this.setState({ loading: true });
+      postActions.loadPosts(queryObj);
+    } catch (e) {
+      toast.error('Failed to parse query');
+      toast.error(e.message);
+    }
   }
 
   onClear() {
-    this.setState({ value: '' });
-    actions.updateQuery();
+    this.setState({ value: '' }, () => this.updateQuery());
   }
 
   onChange(event) {
@@ -50,14 +66,13 @@ module.exports = class NavSearch extends React.Component {
   }
 
   onFocus() {
-    this.setState({ className: 'input-field active' });
+    this.setState({ className: `${INPUT_CLASS} active` });
   }
 
   onBlur() {
-    this.setState({ className: 'input-field' });
-    if (!this.state.value) {
-      this.updateQuery();
-    }
+    this.setState({ className: INPUT_CLASS }, () => {
+      return this.state.value || this.updateQuery();
+    });
   }
 
   onTagsDataChange() {
@@ -88,12 +103,61 @@ module.exports = class NavSearch extends React.Component {
     tagStore.addListener(ct.tags.STORE_CHANGE, this.onTagsDataChange);
     searchStore.addListener(ct.search.STORE_FEEDS_CHANGE, this.onFeedDataChange);
     searchStore.addListener('error', toast.error);
+    this.tokenId = dispatcher.register(action => {
+      switch (action.type) {
+        case ct.posts.LOAD_POSTS_FAIL:
+        case ct.posts.LOAD_POSTS_DONE:
+          this.setState({ loading: false });
+          break;
+        default:
+          break;
+      }
+    });
   }
 
   componentWillUnmount() {
     tagStore.removeListener(ct.tags.STORE_CHANGE, this.onTagsDataChange);
     searchStore.removeListener(ct.search.STORE_FEEDS_CHANGE, this.onFeedDataChange);
     searchStore.removeListener('error', toast.error);
+    dispatcher.unregister(this.tokenId);
+  }
+
+  awesompleteItem(text, search) {
+    const $ = Awesomplete.$;
+    const match = search.match(/[^ ()]+$/);
+    const entry = match ? match[0] : UNMATCHED_VALUE;
+    const value = RegExp($.regExpEscape(entry), 'gi');
+    const start = text[0];
+
+    let title = '';
+    let id = '';
+    let name = '';
+
+    switch (start) {
+      case '@':
+        const parts = text.split(/:/);
+        id = parts[0];
+        name = parts[1];
+        title = 'feed';
+        break;
+      case '#':
+        id = text;
+        title = 'tag';
+        break;
+      case ':':
+        id = text;
+        title = 'status';
+        break;
+      default:
+        break;
+    }
+
+    id = id.replace(value, '<mark>$&</mark>');
+
+    const item = itemFactory({ title, id, name });
+    const html = ReactServer.renderToString(item);
+
+    return $.create('div', { innerHTML: html }).firstChild;
   }
 
   initAwesomplete(el) {
@@ -101,55 +165,27 @@ module.exports = class NavSearch extends React.Component {
       const input = ReactDOM.findDOMNode(el);
       const awesomplete = new Awesomplete(input);
       const contains = Awesomplete.FILTER_CONTAINS;
-      const $ = Awesomplete.$;
-      const noMatch = '6D622E76-EFEF-4798-965D-3AA6419B37E5';
+
       awesomplete.list = this.getCompletionList();
       awesomplete.autoFirst = true;
-
-      awesomplete.item = (text, search) => {
-        const match = search.match(/[^ ()]+$/);
-        const entry = match ? match[0] : noMatch;
-        const value = RegExp($.regExpEscape(entry), 'gi');
-
-        let title = '';
-        let id = '';
-        let name = '';
-
-        if (text.startsWith('@')) {
-          const parts = text.split(/:/);
-          id = parts[0].replace(value, '<mark>$&</mark>');
-          name = parts[1];
-          title = 'feed';
-        } else if (text.startsWith('#')) {
-          id = text.replace(value, '<mark>$&</mark>');
-          title = 'tag';
-        } else if (text.startsWith(':')) {
-          id = text.replace(value, '<mark>$&</mark>');
-          title = 'status';
-        }
-
-        const titleHtml = `<span class="title">${title}</span>`;
-        const idHtml = `<span class="id">${id}</span>`;
-        const nameHtml = `<span class="name">${name}</span>`;
-
-        return $.create('li', {
-          innerHTML: `${titleHtml}${idHtml}${nameHtml}`,
-          'aria-selected': false
-        });
-      };
+      awesomplete.item = this.awesompleteItem;
 
       awesomplete.filter = (text, inputStr) => {
         const match = inputStr.match(/[^ ()]+$/);
-        const res = contains(text, match ? match[0] : noMatch);
+        const res = contains(text, match ? match[0] : UNMATCHED_VALUE);
         return res;
       };
 
       awesomplete.replace = text => {
-        text = text.replace(/^feed/, '').replace(/^tag/, '').replace(/^status/, '');
         const before = input.value.match(/^.*[ ()]+|/)[0];
-        input.value = before + (text.replace(/\s+.*$/g, ''));
-        this.setState({ value: input.value });
-        this.updateQuery();
+
+        text = text
+          .replace(/^(feed|tag|status)/, '')
+          .replace(/\s+.*$/g, '');
+
+        input.value = before + text;
+
+        this.setState({ value: input.value }, () => this.updateQuery());
       };
 
       this.awesompleteInitialized = true;
@@ -158,6 +194,9 @@ module.exports = class NavSearch extends React.Component {
   }
 
   render() {
+    const loader = (<Loader size="medium" className="nav-search-loader"/>);
+    const searchIcon = (<i className="material-icons search">search</i>);
+
     return (
       <form onSubmit={this.onSubmit} className="search-form nav-search">
         <div className={this.state.className}>
@@ -172,7 +211,7 @@ module.exports = class NavSearch extends React.Component {
             required
           />
           <label htmlFor="search">
-            <i className="material-icons search">search</i>
+            {this.state.loading ? loader : searchIcon}
           </label>
           <i onClick={this.onClear} className="material-icons close">
             close

@@ -1,6 +1,7 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 const Post = require('./post.jsx');
+const Loader = require('./loader.jsx');
 const util = require('../util');
 const timeout = util.timeout;
 const ct = require('../constants');
@@ -17,7 +18,6 @@ module.exports = class PostList extends React.Component {
     super(props);
     this.state = {
       posts: store.getPosts(),
-      limit: 50,
       loading: true,
       fullscreenPostIndex: 0,
       fullscreenHasNext: true
@@ -90,20 +90,8 @@ module.exports = class PostList extends React.Component {
   }
 
   loadPosts(add) {
-    const opts = this.getPostLoadOptions(add ? this.state.posts.length : 0);
-    actions[add ? 'addPosts' : 'loadPosts'](opts);
-  }
-
-  getPostLoadOptions(skip) {
-    const query = this.searchQuery;
-    const options = { skip: skip || 0, limit: this.state.limit };
-
-    if (query) {
-      options.query = query.getSearchQuery();
-      options.sort = query.getSearchSort();
-    }
-
-    return options;
+    const load = add ? 'addPosts' : 'loadPosts';
+    actions[load](this.searchQuery, this.state.posts.length);
   }
 
   componentDidMount() {
@@ -113,9 +101,8 @@ module.exports = class PostList extends React.Component {
     this.loadPosts();
     this.tokenId = dispatcher.register(action => {
       switch (action.type) {
-        case sc.QUERY_SEARCH_UPDATE:
+        case sc.UPDATE_QUERY_SEARCH:
           this.searchQuery = action.query;
-          this.loadPosts();
           break;
         default:
           break;
@@ -127,6 +114,7 @@ module.exports = class PostList extends React.Component {
     store.removeListener(pc.STORE_POSTS_CHANGE, this.onStoreChange);
     store.removeListener(pc.STORE_POST_CHANGE, this.onStoreChange);
     util.removeFullscreenChangeListener(this.onFullscreenExit);
+    dispatcher.unregister(this.tokenId);
   }
 
   renderPosts() {
@@ -153,9 +141,11 @@ module.exports = class PostList extends React.Component {
         Load More (Showing {this.state.posts.length} of {store.getTotalPosts()})
       </a>
     );
+    const loader = (<Loader size="medium" className="post-list-loader"/>);
+
     return (
       <div className="post-list">
-        {this.renderPosts()}
+        {this.state.loading ? loader : this.renderPosts()}
         <Content
           className="post-content-fullscreen"
           ref={el => this.fullscreenEl = el}
@@ -166,7 +156,7 @@ module.exports = class PostList extends React.Component {
           hasNext={this.state.fullscreenHasNext}
           hasPrev={this.state.fullscreenHasPrev}
         />
-        {store.hasMore() ? moreButton : null}
+        {(store.hasMore() && !this.state.loading) ? moreButton : null}
       </div>
     );
   }

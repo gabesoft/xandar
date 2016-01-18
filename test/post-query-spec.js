@@ -3,6 +3,7 @@
 const expect = require('chai').expect,
       store = require('../lib/flux/search-store'),
       queries = require('./support/queries.json'),
+      Query = require('../lib/search-query'),
       eyes = require('eyes'),
       parse = require('../lib/post-query').parse;
 
@@ -14,7 +15,7 @@ function printJSON(obj) {
   console.log(JSON.stringify(obj));
 }
 
-describe('post-query', () => {
+describe('post query', () => {
   before(() => {
     store.setFeeds({
       subscriptions: [
@@ -30,6 +31,7 @@ describe('post-query', () => {
     ['@css-ninja', 1, false],
     [':unread & @tech-news | #javascript', 2, false],
     [':unread & #css | "breaking news"', 3, true],
+    ['(:unread & #css) | "breaking news"', 7, true],
     ['"es6 promise"', 4, true],
     ['@tech-news & #css & #javascript & #web', 5, false],
     ['(@css-ninja & "web design") & :unread', 6, true]

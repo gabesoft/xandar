@@ -1,4 +1,5 @@
 /* eslint no-console:0 */
+
 'use strict';
 
 const Filter = require('broccoli-persistent-filter'),
@@ -26,9 +27,7 @@ module.exports = class AutoprefixerBuilder extends Filter {
     return postcss([autoprefixer])
       .process(content)
       .then(result => {
-        result.warnings().forEach(warn => {
-          console.warn(warn.toString());
-        });
+        result.warnings().forEach(warn => console.warn(warn.toString()));
         return result.css;
       });
   }

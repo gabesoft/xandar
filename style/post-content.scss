@@ -4,6 +4,28 @@
     padding: 30px;
     margin: 0 auto;
     position: relative;
+    background: #fdf6e3;
+    color: #586e75;
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+    }
+
+    h3 {
+      font-size: 1.4rem;
+    }
+
+    h4 {
+      font-size: 1.3rem;
+    }
+
+    p {
+      color: #586e75;
+    }
 
     a {
       color: $primary-color;
@@ -61,6 +83,7 @@
 
       .post-title {
         text-align: right;
+        max-width: 80%;
       }
 
       .feed-title {
@@ -128,7 +151,7 @@
       animation-direction: alternate;
       animation-duration: $animation-duration;
       animation-fill-mode: both;
-      background-color: rgba(225, 225, 225, 0.9);
+      background-color: #fdf6e3;
       border-radius: 3px;
       border: 1px solid rgba(0,0,0,0.2);
       left: 50%;
@@ -138,6 +161,7 @@
       overflow: scroll;
       padding: 1em 2em;
       position: absolute;
+      text-rendering: optimizeLegibility;
       top: 50%;
       transform: translate(-50%, -50%);
       transition: opacity $animation-duration ease;

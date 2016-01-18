@@ -16,6 +16,7 @@
         "no-script-url": 0,
         "no-else-return": 0,
         "no-param-reassign": 0,
+        "no-use-before-define": [2, "nofunc"],
         "consistent-return": 0,
         "react/prop-types": 0,
         "react/jsx-closing-bracket-location": [2, {"nonEmpty": 0, "selfClosing": "tag-aligned"}],

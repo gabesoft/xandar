@@ -11,11 +11,7 @@ TESTS := $(shell find ./test -name '[^.]*-spec.js')
 
 all: test
 
-.PHONY: release test loc clean no_targets__ help
-
-no_targets__:
-help:
-	@sh -c "$(MAKE) -rpn no_targets__ | awk -F':' '/^[a-zA-Z0-9][^\$$#\/\\t=]*:([^=]|$$)/ {split(\$$1,A,/ /);for(i in A)print A[i]}' | grep -v '__\$$' | grep -v 'Makefile' | grep -v 'make\[1\]' | sort"
+.PHONY: release test loc clean
 
 tag:
 	@git tag -a "v$(VERSION)" -m "Version $(VERSION)"
