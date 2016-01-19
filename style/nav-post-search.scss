@@ -6,6 +6,11 @@
   }
 
   .input-field {
+    input {
+      padding: 0 4rem;
+      width: calc(100% - 8rem);
+    }
+
     label {
       top: 2px;
     }
@@ -57,8 +62,12 @@
         flex-grow: 0;
         font-style: italic;
         text-align: left;
-        text-transform: capitalize;
+        text-transform: lowercase;
         width: 50px;
+
+        &:first-letter {
+          text-transform: capitalize;
+        }
       }
 
       .name {

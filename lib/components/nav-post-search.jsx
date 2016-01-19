@@ -2,6 +2,7 @@
 
 const INPUT_CLASS = 'input-field';
 const UNMATCHED_VALUE = '6D622E76-EFEF-4798-965D-3AA6419B37E5';
+const ITEM_TYPES = { tag: 'tag', feed: 'feed', status: 'status' };
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -46,7 +47,7 @@ module.exports = class NavSearch extends React.Component {
 
   updateQuery() {
     try {
-      const queryObj = query.parse(this.state.value);
+      const queryObj = query.parse((this.state.value || '').trim());
       actions.updateQuerySearch({ query: queryObj });
       this.setState({ loading: true });
       postActions.loadPosts(queryObj);
@@ -57,12 +58,11 @@ module.exports = class NavSearch extends React.Component {
   }
 
   onClear() {
-    this.setState({ value: '' }, () => this.updateQuery());
+    this.setState({ value: null }, () => this.updateQuery());
   }
 
   onChange(event) {
-    const text = event.target.value;
-    this.setState({ value: text });
+    this.setState({ value: event.target.value });
   }
 
   onFocus() {
@@ -70,32 +70,36 @@ module.exports = class NavSearch extends React.Component {
   }
 
   onBlur() {
-    this.setState({ className: INPUT_CLASS }, () => {
-      return this.state.value || this.updateQuery();
-    });
+    this.setState({ className: INPUT_CLASS });
+    if (!this.state.value) {
+      this.updateQuery();
+    }
   }
 
   onTagsDataChange() {
-    this.setState({ tags: tagStore.getTags() });
-    if (this.awesomplete) {
-      this.awesomplete.list = this.getCompletionList();
-    }
+    this.setState({ tags: tagStore.getTags() }, () => {
+      if (this.awesomplete) {
+        this.awesomplete.list = this.getCompletionList();
+      }
+    });
   }
 
   onFeedDataChange() {
-    this.setState({ feeds: searchStore.getFeeds() });
-    if (this.awesomplete) {
-      this.awesomplete.list = this.getCompletionList();
-    }
+    this.setState({ feeds: searchStore.getFeeds() }, () => {
+      if (this.awesomplete) {
+        this.awesomplete.list = this.getCompletionList();
+      }
+    });
   }
 
   getCompletionList() {
     const feeds = this.state.feeds
       .filter(feed => Boolean(feed.title))
-      .map(feed => `@${feed.titleId} : ${feed.title}`);
-    const tags = this.state.tags.map(tag => `#${tag}`);
-    const flags = ['read', 'unread'].map(flag => `:${flag}`);
-    return feeds.concat(tags).concat(flags);
+      .map(feed => ({ type: 'feed', value: feed.titleId, name: feed.title }));
+    const tags = this.state.tags.map(tag => ({ type: 'tag', value: tag }));
+    const status = ['read', 'unread'].map(st => ({ type: 'status', value: st }));
+
+    return feeds.concat(tags).concat(status);
   }
 
   componentDidMount() {
@@ -122,37 +126,50 @@ module.exports = class NavSearch extends React.Component {
     dispatcher.unregister(this.tokenId);
   }
 
-  awesompleteItem(text, search) {
+  parseAwesompleteItem(text) {
+    const tag = text.match(/(^[^ ]+)TAG.*$/);
+    const status = text.match(/(^[^ ]+)STATUS.*$/);
+    const feed = text.match(/(^[^ ]+)FEED.*$/);
+
+    if (tag) {
+      return { type: ITEM_TYPES.tag, value: tag[1], pre: '#' };
+    } else if (feed) {
+      return { type: ITEM_TYPES.feed, value: feed[1], pre: '@' };
+    } else if (status) {
+      return { type: ITEM_TYPES.status, value: status[1], pre: ':' };
+    }
+  }
+
+  makeAwesompleteItem(data, search) {
     const $ = Awesomplete.$;
-    const match = search.match(/[^ ()]+$/);
-    const entry = match ? match[0] : UNMATCHED_VALUE;
+    const match = search.match(/(?:#|@|:)?([^ ()]+)$/);
+    const entry = match ? match[1] : UNMATCHED_VALUE;
     const value = RegExp($.regExpEscape(entry), 'gi');
-    const start = text[0];
 
     let title = '';
     let id = '';
     let name = '';
 
-    switch (start) {
-      case '@':
-        const parts = text.split(/:/);
-        id = parts[0];
-        name = parts[1];
-        title = 'feed';
+    switch (data.type) {
+      case ITEM_TYPES.feed:
+        id = data.value;
+        name = data.name;
+        title = ITEM_TYPES.feed;
         break;
-      case '#':
-        id = text;
-        title = 'tag';
+      case ITEM_TYPES.tag:
+        id = data.value;
+        title = ITEM_TYPES.tag;
         break;
-      case ':':
-        id = text;
-        title = 'status';
+      case ITEM_TYPES.status:
+        id = data.value;
+        title = ITEM_TYPES.status;
         break;
       default:
         break;
     }
 
     id = id.replace(value, '<mark>$&</mark>');
+    title = title.toUpperCase();
 
     const item = itemFactory({ title, id, name });
     const html = ReactServer.renderToString(item);
@@ -168,22 +185,20 @@ module.exports = class NavSearch extends React.Component {
 
       awesomplete.list = this.getCompletionList();
       awesomplete.autoFirst = true;
-      awesomplete.item = this.awesompleteItem;
+      awesomplete.item = this.makeAwesompleteItem;
 
-      awesomplete.filter = (text, inputStr) => {
-        const match = inputStr.match(/[^ ()]+$/);
-        const res = contains(text, match ? match[0] : UNMATCHED_VALUE);
+      awesomplete.filter = (data, inputStr) => {
+        const text = data.value;
+        const match = inputStr.match(/(?:#|@|:)?([^ ()]+)$/);
+        const res = contains(text, match ? match[1] : UNMATCHED_VALUE);
         return res;
       };
 
       awesomplete.replace = text => {
         const before = input.value.match(/^.*[ ()]+|/)[0];
+        const item = this.parseAwesompleteItem(text);
 
-        text = text
-          .replace(/^(feed|tag|status)/, '')
-          .replace(/\s+.*$/g, '');
-
-        input.value = before + text;
+        input.value = before + `${item.pre}${item.value}`;
 
         this.setState({ value: input.value }, () => this.updateQuery());
       };
