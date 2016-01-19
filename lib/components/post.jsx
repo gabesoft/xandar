@@ -126,6 +126,11 @@ module.exports = class Post extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    clearTimeout(this.editTagsTimeoutId);
+    dispatcher.unregister(this.tokenId);
+  }
+
   componentDidUpdate() {
     if (this.props.closed) {
       const el = ReactDOM.findDOMNode(this);
