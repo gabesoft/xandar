@@ -49,6 +49,11 @@ module.exports = class NavSearch extends React.Component {
     try {
       const queryObj = query.parse((this.state.value || '').trim());
       actions.updateQuerySearch({ query: queryObj });
+
+      if ((this.state.value || '').length > 0) {
+        actions.savePostQuery({ query: queryObj });
+      }
+
       this.setState({ loading: true });
       postActions.loadPosts(queryObj);
     } catch (e) {
