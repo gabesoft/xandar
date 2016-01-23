@@ -7,6 +7,10 @@
     background: #fdf6e3;
     color: #586e75;
 
+    .post-content-data {
+      overflow: scroll;
+    }
+
     h1 {
       font-size: 2rem;
     }
@@ -158,7 +162,6 @@
       max-height: 80%;
       max-width: 80%;
       opacity: 1;
-      overflow: scroll;
       padding: 1em 2em;
       position: absolute;
       text-rendering: optimizeLegibility;

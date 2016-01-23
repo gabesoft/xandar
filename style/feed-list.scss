@@ -50,7 +50,7 @@
     }
 
     li:nth-child(odd) {
-      background: $list-hover-color;
+      background-color: #eee8d5;
     }
   }
 
@@ -73,9 +73,11 @@
 
     .feed-header {
       transition: background-color 0.5s ease-in-out;
+      background-color: #fdf6e3;
+      color: #002b36;
 
       &:hover {
-        background-color: $list-hover-color;
+        background-color: #eee8d5;
       }
     }
 
@@ -151,6 +153,7 @@
     .details {
       padding: 10px;
       display: block;
+      background-color: #fdf6e3;
 
       a {
         color: $primary-color;

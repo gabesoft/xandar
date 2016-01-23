@@ -28,8 +28,10 @@ module.exports = class FeedList extends React.Component {
     this.onFeedAddCancel = this.onFeedAddCancel.bind(this);
   }
 
-  onStoreChange() {
-    this.setState({ feeds: store.getFeeds(), loading: false });
+  onStoreChange(data) {
+    if (data.type === 'feeds') {
+      this.setState({ feeds: store.getFeeds(), loading: false });
+    }
   }
 
   onSearch(query) {
@@ -61,7 +63,7 @@ module.exports = class FeedList extends React.Component {
   }
 
   componentDidMount() {
-    store.addListener(fc.STORE_FEEDS_CHANGE, this.onStoreChange);
+    store.addListener(fc.STORE_CHANGE, this.onStoreChange);
 
     const onSearch = debounce(this.onSearch, 150);
     this.tokenId = dispatcher.register(action => {
@@ -82,7 +84,7 @@ module.exports = class FeedList extends React.Component {
   }
 
   componentWillUnmount() {
-    store.removeListener(fc.STORE_FEEDS_CHANGE, this.onStoreChange);
+    store.removeListener(fc.STORE_CHANGE, this.onStoreChange);
     dispatcher.unregister(this.tokenId);
   }
 

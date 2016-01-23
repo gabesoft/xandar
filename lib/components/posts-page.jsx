@@ -15,11 +15,11 @@ module.exports = class FeedsPage extends React.Component {
         </Navbar>
         <div className="container">
           <div className="row">
-            <div className="col s8">
-              <Posts/>
-            </div>
-            <div className="col s4">
+            <div className="col m4 s12">
               <PostQueries/>
+            </div>
+            <div className="col m8 s12">
+              <Posts/>
             </div>
           </div>
         </div>

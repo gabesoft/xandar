@@ -95,8 +95,7 @@ module.exports = class PostList extends React.Component {
   }
 
   componentDidMount() {
-    store.addListener(pc.STORE_POSTS_CHANGE, this.onStoreChange, false);
-    store.addListener(pc.STORE_POST_CHANGE, this.onStoreChange, false);
+    store.addListener(pc.STORE_CHANGE, this.onStoreChange, false);
     util.addFullscreenChangeListener(this.onFullscreenExit);
     this.loadPosts();
     this.tokenId = dispatcher.register(action => {
@@ -111,8 +110,7 @@ module.exports = class PostList extends React.Component {
   }
 
   componentWillUnmount() {
-    store.removeListener(pc.STORE_POSTS_CHANGE, this.onStoreChange);
-    store.removeListener(pc.STORE_POST_CHANGE, this.onStoreChange);
+    store.removeListener(pc.STORE_CHANGE, this.onStoreChange);
     util.removeFullscreenChangeListener(this.onFullscreenExit);
     dispatcher.unregister(this.tokenId);
   }

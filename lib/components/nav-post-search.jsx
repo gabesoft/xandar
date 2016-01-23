@@ -64,6 +64,7 @@ module.exports = class NavSearch extends React.Component {
 
   onClear() {
     this.setState({ value: null }, () => this.updateQuery());
+    actions.clearQuerySearch();
   }
 
   onChange(event) {
@@ -89,12 +90,14 @@ module.exports = class NavSearch extends React.Component {
     });
   }
 
-  onFeedDataChange() {
-    this.setState({ feeds: searchStore.getFeeds() }, () => {
-      if (this.awesomplete) {
-        this.awesomplete.list = this.getCompletionList();
-      }
-    });
+  onFeedDataChange(data) {
+    if (data.type === 'feeds') {
+      this.setState({ feeds: searchStore.getFeeds() }, () => {
+        if (this.awesomplete) {
+          this.awesomplete.list = this.getCompletionList();
+        }
+      });
+    }
   }
 
   getCompletionList() {
@@ -110,13 +113,16 @@ module.exports = class NavSearch extends React.Component {
   componentDidMount() {
     actions.loadFeeds();
     tagStore.addListener(ct.tags.STORE_CHANGE, this.onTagsDataChange);
-    searchStore.addListener(ct.search.STORE_FEEDS_CHANGE, this.onFeedDataChange);
+    searchStore.addListener(ct.search.STORE_CHANGE, this.onFeedDataChange);
     searchStore.addListener('error', toast.error);
     this.tokenId = dispatcher.register(action => {
       switch (action.type) {
         case ct.posts.LOAD_POSTS_FAIL:
         case ct.posts.LOAD_POSTS_DONE:
           this.setState({ loading: false });
+          break;
+        case ct.search.SELECT_POST_QUERY:
+          this.setState({ value: action.data.text, loading: true });
           break;
         default:
           break;
@@ -126,7 +132,7 @@ module.exports = class NavSearch extends React.Component {
 
   componentWillUnmount() {
     tagStore.removeListener(ct.tags.STORE_CHANGE, this.onTagsDataChange);
-    searchStore.removeListener(ct.search.STORE_FEEDS_CHANGE, this.onFeedDataChange);
+    searchStore.removeListener(ct.search.STORE_CHANGE, this.onFeedDataChange);
     searchStore.removeListener('error', toast.error);
     dispatcher.unregister(this.tokenId);
   }

@@ -1,0 +1,50 @@
+.post-query-list {
+  .collection-item {
+    cursor: pointer;
+    position: relative;
+
+    &.selected {
+      color: $secondary-color;
+    }
+  }
+
+  /* TODO extract actions width into a var */
+  .edit-input {
+    width: calc(100% - 50px);
+    border: none;
+    margin: 0;
+
+    &:focus.valid {
+      border: none;
+    }
+  }
+
+  .title,
+  .text {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
+    width: calc(100% - 50px);
+  }
+
+  .title {
+    text-transform: capitalize;
+  }
+
+  /* TODO centralize the style for all actions */
+  .post-query-actions {
+      align-items: center;
+      justify-content: flex-end;
+      bottom: 0;
+      display: flex;
+      right: 0;
+      opacity: 1;
+      position: absolute;
+      top: 0;
+      width: 50px;
+      z-index: 1;
+  }
+
+}

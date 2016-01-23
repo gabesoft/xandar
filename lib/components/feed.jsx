@@ -18,7 +18,7 @@ module.exports = class Feed extends React.Component {
       className: 'feed-item',
       title: (this.props.feed.subscription || {}).title
     };
-    this.onChange = this.onChange.bind(this);
+    this.onPostsChange = this.onPostsChange.bind(this);
     this.onTagsChange = this.onTagsChange.bind(this);
     this.onTitleChangeDelayed = this.onTitleChangeDelayed.bind(this);
     this.onTitleChange = debounce(this.onTitleChange.bind(this), 500);
@@ -29,11 +29,11 @@ module.exports = class Feed extends React.Component {
   }
 
   componentDidMount() {
-    store.addListener(fc.STORE_POSTS_CHANGE, this.onChange);
+    store.addListener(fc.STORE_CHANGE, this.onPostsChange);
   }
 
   componentWillUnmount() {
-    store.removeListener(fc.STORE_POSTS_CHANGE, this.onChange);
+    store.removeListener(fc.STORE_CHANGE, this.onPostsChange);
   }
 
   componentDidUpdate() {
@@ -69,8 +69,8 @@ module.exports = class Feed extends React.Component {
     this.onTitleChange(event.target.value);
   }
 
-  onChange(feedId) {
-    if (feedId === this.props.feed.id) {
+  onPostsChange(data) {
+    if (data.type === 'posts' && data.feedId === this.props.feed.id) {
       this.setState({
         posts: store.getPosts(this.props.feed.id),
         open: this.state.loading,

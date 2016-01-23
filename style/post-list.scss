@@ -1,3 +1,4 @@
+/* TODO move to another file */
 @mixin nowrap() {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -29,6 +30,12 @@
     }
 
     &.important {
+      .post-title {
+        color: $primary-color;
+      }
+    }
+
+    &.todo {
       .post-title {
         color: $secondary-color;
       }
