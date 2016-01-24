@@ -1,14 +1,12 @@
 'use strict';
 
 const React = require('react');
-const debounce = require('../util').debounce;
 const IconBtn = require('./icon-button.jsx');
 
 module.exports = class PostQuery extends React.Component {
   constructor(props) {
     super(props);
     this.onTitleEdit = this.onTitleEdit.bind(this);
-    /* this.onTitleChange = debounce(this.onTitleChange.bind(this), 500); */
     this.onTitleChange = this.onTitleChange.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.state = {

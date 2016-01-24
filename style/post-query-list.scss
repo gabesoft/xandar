@@ -1,4 +1,6 @@
 .post-query-list {
+  $actions-width: 70px;
+
   .collection-item {
     cursor: pointer;
     position: relative;
@@ -8,9 +10,8 @@
     }
   }
 
-  /* TODO extract actions width into a var */
   .edit-input {
-    width: calc(100% - 50px);
+    width: calc(100% - #{$actions-width});
     border: none;
     margin: 0;
 
@@ -26,7 +27,7 @@
     text-overflow: ellipsis;
     vertical-align: middle;
     white-space: nowrap;
-    width: calc(100% - 50px);
+    width: calc(100% - #{$actions-width});
   }
 
   .title {
@@ -36,14 +37,14 @@
   /* TODO centralize the style for all actions */
   .post-query-actions {
       align-items: center;
-      justify-content: flex-end;
+      justify-content: center;
       bottom: 0;
       display: flex;
       right: 0;
       opacity: 1;
       position: absolute;
       top: 0;
-      width: 50px;
+      width: $actions-width;
       z-index: 1;
   }
 
