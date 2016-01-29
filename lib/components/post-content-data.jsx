@@ -75,17 +75,34 @@ module.exports = class PostContentData extends React.Component {
     );
   }
 
-  getLangList() {
-    return langs.map(ln => ln[1]);
-  }
-
   initAwesomplete(input) {
     const awesomplete = new Awesomplete(input);
     const $$ = Awesomplete.$;
 
-    awesomplete.list = this.getLangList();
+    awesomplete.list = langs.map(ln => `${ln[1]}:${ln[0]}`);
     awesomplete.autoFirst = true;
     awesomplete.minChars = 1;
+    awesomplete.item = (text, search) => {
+      const value = RegExp($$.regExpEscape(search.trim()), 'gi');
+      const textParts = text.split(/:/);
+      const valueHtml = textParts[0].replace(value, '<mark>$&</mark>');
+      return $$.create('li', {
+        innerHTML: `<span class="value">${valueHtml}</span><span class="separator">:</span><span class="name">${textParts[1]}</span>`,
+        'aria-selected': false
+      });
+    };
+
+    awesomplete.filter = (text, inputStr) => {
+      const value = text.split(/:/)[0];
+      return Awesomplete.FILTER_CONTAINS(value, inputStr);
+    };
+
+    awesomplete.replace = text => {
+      input.value = text.split(/:/)[0];
+      return input.value;
+    };
+
+    return awesomplete;
   }
 
   highlightBlock(index) {
@@ -128,11 +145,11 @@ module.exports = class PostContentData extends React.Component {
     $block.parent().addClass('lang-edit-mode');
 
     const $input = $block.find('.input-highlight');
+    const awesomplete = this.initAwesomplete($input[0]);
 
-    this.initAwesomplete($input[0]);
     $input.focus();
     $input.one('awesomplete-select', event => {
-      block.lang = event.originalEvent.text;
+      block.lang = awesomplete.replace(event.originalEvent.text);
       $input.off();
       $input.remove();
       $block.parent().removeClass('lang-edit-mode');

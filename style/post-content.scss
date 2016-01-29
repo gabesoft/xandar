@@ -58,7 +58,6 @@
       width: 150px;
 
       input {
-        background: #fdf6e3;
         padding-left: 8px;
         height: 2rem;
         border: 0;
@@ -66,6 +65,22 @@
 
       input:focus {
         border: 0;
+      }
+
+      li .value {
+        width: 105px;
+      }
+
+      li .separator {
+        display: none;
+      }
+
+      /* TODO make an ellipsis mixin */
+      li .name {
+        width: 200px;
+        overflow: hidden;
+        text-align: left;
+        text-overflow: ellipsis;
       }
     }
 
