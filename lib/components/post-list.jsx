@@ -103,6 +103,9 @@ module.exports = class PostList extends React.Component {
         case sc.UPDATE_QUERY_SEARCH:
           this.searchQuery = action.query;
           break;
+        case sc.SELECT_POST_QUERY:
+          this.searchQuery = action.data;
+          break;
         default:
           break;
       }

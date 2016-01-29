@@ -39,6 +39,7 @@ function buildJs() {
     'flux',
     'hammerjs',
     'history',
+    'highlight.js',
     'history/lib/createBrowserHistory',
     'jquery',
     'materialize-css/js/dropdown',

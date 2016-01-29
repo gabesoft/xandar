@@ -191,7 +191,9 @@ module.exports = class Post extends React.Component {
             className="post-actions"
           />
           <span className="feed-title">{data._source.title}</span>
-          <span className="post-title" onClick={this.onHeaderClick}>{post.title}</span>
+          <span className="post-title" title={post.title} onClick={this.onHeaderClick}>
+            {post.title}
+          </span>
           <span className="date right">{moment(post.date).fromNow(true)}</span>
         </div>
         <VelTrans enter={{ animation: 'slideDown' }} leave={{ animation: 'slideUp' }} runOnMount>
