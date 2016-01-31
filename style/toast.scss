@@ -1,0 +1,18 @@
+#toast-container {
+  pointer-events: none;
+  z-index: 2147483647;
+}
+
+.toast {
+  &.error {
+    background-color: $error-color;
+  }
+
+  &.success {
+    background-color: $success-color;
+  }
+
+  &.warning {
+    background-color: $warning-color;
+  }
+}

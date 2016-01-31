@@ -1,0 +1,110 @@
+.post-carousel {
+  background:
+  radial-gradient(black 15%, transparent 16%) 0 0,
+  radial-gradient(black 15%, transparent 16%) 8px 8px,
+  radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+  radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+  background-color:#282828;
+  background-size:16px 16px;
+
+  display: none;
+  height: 100%;
+  overflow: hidden;
+  padding: 1em 2em;
+  position: relative;
+  position: relative;
+  width: 100%;
+
+  &:fullscreen {
+    display: block;
+  }
+
+  .post-header {
+    display: block;
+    color: #eee;
+
+    .post-title {
+      text-align: right;
+      max-width: 80%;
+    }
+
+    .feed-title {
+      max-width: none;
+    }
+  }
+
+  .panel-left,
+  .panel-right {
+    background-color: transparent;
+    bottom: 0;
+    margin: auto;
+    min-width: 64px;
+    min-height: 128px;
+    max-height: 256px;
+    position: absolute;
+    top: 0;
+    width: 5%;
+
+    .btn-icon {
+      height: 100%;
+      width: 100%;
+      color: $secondary-color;
+
+      &:hover {
+        background-color: rgba(0,0,0,.1);
+      }
+    }
+  }
+
+  .panel-left {
+    left: 0;
+  }
+
+  .panel-right {
+    right: 0;
+  }
+
+  &.off-right.from-right .post-description {
+    animation-name: slideOutLeft;
+  }
+
+  &.off-left.from-left .post-description {
+    animation-name: slideOutRight;
+  }
+
+  &.from-right .post-description {
+    animation-name: slideInRight;
+  }
+
+  &.from-left .post-description {
+    animation-name: slideInLeft;
+  }
+
+  &.off-right,
+  &.off-left {
+    .post-description {
+      opacity: 0;
+    }
+  }
+
+  .post-description {
+    $animation-duration: .2s;
+
+    animation-direction: alternate;
+    animation-duration: $animation-duration;
+    animation-fill-mode: both;
+    background-color: #fdf6e3;
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,0.2);
+    left: 50%;
+    height: 80%;
+    width: 80%;
+    opacity: 1;
+    padding: 1em 2em;
+    position: absolute;
+    text-rendering: optimizeLegibility;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity $animation-duration ease;
+  }
+}

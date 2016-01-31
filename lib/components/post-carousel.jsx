@@ -1,7 +1,9 @@
+'use strict';
+
 const React = require('react');
 const ReactDOM = require('react-dom');
 const IconBtn = require('./icon-button.jsx');
-const Data = require('./post-content-data.jsx');
+const Description = require('./post-description.jsx');
 
 module.exports = class PostContent extends React.Component {
   constructor(props) {
@@ -61,12 +63,12 @@ module.exports = class PostContent extends React.Component {
     const data = this.props.post;
     const post = data._source.post;
     return (
-      <div className={this.props.className}>
+      <div className="post-carousel">
         <div className="post-header">
           <span className="feed-title">{data._source.title}</span>
           <span className="post-title right">{post.title}</span>
         </div>
-        <Data post={this.props.post}/>
+        <Description post={this.props.post}/>
         <div className="panel-left">
           <IconBtn
             icon="chevron_left"

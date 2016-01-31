@@ -2,16 +2,21 @@
 @import 'materialize/materialize';
 @import 'materialize/style';
 @import 'font';
+@import 'mixins';
+
 @import 'animations';
 @import 'awesomplete';
-@import 'react-modal';
-@import 'react-tagsinput';
+@import 'btn-icon';
 @import 'feed-list';
+@import 'hljs-solarized-light';
+@import 'nav-post-search';
+@import 'post-carousel';
+@import 'post-description';
 @import 'post-list';
 @import 'post-query-list';
-@import 'post-content';
-@import 'nav-post-search';
-@import 'hljs-solarized-light';
+@import 'react-modal';
+@import 'react-tagsinput';
+@import 'toast';
 
 .modal {
   display: block;
@@ -23,6 +28,11 @@ body {
   flex-direction: column;
 }
 
+*::selection {
+  background-color: #ff5e99;
+  color: #fff;
+}
+
 .dropdown-button {
   outline: none;
 }
@@ -30,25 +40,6 @@ body {
 .search-form {
   float: left;
   width: calc(100% - 150px);
-}
-
-#toast-container {
-  pointer-events: none;
-  z-index: 2147483647;
-}
-
-.toast {
-  &.error {
-    background-color: $error-color;
-  }
-
-  &.success {
-    background-color: $success-color;
-  }
-
-  &.warning {
-    background-color: $warning-color;
-  }
 }
 
 .app-main {
@@ -68,67 +59,4 @@ body {
 .collapsible-header {
   line-height: 24px;
   user-select: none;
-}
-
-.btn-icon {
-  $small-size: 24px;
-  $medium-size: 48px;
-  $large-size: 64px;
-  $small-font-size: 18px;
-  $medium-font-size: 42px;
-  $large-font-size: 58px;
-
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  padding: 0;
-
-  i {
-    margin: 0;
-    padding: 0;
-    text-align: center;
-  }
-
-  @mixin set-size($size, $font-size) {
-    height: $size;
-    width: $size;
-    line-height: $size;
-
-    i {
-      font-size: $font-size;
-      height: $size;
-      line-height: $size;
-      width: $size;
-    }
-  }
-
-  &:disabled,
-  &[disabled] {
-    opacity: 0.2;
-    cursor: not-allowed;
-  }
-
-  &.small {
-    @include set-size($small-size, $small-font-size);
-  }
-
-  &.small.fullscreen-icon {
-    @include set-size($small-size, $small-font-size + 6px);
-  }
-
-  &.medium {
-    @include set-size($medium-size, $medium-font-size);
-  }
-
-  &.large {
-    @include set-size($large-size, $large-font-size);
-  }
-
-  &:hover {
-    color: $secondary-color;
-  }
-
-  &.error:hover {
-    color: $error-color;
-  }
 }

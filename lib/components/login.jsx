@@ -22,7 +22,9 @@ module.exports = React.createClass({
         <body>
           <Navbar/>
           <div className="app-container valign-wrapper" id="app-mount">
-            <a href={this.props.loginUrl} className="waves-effect waves-light btn-large valign center-align-block">
+            <a
+              href={this.props.loginUrl}
+              className="waves-effect waves-light btn-large valign center-align-block">
               <i className="material-icons left">lock</i>
               Login with Github
             </a>

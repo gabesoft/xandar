@@ -1,9 +1,12 @@
 const React = require('react');
+const ReactServer = require('react-dom/server');
 const TagsInput = require('react-tagsinput');
 const Awesomplete = require('awesomplete');
 const actions = require('../flux/tag-actions');
 const store = require('../flux/tag-store');
 const tc = require('../constants').tags;
+const Item = require('./tag-item.jsx');
+const itemFactory = React.createFactory(Item);
 
 module.exports = class AutocompleteTagsInput extends React.Component {
   constructor(props) {
@@ -57,28 +60,23 @@ module.exports = class AutocompleteTagsInput extends React.Component {
       const awesomplete = new Awesomplete(input);
       const $ = Awesomplete.$;
 
-      const replace = function replace(text) {
-        const value = (text || '').replace(/\s+close\s*$/, '');
-        this.input.value = value;
+      awesomplete.replace = text => {
+        const value = (text || '').replace(/\s*close\s*$/, '');
+        input.value = value;
         return value;
       };
 
-      const item = (text, search) => {
+      awesomplete.item = (text, search) => {
         const value = RegExp($.regExpEscape(search.trim()), 'gi');
-        const valueHtml = text.replace(value, '<mark>$&</mark>');
-        const close = '<i class="material-icons">close</i>';
-        return $.create('li', {
-          innerHTML: `<span>${valueHtml}</span> ${close}`,
-          'aria-selected': false
-        });
+        const item = itemFactory({ value: text.replace(value, '<mark>$&</mark>') });
+        const html = ReactServer.renderToString(item);
+        return $.create('div', { innerHTML: html }).firstChild;
       };
 
-      this.awesompleteInitialized = true;
-
       awesomplete.list = this.state.tags;
-      awesomplete.replace = replace;
-      awesomplete.item = item;
       awesomplete.autoFirst = true;
+
+      this.awesompleteInitialized = true;
 
       input.addEventListener('awesomplete-select', event => {
         const value = awesomplete.replace(event.text);

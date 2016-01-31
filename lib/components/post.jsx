@@ -4,7 +4,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const Actions = require('./post-actions.jsx');
 const actions = require('../flux/post-actions');
-const Content = require('./post-content.jsx');
+const PostDescription = require('./post-description.jsx');
 const pc = require('../constants').posts;
 const dispatcher = require('../flux/dispatcher');
 const moment = require('moment');
@@ -148,9 +148,7 @@ module.exports = class Post extends React.Component {
   }
 
   renderDetails() {
-    return (
-      <Content className="post-content" post={this.props.post}/>
-    );
+    return (<PostDescription post={this.props.post}/>);
   }
 
   renderPopup() {

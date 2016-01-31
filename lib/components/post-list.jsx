@@ -10,7 +10,7 @@ const sc = ct.search;
 const store = require('../flux/post-store');
 const dispatcher = require('../flux/dispatcher');
 const actions = require('../flux/post-actions');
-const Content = require('./post-content.jsx');
+const Carousel = require('./post-carousel.jsx');
 const toast = require('../toast').toast;
 
 module.exports = class PostList extends React.Component {
@@ -145,10 +145,12 @@ module.exports = class PostList extends React.Component {
     const loader = (<Loader size="medium" className="post-list-loader"/>);
 
     return (
-      <div className="post-list">
-        {this.state.loading ? loader : this.renderPosts()}
-        <Content
-          className="post-content-fullscreen"
+      <div>
+        <div className="post-list">
+          {this.state.loading ? loader : this.renderPosts()}
+          {(store.hasMore() && !this.state.loading) ? moreButton : null}
+        </div>
+        <Carousel
           ref={el => this.fullscreenEl = el}
           onFullscreenClose={this.onFullscreenClose}
           onPrev={() => this.onFullscreenNav('prev')}
@@ -157,7 +159,6 @@ module.exports = class PostList extends React.Component {
           hasNext={this.state.fullscreenHasNext}
           hasPrev={this.state.fullscreenHasPrev}
         />
-        {(store.hasMore() && !this.state.loading) ? moreButton : null}
       </div>
     );
   }
