@@ -301,53 +301,210 @@
         }
     },
     {
-    "bool": {
-        "should": [
-            {
-                "bool": {
-                    "must": [
-                        {
-                            "bool": {
-                                "should": [
-                                    {
-                                        "term": {
-                                            "read": false
+        "bool": {
+            "should": [
+                {
+                    "bool": {
+                        "must": [
+                            {
+                                "bool": {
+                                    "should": [
+                                        {
+                                            "term": {
+                                                "read": false
+                                            }
                                         }
-                                    }
-                                ]
+                                    ]
+                                }
+                            },
+                            {
+                                "bool": {
+                                    "should": [
+                                        {
+                                            "term": {
+                                                "tags": "css"
+                                            }
+                                        }
+                                    ]
+                                }
                             }
-                        },
-                        {
+                        ]
+                    }
+                },
+                {
+                    "bool": {
+                        "should": [
+                            {
+                                "match": {
+                                    "post.title": "breaking news"
+                                }
+                            },
+                            {
+                                "match": {
+                                    "post.description": "breaking news"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "bool": {
+            "must": [
+                {
+                    "bool": {
+                        "should": [
+                            {
+                                "match": {
+                                    "post.title": "design"
+                                }
+                            },
+                            {
+                                "match": {
+                                    "post.description": "design"
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "bool": {
+                        "must_not": {
                             "bool": {
                                 "should": [
                                     {
                                         "term": {
-                                            "tags": "css"
+                                            "feedId": 597
                                         }
                                     }
                                 ]
                             }
                         }
-                    ]
+                    }
                 }
-            },
-            {
+            ]
+        }
+    },
+    {
+        "bool": {
+            "must": [
+                {
+                    "bool": {
+                        "should": [
+                            {
+                                "term": {
+                                    "read": false
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "bool": {
+                        "must_not": {
+                            "bool": {
+                                "should": [
+                                    {
+                                        "bool": {
+                                            "should": [
+                                                {
+                                                    "term": {
+                                                        "tags": "a-tag"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "bool": {
+                                            "should": [
+                                                {
+                                                    "term": {
+                                                        "tags": "b-tag"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "bool": {
+            "must_not": {
                 "bool": {
                     "should": [
                         {
                             "match": {
-                                "post.title": "breaking news"
+                                "post.title": "skip"
                             }
                         },
                         {
                             "match": {
-                                "post.description": "breaking news"
+                                "post.description": "skip"
                             }
                         }
                     ]
                 }
             }
-        ]
+        }
+    },
+    {
+        "bool": {
+            "must_not": {
+                "bool": {
+                    "should": [
+                        {
+                            "term": {
+                                "feedId": 597
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "bool": {
+            "must": [
+                {
+                    "bool": {
+                        "must_not": {
+                            "bool": {
+                                "should": [
+                                    {
+                                        "term": {
+                                            "tags": "a-tag"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                {
+                    "bool": {
+                        "must_not": {
+                            "bool": {
+                                "should": [
+                                    {
+                                        "term": {
+                                            "feedId": 123
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            ]
+        }
     }
-}
 ]

@@ -53,10 +53,20 @@ module.exports = class PostDescription extends React.Component {
   }
 
   renderIframe(src) {
+    const post = this.props.post._source.post;
+    const html = { __html: post.description };
+
     return (
       <div className={classes.description}>
         {this.state.loading ? this.renderLoader() : null}
-        <iframe src={src} onLoad={this.onIframeLoaded} allowFullScreen/>
+        <iframe
+          src={src}
+          onLoad={this.onIframeLoaded}
+          allowFullScreen
+        />
+        <div className={classes.description}>
+          <div dangerouslySetInnerHTML={html}></div>
+        </div>
       </div>
     );
   }
@@ -77,6 +87,14 @@ module.exports = class PostDescription extends React.Component {
     const link = post.link || '';
     const regex = new RegExp(escape(pattern), 'i');
     const match = link.match(regex);
+    return match ? this.renderIframe(link) : null;
+  }
+
+  processHackerNews() {
+    const post = this.props.post._source.post;
+    const link = post.link || '';
+    const regex = new RegExp('news.ycombinator.com');
+    const match = (post.comments || '').match(regex);
     return match ? this.renderIframe(link) : null;
   }
 
@@ -242,6 +260,7 @@ module.exports = class PostDescription extends React.Component {
   render() {
     const processors = feeds.map(feed => () => this.processMissingContent(feed));
 
+    processors.push(() => this.processHackerNews());
     processors.push(() => this.processYoutube());
     processors.push(() => this.processDefault());
 

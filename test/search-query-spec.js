@@ -22,6 +22,10 @@ function must(query) {
   return { must: query };
 }
 
+function mustNot(query) {
+  return { must_not: query };
+}
+
 function should(query) {
   return { should: query };
 }
@@ -49,12 +53,27 @@ describe('search query', () => {
     expect(query._query).to.deep.equal({ term: { a: 1 } });
   });
 
+  it('does not compact boolean "must_not" queries with a single term', () => {
+    const query = new Query(bool(mustNot([term('a', 1)])));
+    expect(query._query).to.deep.equal({ bool: { must_not: { term: { a: 1 } }}});
+  });
+
   it('pulls up boolean sub queries with one leaf', () => {
     const data = bool(must([term('a', 1), bool(should([term('b', 2)]))])),
           query = new Query(data);
     expect(query._query).to.deep.equal({
       bool: {
         must: [{ term: { a: 1 } }, { term: { b: 2 } }]
+      }
+    });
+  });
+
+  it('pulls up must not sub queries with one leaf', () => {
+    const data = bool(mustNot([term('a', 1), bool(should([term('b', 2)]))])),
+          query = new Query(data);
+    expect(query._query).to.deep.equal({
+      bool: {
+        must_not: [{ term: { a: 1 } }, { term: { b: 2 } }]
       }
     });
   });
@@ -70,6 +89,25 @@ describe('search query', () => {
           { term: { a: 1 } },
           { bool: { should: [{ term: { b: 1 } }, { term: { c: 2 } }] } }
         ]
+      }
+    });
+  });
+
+  it('does not merge must_not sub queries of different types', () => {
+    const shouldq = should([term('b', 1), term('c', 2)]),
+          mustq = must([term('a', 1), bool(shouldq)]),
+          data = bool(mustNot(bool(mustq))),
+          query = new Query(data);
+    expect(query._query).to.deep.equal({
+      bool: {
+        must_not: {
+          bool: {
+            must: [
+              { term: { a: 1 } },
+              { bool: { should: [{ term: { b: 1 } }, { term: { c: 2 } }] } }
+            ]
+          }
+        }
       }
     });
   });

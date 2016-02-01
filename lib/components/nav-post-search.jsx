@@ -153,7 +153,7 @@ module.exports = class NavSearch extends React.Component {
 
   makeAwesompleteItem(data, search) {
     const $ = Awesomplete.$;
-    const match = search.match(/(?:#|@|:)?([^ ()]+)$/);
+    const match = search.match(/!?(?:#|@|:)?([^ ()]+)$/);
     const entry = match ? match[1] : UNMATCHED_VALUE;
     const value = RegExp($.regExpEscape(entry), 'gi');
 
@@ -200,16 +200,18 @@ module.exports = class NavSearch extends React.Component {
 
       awesomplete.filter = (data, inputStr) => {
         const text = data.value;
-        const match = inputStr.match(/(?:#|@|:)?([^ ()]+)$/);
+        const match = inputStr.match(/!?(?:#|@|:)?([^ ()]+)$/);
         const res = contains(text, match ? match[1] : UNMATCHED_VALUE);
         return res;
       };
 
       awesomplete.replace = text => {
         const before = input.value.match(/^.*[ ()]+|/)[0];
+        const current = input.value.substring(before.length);
         const item = this.parseAwesompleteItem(text);
+        const not = current.startsWith('!');
 
-        input.value = before + `${item.pre}${item.value}`;
+        input.value = before + `${not ? '!' : ''}${item.pre}${item.value}`;
 
         this.setState({ value: input.value }, () => this.updateQuery());
       };
