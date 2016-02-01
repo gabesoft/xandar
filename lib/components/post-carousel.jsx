@@ -29,7 +29,7 @@ module.exports = class PostContent extends React.Component {
       delClasses.forEach(cls => el.classList.remove(cls));
       el.addEventListener(event, fn);
 
-      const contentEl = el.querySelector('.post-content-data');
+      const contentEl = el.querySelector('.post-description');
       if (contentEl) {
         contentEl.scrollTop = 0;
       }

@@ -71,15 +71,16 @@ module.exports = class PostDescription extends React.Component {
     );
   }
 
+  processYoutubeLink(link) {
+    const match = link.match(/https?:\/\/www.youtube.com\/watch\?v=(.+)$/);
+    return match ? `https://youtube.com/embed/${match[1]}` : null;
+  }
+
   processYoutube() {
     const post = this.props.post._source.post;
     const link = post.link || '';
-    const match = link.match(/http:\/\/www.youtube.com\/watch\?v=(.+)$/);
-
-    if (match) {
-      const src = `https://youtube.com/embed/${match[1]}`;
-      return this.renderIframe(src);
-    }
+    const src = this.processYoutubeLink(link);
+    return src ? this.renderIframe(src) : null;
   }
 
   processMissingContent(pattern) {
@@ -96,6 +97,17 @@ module.exports = class PostDescription extends React.Component {
     const regex = new RegExp('news.ycombinator.com');
     const match = (post.comments || '').match(regex);
     return match ? this.renderIframe(link) : null;
+  }
+
+  processReddit() {
+    const post = this.props.post._source.post;
+    const link = post.link || '';
+    const regex = new RegExp('<a href="([^"]+)">\\[link\\]<\/a>', 'i');
+    const match = (post.description || '').match(regex);
+
+    if (match && match[1] && link.match(/reddit.com/)) {
+      return this.renderIframe(this.processYoutubeLink(match[1]) || match[1]);
+    }
   }
 
   processDefault() {
@@ -261,6 +273,7 @@ module.exports = class PostDescription extends React.Component {
     const processors = feeds.map(feed => () => this.processMissingContent(feed));
 
     processors.push(() => this.processHackerNews());
+    processors.push(() => this.processReddit());
     processors.push(() => this.processYoutube());
     processors.push(() => this.processDefault());
 
