@@ -1,6 +1,4 @@
 const React = require('react');
-const Navbar = require('./navbar.jsx');
-const Footer = require('./footer.jsx');
 const url = require('url');
 
 module.exports = React.createClass({
@@ -19,17 +17,13 @@ module.exports = React.createClass({
           <title>{this.props.title}</title>
           <link href={url.resolve(assets, 'app.css')} rel="stylesheet" />
         </head>
-        <body>
-          <Navbar/>
-          <div className="app-container valign-wrapper" id="app-mount">
-            <a
-              href={this.props.loginUrl}
-              className="waves-effect waves-light btn-large valign center-align-block">
-              <i className="material-icons left">lock</i>
-              Login with Github
+        <body className="light login-page">
+          <div className="app-container" id="app-mount">
+            <h1 className="intro">Hello! Please login to continue ...</h1>
+            <a href={this.props.loginUrl} className="login-button" title="Login with github">
+              <i className="mdi mdi-github-circle"></i>
             </a>
           </div>
-          <Footer/>
         </body>
       </html>
     );

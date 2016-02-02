@@ -1,5 +1,26 @@
 @import 'materialize/components/color';
 
+$background-dark-color: #002b36;
+$background-dark-highlight-color: #073642;
+
+$content-dark-emphasized-color: #586e75;
+$content-dark-color: #657b83;
+
+$content-light-color: #839496;
+$content-light-emphasized-color: #93a1a1;
+
+$background-light-highlight-color: #eee8d5;
+$background-light-color: #fdf6e3;
+
+$accent-yellow-color: #b58900;
+$accent-orange-color: #cb4b16;
+$accent-red-color: #dc322f;
+$accent-magenta-color: #d33682;
+$accent-violet-color: #6c71c4;
+$accent-blue-color: #268bd2;
+$accent-cyan-color: #2aa198;
+$accent-green-color: #859900;
+
 $primary-color: #dc322f !default;
 $primary-color-light: false !default;
 $primary-color-dark: false !default;
