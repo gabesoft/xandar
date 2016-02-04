@@ -49,3 +49,15 @@
     transform: translate3d(200%, -50%, 0);
   }
 }
+
+@keyframes typing {
+  from { width: 0 }
+}
+
+@keyframes fade-in {
+  from { opacity: 0 }
+}
+
+@keyframes caret {
+  50% { border-right-color: transparent; }
+}

@@ -1,0 +1,63 @@
+.collapsible-panel {
+  $max-width-collapsed: 35px;
+  $max-width-expanded: 40%;
+
+  min-width: $max-width-collapsed;
+  max-width: $max-width-expanded;
+  transition: max-width 0.7s ease-in-out;
+
+  .panel-content {
+    transition: opacity 0.7s ease;
+  }
+
+  &.left {
+    .drag-icon {
+      right: 0;
+    }
+  }
+
+  &.right {
+    .drag-icon {
+      left: 0;
+    }
+  }
+
+  &.collapsed {
+    max-width: $max-width-collapsed;
+
+    .panel-content {
+      opacity: 0;
+    }
+
+    .drag-icon,
+    .drag-icon:hover {
+      color: $accent-red-color;
+    }
+  }
+
+  &:hover {
+    max-width: $max-width-expanded;
+
+    .panel-content {
+      opacity: 1;
+    }
+
+    .drag-icon {
+      opacity: 1;
+    }
+  }
+
+  .drag-icon {
+    cursor: ew-resize;
+    font-size: 32px;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: opacity 0.7s;
+
+    &:hover {
+      color: $accent-blue-color;
+    }
+  }
+}

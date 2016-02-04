@@ -2,8 +2,11 @@
 @import 'materialize/materialize';
 @import 'mdi/materialdesignicons';
 @import 'mixins';
-
 @import 'animations';
+
+@import 'login-page';
+@import 'home-page';
+
 @import 'awesomplete';
 @import 'btn-icon';
 @import 'feed-list';
@@ -16,6 +19,9 @@
 @import 'react-modal';
 @import 'react-tagsinput';
 @import 'toast';
+@import 'collapsible-panel';
+@import 'nav-header';
+
 
 body {
   display: flex;
@@ -50,47 +56,10 @@ body {
   }
 }
 
-/* TODO move to animations */
-@keyframes typing {
-  from { width: 0 }
-}
-
-@keyframes caret {
-  50% { border-right-color: transparent; }
-}
-
-/* TODO move to login.scss */
-.login-page {
-  .app-container {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    height: 50%;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .intro {
-    animation: typing 6s steps(35), caret 1s steps(1) infinite;
-    border-right: .05em solid;
-    font: bold 200% Consolas, Monaco, monospace;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 35ch;
-  }
-
-  .login-button {
-    font-size: 48px;
-    color: inherit;
-
-    &:hover {
-      color: $accent-blue-color;
-    }
-
-    &:active {
-      color: $accent-red-color;
-    }
-  }
+.app-mount,
+.app-main {
+  height: 100vh;
+  width: 100%;
 }
 
 p, h1, h2, h3, h4, h5, h6 {

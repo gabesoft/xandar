@@ -17,10 +17,10 @@ module.exports = React.createClass({
           <title>{this.props.title}</title>
           <link href={url.resolve(assets, 'app.css')} rel="stylesheet" />
         </head>
-        <body className="light login-page">
+        <body className={'login-page ' + this.props.theme || 'light'}>
           <div className="app-container" id="app-mount">
             <h1 className="intro">Hello! Please login to continue ...</h1>
-            <a href={this.props.loginUrl} className="login-button" title="Login with github">
+            <a href={this.props.loginUrl} className="login-button">
               <i className="mdi mdi-github-circle"></i>
             </a>
           </div>

@@ -18,7 +18,7 @@ module.exports = React.createClass({
           <title>{this.props.title}</title>
           <link rel="stylesheet" href={url.resolve(assets, 'app.css')}/>
         </head>
-        <body>
+        <body className={this.props.page + ' ' + this.props.theme}>
           <div className="app-container" id="app-mount"></div>
           <script id="app-state"
             dangerouslySetInnerHTML={{ __html: this.props.state }}>

@@ -1,0 +1,34 @@
+.login-page {
+  .app-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .intro {
+    animation: typing 6s steps(35), caret 1s steps(1) infinite;
+    border-right: .08em solid;
+    font: bold 200% Monaco, Consolas, monospace;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 35ch;
+  }
+
+  .login-button {
+    animation: fade-in 6s;
+    color: inherit;
+    font-size: 48px;
+    opacity: 1;
+
+    &:hover {
+      color: $accent-blue-color;
+    }
+
+    &:active {
+      color: $accent-red-color;
+    }
+  }
+}

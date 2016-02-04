@@ -1,0 +1,43 @@
+.nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .nav-center {
+    flex: 1;
+  }
+
+  .nav-left,
+  .nav-right {
+    padding: 0 20px;
+  }
+
+  .nav-right {
+
+  }
+
+  .user {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .user-avatar {
+    border-radius: 50%;
+    height: auto;
+    width: 48px;
+  }
+
+  .user-info {
+    margin: 0 10px;
+
+    a {
+      color: inherit;
+    }
+
+    a:hover {
+      color: $accent-yellow-color;
+    }
+  }
+}
