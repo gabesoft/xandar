@@ -3,3 +3,37 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+@mixin flex($align-items: center, $justify-content: center, $flex-direction: row) {
+  align-items: $align-items;
+  display: flex;
+  flex-direction: $flex-direction;
+  justify-content: $justify-content;
+}
+
+@mixin position($position, $top: 0, $right: 0, $bottom: 0, $left: 0) {
+  position: $position;
+  @if ($top != 0) { top: $top; }
+  @if ($right != 0) { right: $right; }
+  @if ($bottom != 0) { bottom: $bottom; }
+  @if ($left != 0) { left: $left; }
+}
+
+@mixin absolute($args...) { @include position(absolute, $args...); }
+@mixin relative($args...) { @include position(relative, $args...); }
+@mixin fixed($args...) { @include position(fixed, $args...); }
+
+@mixin icon($size) {
+  @if ($size == 'small') {
+    font-size: 12px
+  }
+  @if ($size == 'medium') {
+    font-size: 24px
+  }
+  @if ($size == 'large') {
+    font-size: 32px
+  }
+  @if ($size == 'xlarge') {
+    font-size: 48px
+  }
+}

@@ -3,6 +3,7 @@
 @import 'mdi/materialdesignicons';
 @import 'mixins';
 @import 'animations';
+@import 'variables';
 
 @import 'login-page';
 @import 'home-page';
@@ -21,7 +22,7 @@
 @import 'toast';
 @import 'collapsible-panel';
 @import 'nav-header';
-
+@import 'forms';
 
 body {
   display: flex;

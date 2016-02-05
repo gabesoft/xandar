@@ -2,6 +2,7 @@
 
 const React = require('react');
 const ReactDOM = require('react-dom');
+const Icon = require('./icon.jsx');
 const genId = require('../util').genId;
 const $ = require('jquery');
 
@@ -66,11 +67,12 @@ module.exports = class CollapsiblePanel extends React.Component {
 
     return (
       <div ref={el => this.el = el} className={className}>
-        <i
+        <Icon
           onMouseDown={this.onMouseDown}
           onDoubleClick={this.onToggleCollapse}
-          className="mdi mdi-drag-vertical drag-icon">
-        </i>
+          name="drag-vertical"
+          className="drag-icon"
+        />
         <div className="panel-content">
           {this.props.children}
         </div>

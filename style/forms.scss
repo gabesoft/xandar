@@ -1,0 +1,15 @@
+
+input,
+input[type=search] {
+  border: none;
+  outline: none;
+
+  &:active,
+  &.valid,
+  &:focus,
+  &:focus.valid,
+  &:focus:not([readonly]) {
+    border: none;
+    box-shadow: none;
+  }
+}

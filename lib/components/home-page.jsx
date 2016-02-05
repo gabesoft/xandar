@@ -27,13 +27,13 @@ module.exports = class HomePage extends React.Component {
 
         <div className="app-content">
           <SidePanel className="app-content-left left" direction="1">
-            <span>left panel</span>
+            <span></span>
           </SidePanel>
 
           <div className="app-content-center"></div>
 
           <SidePanel className="app-content-right right" direction="-1">
-            <span>right panel</span>
+            <span></span>
           </SidePanel>
         </div>
 

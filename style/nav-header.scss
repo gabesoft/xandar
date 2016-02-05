@@ -1,26 +1,98 @@
 .nav-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  $side-width: 25%;
+  $side-width-max: 400px;
+
+  @include flex(flex-start);
+
+  padding: 10px 0;
+
+  i {
+    @include icon(medium);
+  }
+
+  .nav-center,
+  .nav-left,
+  .nav-right {
+    @include flex();
+    padding: 0 20px;
+    position: relative;
+  }
 
   .nav-center {
     flex: 1;
+    line-height: 1.2em;
+    padding: 14px 0;
   }
 
   .nav-left,
   .nav-right {
-    padding: 0 20px;
+    max-width: $side-width-max;
+    width: $side-width;
+  }
+
+  .nav-left {
+    justify-content: flex-start;
   }
 
   .nav-right {
+    justify-content: flex-end;
+  }
 
+  .search-bar {
+    @include flex();
+
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+    width: 100%;
+
+    .search-icon {
+      @include icon(medium);
+      @include absolute(14px, 0, 0, 10px);
+
+      opacity: 0.5;
+      pointer-events: none;
+      transition: opacity $delay-long ease;
+    }
+
+    .search-input:hover + .search-icon {
+      opacity: 1;
+    }
+
+    .search-input:focus + .search-icon {
+      opacity: 1;
+    }
+
+    .search-input {
+      border-bottom: 1px solid transparent;
+      margin: 0;
+      opacity: 0.5;
+      padding: 0 0 0 40px;
+      transition: opacity $delay-long ease, border-bottom $delay-long ease;
+      width: 100%;
+
+      &:focus,
+      &:hover,
+      &:focus:not([readonly]) {
+        border-bottom: 1px solid currentColor;
+        opacity: 1;
+      }
+    }
   }
 
   .user {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+    @include flex();
+
+    opacity: 0;
+    transition: opacity $delay-long ease;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .user:hover + .user-icon {
+    opacity: 0;
   }
 
   .user-avatar {
@@ -29,15 +101,34 @@
     width: 48px;
   }
 
+  .user-icon {
+    @include absolute(14px, 25px);
+
+    opacity: 0.5;
+    pointer-events: none;
+    transition: opacity $delay-long ease;
+  }
+
   .user-info {
     margin: 0 10px;
+  }
 
-    a {
-      color: inherit;
+  @media (max-width: 480px) {
+    .nav-center {
+      display: none;
     }
 
-    a:hover {
-      color: $accent-yellow-color;
+    .nav-left,
+    .nav-right {
+      padding: 0 5px;
+    }
+
+    .nav-left {
+      flex: 1;
+    }
+
+    .nav-right {
+      width: 160px;
     }
   }
 }
