@@ -1,5 +1,5 @@
 const React = require('react');
-const Feeds = require('./feed-list.jsx');
+const Feeds = require('./feed-list-old.jsx');
 const Search = require('./nav-feed-search.jsx');
 const Navbar = require('./navbar.jsx');
 const Footer = require('./footer.jsx');

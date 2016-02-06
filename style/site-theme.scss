@@ -40,3 +40,52 @@ $secondary-color-dark: darken($secondary-color, 15%);
 $success-color: #859900 !default;
 $error-color: #dc322f !default;
 $warning-color: #b58900 !default;
+
+.yellow-fg {
+  color: $accent-yellow-color;
+}
+.yellow-bg {
+  background-color: $accent-yellow-color;
+}
+.orange-fg {
+  color: $accent-orange-color;
+}
+.orange-bg {
+  background-color: $accent-orange-color;
+}
+.red-fg {
+  color: $accent-red-color;
+}
+.red-bg {
+  background-color: $accent-red-color;
+}
+.magenta-fg {
+  color: $accent-magenta-color;
+}
+.magenta-bg {
+  background-color: $accent-magenta-color;
+}
+.violet-fg {
+  color: $accent-violet-color;
+}
+.violet-bg {
+  background-color: $accent-violet-color;
+}
+.blue-fg {
+  color: $accent-blue-color;
+}
+.blue-bg {
+  background-color: $accent-blue-color;
+}
+.cyan-fg {
+  color: $accent-cyan-color;
+}
+.cyan-bg {
+  background-color: $accent-cyan-color;
+}
+.green-fg {
+  color: $accent-green-color;
+}
+.green-bg {
+  background-color: $accent-green-color;
+}

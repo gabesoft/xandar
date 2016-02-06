@@ -1,24 +1,31 @@
 .collapsible-panel {
-  $max-width-collapsed: 35px;
-  $max-width-expanded: 40%;
+  $max-width-collapsed: 20px;
+  $max-width-expanded: 60%;
+  /* $min-width-expanded: 200px; */
+  $content-padding: 10px;
+  $drag-icon-offset: -11px;
 
   min-width: $max-width-collapsed;
   max-width: $max-width-expanded;
+
   transition: max-width $delay-long ease-in-out;
 
   .panel-content {
+    @include absolute($content-padding, $content-padding, $content-padding, $content-padding);
+
+    overflow-y: scroll;
     transition: opacity $delay-long ease;
   }
 
   &.left {
     .drag-icon {
-      right: 0;
+      right: $drag-icon-offset;
     }
   }
 
   &.right {
     .drag-icon {
-      left: 0;
+      left: $drag-icon-offset;
     }
   }
 
@@ -55,10 +62,12 @@
     opacity: 0;
     padding: 15px 0;
     transform: translateY(-50%);
-    transition: opacity $delay-long;
+    transition: all $delay-long;
+    z-index: 2;
 
     &:hover {
       color: $accent-blue-color;
+      background-color: inherit;
     }
   }
 }

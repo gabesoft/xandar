@@ -1,6 +1,6 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
-const Post = require('./post.jsx');
+const Post = require('./post-old.jsx');
 const Loader = require('./loader.jsx');
 const util = require('../util');
 const timeout = util.timeout;

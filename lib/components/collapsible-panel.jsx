@@ -37,11 +37,13 @@ module.exports = class CollapsiblePanel extends React.Component {
   onMouseDown(event) {
     this.setState({ drag: true, pageX: event.pageX, pageY: event.pageY });
     $(document).on(`mousemove.${this.id}`, this.onResize);
+    $('body').addClass('noselect');
   }
 
   onMouseUp(event) {
     this.setState({ drag: false, pageX: event.pageX, pageY: event.pageY });
     $(document).off(`mousemove.${this.id}`);
+    $('body').removeClass('noselect');
   }
 
   onToggleCollapse() {
