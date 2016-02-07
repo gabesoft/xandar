@@ -1,0 +1,89 @@
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+
+  &::selection,
+  *::selection {
+    text-shadow: none;
+  }
+
+  &.light-theme {
+    @include color($background-light-color, $content-dark-color);
+
+    &::selection,
+    *::selection {
+      @include color($content-dark-emphasized-color, $background-light-color);
+    }
+
+    a {
+      color: $content-dark-emphasized-color;
+    }
+  }
+
+  &.dark-theme {
+    @include color($background-dark-color, $content-light-color);
+
+    &::selection,
+    *::selection {
+      @include color($background-light-color, $background-dark-highlight-color);
+    }
+
+    a {
+      color: $content-light-emphasized-color;
+    }
+  }
+}
+
+a:not(.icon-button) {
+  position: relative;
+  outline: none;
+
+  &:hover {
+    color: $accent-yellow-color;
+  }
+
+  &:hover:after {
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+
+  &:after {
+    content: '';
+    display: block;
+    transition: all 0.2s ease;
+    width: 0;
+    height: 1px;
+    background: currentColor;
+    position: absolute;
+    left: 50%;
+    right: 50%;
+  }
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  -webkit-font-smoothing: antialiased;
+}
+
+nav {
+  a {
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+.noselect {
+  user-select: none;
+}
+
+.hidden {
+  display: block;
+}
+
+.invisible {
+  visibility: hidden;
+}

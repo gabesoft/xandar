@@ -6,10 +6,6 @@ const Header = require('./nav-header.jsx');
 const FeedList = require('./feed-list.jsx');
 
 module.exports = class HomePage extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
 
   }

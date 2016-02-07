@@ -1,7 +1,6 @@
 .collapsible-panel {
   $max-width-collapsed: 20px;
   $max-width-expanded: 60%;
-  /* $min-width-expanded: 200px; */
   $content-padding: 10px;
   $drag-icon-offset: -11px;
 
@@ -10,11 +9,27 @@
 
   transition: max-width $delay-long ease-in-out;
 
+  .light-theme & {
+    background-color: $background-light-highlight-color;
+  }
+
+  .dark-theme & {
+    background-color: $background-dark-highlight-color;
+  }
+
   .panel-content {
     @include absolute($content-padding, $content-padding, $content-padding, $content-padding);
 
     overflow-y: scroll;
     transition: opacity $delay-long ease;
+
+    .light-theme & {
+      background-color: $background-light-color;
+    }
+
+    .dark-theme & {
+      background-color: $background-dark-color;
+    }
   }
 
   &.left {
@@ -62,7 +77,7 @@
     opacity: 0;
     padding: 15px 0;
     transform: translateY(-50%);
-    transition: all $delay-long;
+    transition: all $delay-long ease;
     z-index: 2;
 
     &:hover {

@@ -5,7 +5,7 @@ const store = require('../flux/feed-store');
 const actions = require('../flux/feed-actions');
 const constants = require('../constants');
 const feedConstants = constants.feeds;
-const Icon = require('./icon.jsx');
+const Feed = require('./feed.jsx');
 
 module.exports = class FeedList extends React.Component {
   constructor(props) {
@@ -33,26 +33,7 @@ module.exports = class FeedList extends React.Component {
   }
 
   render() {
-    const items = this.state.feeds.map(feed => {
-      const title = (feed.subscription || {}).title || feed.title;
-      return (
-        <li key={feed.id} className="feed-item">
-          <div className="avatar">
-            AP
-          </div>
-          <div className="title">
-            {title}
-          </div>
-          <div className="actions">
-            <Icon name="pencil"/>
-            <Icon name="plus-circle-outline"/>
-            <Icon name="open-in-new"/>
-            <Icon name="rss"/>
-            <Icon name="delete"/>
-          </div>
-        </li>
-      );
-    });
+    const items = this.state.feeds.map(feed => (<Feed key={feed.id} feed={feed}/>));
 
     return (
       <div className={this.props.className}>

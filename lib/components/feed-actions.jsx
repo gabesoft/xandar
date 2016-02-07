@@ -1,83 +1,31 @@
+'use strict';
+
 const React = require('react');
-const IconBtn = require('./icon-button.jsx');
-const Modal = require('./feed-delete-modal.jsx');
+const Button = require('./icon-button.jsx');
 
 module.exports = class FeedActions extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { modalIsOpen: false };
-  }
-
-  onOpenFeed(event) {
-    event.stopPropagation();
-  }
-
-  onDeleteAttempt() {
-    this.setState({ modalIsOpen: true });
-  }
-
-  onDeleteAccept() {
-    this.setState({ modalIsOpen: false });
-    this.props.onDelete();
-  }
-
-  onDeleteCancel() {
-    this.setState({ modalIsOpen: false });
-  }
-
-  renderSubscribeBtn() {
-    return (
-      <IconBtn
-        onClick={this.props.onSubscribe}
-        icon="add_circle_outline"
-        title="Subscribe to this feed"
-      />
-    );
-  }
-
-  renderUnsubscribeBtn() {
-    return (
-      <IconBtn
-        onClick={this.props.onUnsubscribe}
-        icon="remove_circle_outline"
-        title="Unsubscribe from this feed"
-      />
-    );
+    this.state = {};
   }
 
   render() {
-    const { feed, className } = this.props;
+    const feed = this.props.feed;
+
+    const subscribed = Boolean(feed.subscription);
+    const actionsClass = `actions ${subscribed ? 'five' : 'four'}`;
+
+    const edit = (<Button icon="pencil"/>);
+    const plus = (<Button icon="plus-circle-outline" color="green"/>);
+    const minus = (<Button icon="minus-circle-outline" color="red"/>);
 
     return (
-      <div className={className}>
-        {feed.subscription ? this.renderUnsubscribeBtn() : this.renderSubscribeBtn()}
-        <IconBtn
-          icon="open_in_new"
-          title="Open feed in new window"
-          href={feed.link}
-          onClick={this.onOpenFeed}
-          target="_blank"
-        />
-        <IconBtn
-          icon="wifi"
-          title="Open rss in new window"
-          className="rss-icon"
-          href={feed.uri}
-          onClick={this.onOpenFeed}
-          target="_blank"
-        />
-        <IconBtn
-          icon="delete"
-          title="Delete this feed"
-          onClick={this.onDeleteAttempt.bind(this)}
-          className="error"
-        />
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          feed={this.props.feed}
-          onAcceptClick={this.onDeleteAccept.bind(this)}
-          onCancelClick={this.onDeleteCancel.bind(this)}
-        />
+      <div className={actionsClass}>
+        {subscribed ? edit : null}
+        {subscribed ? minus : plus}
+        <Button icon="open-in-new" href={feed.link} target="_blank"/>
+        <Button icon="rss" href={feed.uri} target="_blank" color="orange"/>
+        <Button icon="delete" color="red"/>
       </div>
     );
   }

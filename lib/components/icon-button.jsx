@@ -1,5 +1,7 @@
+'use strict';
+
 const React = require('react');
-const Materialize = window.Materialize;
+const Icon = require('./icon.jsx');
 
 module.exports = class IconButton extends React.Component {
   constructor(props) {
@@ -8,36 +10,31 @@ module.exports = class IconButton extends React.Component {
   }
 
   onClick(event) {
-    if (this.props.disabled) {
+    if (this.props.href) {
+      event.stopPropagation();
+    } else if (this.props.disabled) {
       return;
     } else if (this.props.onClick) {
       this.props.onClick(event);
     } else {
-      Materialize.toast(this.props.title, 1000);
+      console.log(this.props.title || this.props.icon);
     }
   }
 
-  get className() {
-    return 'waves-effect waves-teal btn-flat btn-icon tooltipped';
-  }
-
   render() {
-    const cls = [
-      this.className,
-      this.props.className || '',
-      this.props.size || 'small'
-    ].join(' ');
+    const size = this.props.size || 'small';
+    const color = this.props.color || 'blue';
+    const className = `icon-button ${size} ${color}-fg ${this.props.className || ''}`;
 
     return (
       <a
-        className={cls}
-        href={this.props.href}
-        target={this.props.target}
+        className={className}
         disabled={this.props.disabled}
+        target={this.props.target}
+        href={this.props.href}
+        title={this.props.title}
         onClick={this.onClick}>
-        <i title={this.props.title} className="material-icons">
-          {this.props.icon}
-        </i>
+        <Icon name={this.props.icon}/>
       </a>
     );
   }

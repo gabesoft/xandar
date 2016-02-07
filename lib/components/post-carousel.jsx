@@ -2,7 +2,7 @@
 
 const React = require('react');
 const ReactDOM = require('react-dom');
-const IconBtn = require('./icon-button.jsx');
+const IconBtn = require('./btn-icon.jsx');
 const Description = require('./post-description.jsx');
 
 module.exports = class PostContent extends React.Component {

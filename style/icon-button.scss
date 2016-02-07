@@ -1,0 +1,56 @@
+@mixin icon-button($size, $color) {
+  $expanded-size: 2 * map-get($icon-sizes, $size);
+  width: $expanded-size;
+  line-height: $expanded-size;
+
+  &:hover:not([disabled]) {
+    i {
+      color: map-get($accent-colors, $color);
+    }
+  }
+
+  i {
+    @include icon($size);
+  }
+}
+
+.icon-button {
+  background-color: transparent;
+  color: currentColor;
+  display: inline-block;
+  text-align: center;
+
+  @each $color, $color-value in $accent-colors {
+    @each $size, $size-value in $icon-sizes {
+      &.#{$size}.#{$color}-fg { @include icon-button($size, $color); }
+    }
+  }
+
+  i {
+    text-align: center;
+    transform-origin: center;
+    transform: scale(1);
+    transition: all $delay-short ease;
+    vertical-align: middle;
+  }
+
+  &:hover,
+  &:hover[disabled] {
+    color: currentColor;
+  }
+
+  &:hover:not([disabled]) {
+    i {
+      transform: scale(2);
+    }
+  }
+
+  &:hover:active i {
+    transform: scale(1);
+  }
+
+  &:after,
+  &:hover:after {
+    display: none;
+  }
+}

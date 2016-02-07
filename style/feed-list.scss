@@ -1,164 +1,101 @@
-.count-display {
-  &:not(:last-child) {
-    padding: 0 5px 0 0;
-  }
-}
-
-.add-feed-btn {
-  position: relative;
-  float: left;
-  top: -8px;
-  left: 0;
-}
-
-.add-feed-loader {
-  bottom: 0px;
-  left: 15px;
-  position: absolute;
-}
-
-.feed-list-header {
-  .card-content {
-    min-height: 61px;
-  }
-}
-
 .feed-list {
-  .post {
-    $date-width: 90px;
+  line-height: 2.3;
 
-    .post-title,
-    .post-date {
-      display: inline-block;
+  @mixin feed-item-theme($color) {
+    .actions {
+      box-shadow: 0 0 16px 8px $color;
     }
 
-    .post-title {
-      width: calc(100% - #{$date-width});
+    &:hover,
+    .actions,
+    .avatar {
+      background-color: $color;
     }
-
-    .post-date {
-      width: $date-width;
-      text-align: right;
-    }
-  }
-
-  .post-list {
-    padding: 15px;
-
-    li {
-      padding: 3px 5px;
-    }
-
-    li:nth-child(odd) {
-      background-color: #eee8d5;
-    }
-  }
-
-  .feed-search {
-    margin: 0;
   }
 
   .feed-item {
-    $actions-width: 120px;
-    $post-count-width: 115px;
-    $post-count-width-small: 70px;
+    @include flex();
+    @include ellipsis();
+
+    cursor: pointer;
     position: relative;
+    transition: background-color $delay-short ease;
+    width: 100%;
 
-    .collapsible-header {
-      align-items: center;
-      display: flex;
-      justify-content: center;
-      line-height: normal;
-    }
-
-    .feed-header {
-      transition: background-color 0.5s ease-in-out;
-      background-color: #fdf6e3;
-      color: #002b36;
-
-      &:hover {
-        background-color: #eee8d5;
+    &:hover {
+      .actions {
+        opacity: 1;
       }
     }
 
-    &.feed-added .feed-header {
-      background-color: $primary-color;
+    .light-theme & {
+      @include feed-item-theme($background-light-highlight-color);
     }
 
-    .badge {
-      position: relative;
-      padding: 2px 6px;
-      min-width: 10px;
+    .dark-theme & {
+      @include feed-item-theme($background-dark-highlight-color);
+    }
 
-      &:not(.new) {
+    .post-counts {
+      $span-width: 30px;
+      $field-width: ($span-width + 5) * 2;
+
+      flex-shrink: 0;
+      font-size: 0.8em;
+      padding: 0 4px 0 0;
+      text-align: right;
+      width: $field-width;
+
+      span {
         display: inline-block;
-        min-width: 50px;
+        width: $span-width;
       }
-    }
 
-    .title-info,
-    .actions,
-    .post-count {
-      display: inline-block;
-    }
-
-    .title {
-      text-transform: capitalize;
+      .all {
+        opacity: 0.3;
+      }
     }
 
     .actions {
-      width: $actions-width;
+      @include flex(center, space-around);
+      @include absolute(0px, 0px, 0px, 0);
 
-      .btn-icon {
-        float: left;
+      opacity: 0;
+      padding: 0 10px;
+      transition: opacity $delay-short ease;
+
+      &.four {
+        width: 100px;
+      }
+
+      &.five {
+        width: 120px;
       }
     }
 
-    .title-info {
-      width: calc(100% - (#{$actions-width} + #{$post-count-width} + 15px));
-      padding: 8px 0;
+    .avatar {
+      $avatar-size: 24px;
+
+      @include flex();
+
+      border-radius: 50%;
+      color: $accent-yellow-color;
+      font-size: 0.8em;
+      font-weight: 300;
+      height: $avatar-size;
+      margin: 0 2px;
+      min-width: $avatar-size;
+      width: $avatar-size;
     }
 
-    .post-count {
-      text-align: right;
-      width: $post-count-width;
-    }
+    .title {
+      @include ellipsis();
 
-    @media #{$small-and-down} {
-      .post-count {
-        width: $post-count-width-small;
-      }
-
-      .title-info {
-        width: calc(100% - (#{$actions-width} + #{$post-count-width-small} + 15px));
-      }
-    }
-
-    .details-loader {
-      display: inline-block;
-      position: absolute;
-      right: 3px;
-      top: 3px;
-    }
-
-    .details-header {
-      display: inline-block;
-      width: 100%;
-
-      input {
-        width: 250px;
-      }
-    }
-
-    .details {
-      padding: 10px;
-      display: block;
-      background-color: #fdf6e3;
-
-      a {
-        color: $primary-color;
-        vertical-align: middle;
-      }
+      flex: 1;
+      font-size: 0.9em;
+      font-style: italic;
+      font-weight: 300;
+      text-transform: capitalize;
     }
   }
 }

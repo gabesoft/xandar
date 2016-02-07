@@ -1,7 +1,7 @@
 'use strict';
 
 const React = require('react');
-const IconBtn = require('./icon-button.jsx');
+const IconBtn = require('./btn-icon.jsx');
 
 module.exports = class PostQuery extends React.Component {
   constructor(props) {

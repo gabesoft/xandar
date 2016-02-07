@@ -143,7 +143,7 @@ module.exports = class FeedList extends React.Component {
     });
 
     return (
-      <ul className="collapsible feed-list">
+      <ul className="collapsible feed-list-old">
         {items}
       </ul>
     );

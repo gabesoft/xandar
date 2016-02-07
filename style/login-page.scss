@@ -19,16 +19,6 @@
 
   .login-button {
     animation: fade-in 6s;
-    color: inherit;
-    font-size: 48px;
     opacity: 1;
-
-    &:hover {
-      color: $accent-blue-color;
-    }
-
-    &:active {
-      color: $accent-red-color;
-    }
   }
 }

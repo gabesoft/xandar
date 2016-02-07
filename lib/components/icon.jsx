@@ -29,7 +29,7 @@ module.exports = class Icon extends React.Component {
   }
 
   render() {
-    const className = `mdi mdi-${this.props.name} ${this.props.className}`;
+    const className = `mdi mdi-${this.props.name} ${this.props.className || ''}`;
     return (
       <i
         className={className}

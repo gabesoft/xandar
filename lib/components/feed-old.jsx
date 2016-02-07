@@ -1,6 +1,6 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
-const FeedActions = require('./feed-actions.jsx');
+const FeedActions = require('./feed-actions-old.jsx');
 const moment = require('moment');
 const fc = require('../constants').feeds;
 const actions = require('../flux/feed-actions');

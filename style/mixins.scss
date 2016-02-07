@@ -1,3 +1,8 @@
+@mixin color($background, $foreground: currentColor) {
+  background-color: $background;
+  color: $foreground;
+}
+
 @mixin ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -24,16 +29,5 @@
 @mixin fixed($args...) { @include position(fixed, $args...); }
 
 @mixin icon($size) {
-  @if ($size == 'small') {
-    font-size: 12px
-  }
-  @if ($size == 'medium') {
-    font-size: 24px
-  }
-  @if ($size == 'large') {
-    font-size: 32px
-  }
-  @if ($size == 'xlarge') {
-    font-size: 48px
-  }
+  font-size: map-get($icon-sizes, $size);
 }

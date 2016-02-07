@@ -146,7 +146,7 @@ module.exports = class PostList extends React.Component {
 
     return (
       <div>
-        <div className="post-list">
+        <div className="post-list-old">
           {this.state.loading ? loader : this.renderPosts()}
           {(store.hasMore() && !this.state.loading) ? moreButton : null}
         </div>

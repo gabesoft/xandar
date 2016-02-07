@@ -1,21 +1,18 @@
+@import 'variables';
 @import 'site-theme';
 @import 'materialize/materialize';
 @import 'mdi/materialdesignicons';
 @import 'mixins';
 @import 'animations';
-@import 'variables';
 
+@import 'icon-button';
+
+@import 'global';
 @import 'login-page';
 @import 'home-page';
 
 @import 'awesomplete';
-@import 'btn-icon';
-@import 'feed-list';
 @import 'hljs-solarized-light';
-@import 'nav-post-search';
-@import 'post-carousel';
-@import 'post-description';
-@import 'post-list';
 @import 'post-query-list';
 @import 'react-modal';
 @import 'react-tagsinput';
@@ -23,47 +20,16 @@
 @import 'collapsible-panel';
 @import 'nav-header';
 @import 'forms';
+@import 'post-list';
+@import 'feed-list';
 
-html {
-  -webkit-font-smoothing: antialiased;
-}
-
-body {
-  display: flex;
-  height: 100vh;
-  flex-direction: column;
-
-  &::selection,
-  *::selection {
-    text-shadow: none;
-  }
-
-  &.light {
-    background-color: $background-light-color;
-    color: $content-dark-color;
-
-    &::selection,
-    *::selection {
-      background-color: $content-dark-emphasized-color;
-      color: $background-light-color;
-    }
-  }
-
-  &.dark {
-    background-color: $background-dark-color;
-    color: $content-light-color;
-
-    &::selection,
-    *::selection {
-      background-color: $background-light-color;
-      color: $background-dark-highlight-color;
-    }
-  }
-}
-
-.noselect {
-  user-select: none;
-}
+/* obsolete */
+@import 'btn-icon';
+@import 'nav-post-search';
+@import 'post-description';
+@import 'post-carousel';
+@import 'feed-list-old';
+@import 'post-list-old';
 
 .app-mount,
 .app-main {
@@ -71,29 +37,15 @@ body {
   width: 100%;
 }
 
-p, h1, h2, h3, h4, h5, h6 {
-  -webkit-font-smoothing: antialiased;
-}
-
-nav {
-  a {
-    -webkit-font-smoothing: antialiased;
-  }
-}
-
-.dropdown-button {
-  outline: none;
-}
-
-.search-form {
-  float: left;
-  width: calc(100% - 150px);
-}
-
 .app-main {
   display: flex;
   flex-flow: column;
   min-height: 100vh;
+}
+
+/* overrides */
+.dropdown-button {
+  outline: none;
 }
 
 .container {
@@ -104,6 +56,10 @@ nav {
   margin: 0 auto;
 }
 
+.search-form {
+  float: left;
+  width: calc(100% - 150px);
+}
 .collapsible-header {
   line-height: 24px;
   user-select: none;

@@ -1,89 +1,9 @@
 .home-page {
   .app-main {
+    align-items: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-  }
-
-  /* TODO deal with the duplication below */
-  &.light {
-    a {
-      color: $content-dark-emphasized-color;
-    }
-
-    .collapsible-panel {
-      background-color: $background-light-highlight-color;
-    }
-
-    .collapsible-panel .panel-content {
-      background-color: $background-light-color;
-    }
-
-    .feed-list {
-      .actions {
-        box-shadow: 0 0 16px 8px $background-light-highlight-color;
-      }
-
-      .feed-item:hover,
-      .actions,
-      .avatar {
-        background-color: $background-light-highlight-color;
-      }
-    }
-  }
-
-  &.dark {
-    a {
-      color: $content-light-emphasized-color;
-    }
-
-    .collapsible-panel {
-      background-color: $background-dark-highlight-color;
-    }
-
-    .collapsible-panel .panel-content {
-      background-color: $background-dark-color;
-    }
-
-    .feed-list {
-      .actions {
-        box-shadow: 0 0 16px 8px $background-dark-highlight-color;
-      }
-
-      .feed-item:hover,
-      .actions,
-      .avatar {
-        background-color: $background-dark-highlight-color;
-      }
-    }
-  }
-
-  a {
-    position: relative;
-    outline: none;
-
-    &:hover {
-      color: $accent-yellow-color;
-    }
-
-    &:hover:after {
-      width: 100%;
-      left: 0;
-      right: 0;
-    }
-
-    &:after {
-      content: '';
-      display: block;
-      transition: all 0.2s ease;
-      width: 0;
-      height: 1px;
-      background: currentColor;
-      position: absolute;
-      left: 50%;
-      right: 50%;
-    }
   }
 
   .app-header,
@@ -121,68 +41,6 @@
 
   .app-content-left {
     width: 25%;
-
-    /* TODO move to feed-list */
-
-    .feed-list {
-      line-height: 2.3;
-
-      .feed-item {
-        @include flex();
-        @include ellipsis();
-
-        cursor: pointer;
-
-        transition: background-color $delay-short ease;
-        width: 100%;
-
-        &:hover {
-          .actions {
-            opacity: 1;
-          }
-        }
-
-        .actions {
-          @include flex(center, space-around);
-          @include absolute(0px, 0px, 0px, 0);
-
-          opacity: 0;
-          width: 110px;
-          transition: opacity $delay-short ease;
-          padding: 0 10px;
-
-          i {
-            @include icon(small);
-          }
-
-          i:hover {
-            color: $accent-blue-color;
-          }
-        }
-
-        .avatar {
-          @include flex();
-
-          border-radius: 50%;
-          color: $accent-yellow-color;
-          font-size: 0.8em;
-          font-weight: 300;
-          height: 24px;
-          margin: 0 2px;
-          width: 24px;
-        }
-
-        .title {
-          @include ellipsis();
-
-          flex: 1;
-          font-size: 0.9em;
-          font-style: italic;
-          font-weight: 300;
-          text-transform: capitalize;
-        }
-      }
-    }
   }
 
   .app-content-center {
