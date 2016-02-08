@@ -1,9 +1,10 @@
 @mixin icon-button($size, $color) {
-  $expanded-size: 2 * map-get($icon-sizes, $size);
+  $expanded-size: $icon-scale-factor * map-get($icon-sizes, $size);
   width: $expanded-size;
   line-height: $expanded-size;
 
-  &:hover:not([disabled]) {
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
     i {
       color: map-get($accent-colors, $color);
     }
@@ -41,7 +42,7 @@
 
   &:hover:not([disabled]) {
     i {
-      transform: scale(2);
+      transform: scale($icon-scale-factor);
     }
   }
 

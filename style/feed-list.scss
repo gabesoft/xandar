@@ -13,6 +13,27 @@
     }
   }
 
+  .feed-group {
+    @include flex();
+
+    .title {
+      flex: 1;
+      font-weight: 300;
+      text-transform: capitalize;
+    }
+  }
+
+  .feed-group.closed + .feed-group-items {
+    /* display: none; */
+    height: 0;
+    overflow: hidden;
+    /* TODO animate here */
+  }
+
+  .feed-group-items {
+    padding: 0 15px;
+  }
+
   .feed-item {
     @include flex();
     @include ellipsis();
