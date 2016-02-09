@@ -78,7 +78,7 @@ module.exports = class CollapsiblePanel extends React.Component {
           size="medium"
           color={this.state.collapsed ? 'red' : 'blue'}
           title={this.state.collapsed ? pinTitle : unpinTitle}
-          className="drag-icon"
+          className="drag-icon scale-active"
         />
         <div className="panel-content">
           {this.props.children}

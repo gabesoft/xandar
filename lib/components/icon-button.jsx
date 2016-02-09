@@ -2,6 +2,7 @@
 
 const React = require('react');
 const Icon = require('./icon.jsx');
+const cls = require('../util').cls;
 
 module.exports = class IconButton extends React.Component {
   constructor(props) {
@@ -32,9 +33,13 @@ module.exports = class IconButton extends React.Component {
   }
 
   render() {
-    const size = this.props.size || 'small';
-    const color = this.props.color || 'blue';
-    const className = `icon-button ${size} ${color}-fg ${this.props.className || ''}`;
+    const className = cls(
+      'icon-button',
+      `${this.props.color || 'blue'}-fg`,
+      `${this.props.scale || 'small'}-scale`,
+      this.props.size || 'small',
+      this.props.className
+    );
 
     return (
       <a

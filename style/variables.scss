@@ -1,9 +1,12 @@
-
-$icon-scale-factor: 1.5;
-
 $delay-short: .3s;
 $delay-medium: .5s;
 $delay-long: .7s;
+
+$icon-scale-factors: (
+  "small": 1.5,
+  "medium": 2,
+  "large": 2.5
+);
 
 $icon-sizes: (
   "small": 12px,

@@ -18,10 +18,14 @@ module.exports = class FeedList extends React.Component {
     this.state = {
       feeds,
       grouped: true,
-      groupedFeeds: this.groupFeeds(feeds)
+      groupedFeeds: this.groupFeeds(feeds),
+      closedGroups: {}
     };
 
     this.onStoreChange = this.onStoreChange.bind(this);
+    this.collapseAllGroups = this.collapseAllGroups.bind(this);
+    this.expandAllGroups = this.expandAllGroups.bind(this);
+    this.toggleGroupOpen = this.toggleGroupOpen.bind(this);
   }
 
   updateFeeds() {
@@ -32,8 +36,23 @@ module.exports = class FeedList extends React.Component {
     });
   }
 
+  collapseAllGroups() {
+    this.setState({
+      closedGroups: trans(this.state.groupedFeeds).object('key', 'key').value()
+    });
+  }
+
+  expandAllGroups() {
+    this.setState({ closedGroups: {} });
+  }
+
   toggleGroupFeeds(value) {
     this.setState({ grouped: value });
+  }
+
+  toggleGroupOpen(group, open) {
+    this.state.closedGroups[group.key] = !open;
+    this.setState({ closedGroups: this.state.closedGroups });
   }
 
   groupFeeds(feeds) {
@@ -79,18 +98,24 @@ module.exports = class FeedList extends React.Component {
     store.removeListener(feedConstants.STORE_CHANGE, this.onStoreChange);
   }
 
-  renderItemsGrouped() {
+  renderGroups() {
     const items = [];
 
     this.state.groupedFeeds.forEach((group, index) => {
       const key = `${group.key}-${index}`;
       const className = `feed-group-items group-${group.key}`;
       const component = (
-        <FeedGroup key={key} group={group}/>
+        <FeedGroup
+          key={key}
+          group={group}
+          count={group.value.length}
+          closed={this.state.closedGroups[group.key]}
+          onToggleGroupOpen={this.toggleGroupOpen}
+        />
       );
       const children = (
         <li key={`${key}-items`} className={className}>
-          <ul>{this.renderItemsUngrouped(group.value)}</ul>
+          <ul>{this.renderItems(group.value)}</ul>
         </li>
       );
 
@@ -101,7 +126,7 @@ module.exports = class FeedList extends React.Component {
     return items;
   }
 
-  renderItemsUngrouped(feeds, className) {
+  renderItems(feeds, className) {
     feeds = feeds || this.state.feeds;
     return feeds.map((feed, index) => {
       return (
@@ -120,7 +145,25 @@ module.exports = class FeedList extends React.Component {
       />
     );
     const ungroup = (
-      <Button icon="ungroup" onClick={() => this.toggleGroupFeeds(false)} />
+      <Button
+        icon="ungroup"
+        title="Ungroup feeds"
+        onClick={() => this.toggleGroupFeeds(false)}
+      />
+    );
+    const expand = (
+      <Button
+        icon="plus-box"
+        title="Expand all groups"
+        onClick={this.expandAllGroups}
+      />
+    );
+    const collapse = (
+      <Button
+        icon="minus-box"
+        title="Collapse all groups"
+        onClick={this.collapseAllGroups}
+      />
     );
     const parentClass = `feed-list ${this.props.className || ''}`;
 
@@ -128,9 +171,11 @@ module.exports = class FeedList extends React.Component {
       <div className={parentClass}>
         <div className="feed-list-header">
           {grouped ? ungroup : group}
+          {grouped ? expand : null}
+          {grouped ? collapse : null}
         </div>
         <ul className="feed-list-items">
-          {grouped ? this.renderItemsGrouped() : this.renderItemsUngrouped()}
+          {grouped ? this.renderGroups() : this.renderItems()}
         </ul>
       </div>
     );

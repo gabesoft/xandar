@@ -48,7 +48,7 @@
 
     .search-icon {
       @include icon(medium);
-      @include absolute(14px, 0, 0, 10px);
+      @include absolute(14px, 0, 0, 0px);
 
       opacity: 0.5;
       pointer-events: none;

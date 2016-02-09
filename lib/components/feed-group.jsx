@@ -2,40 +2,44 @@
 
 const React = require('react');
 const Button = require('./icon-button.jsx');
+const cls = require('../util').cls;
 
 module.exports = class FeedGroup extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { closed: this.props.closed };
+    this.state = {};
   }
 
   toggleGroupOpen(open) {
-    this.setState({ closed: !open });
+    this.props.onToggleGroupOpen(this.props.group, open);
   }
 
   render() {
     const group = this.props.group;
-    const open = !this.state.closed;
-    const openGroup = (
+    const open = !this.props.closed;
+    const expand = (
       <Button
         icon="chevron-right"
+        scale="large"
         onClick={() => this.toggleGroupOpen(true)}
       />
     );
-    const closeGroup = (
+    const collapse = (
       <Button
         icon="chevron-down"
+        scale="large"
         onClick={() => this.toggleGroupOpen(false)}
       />
     );
-    const className = `feed-group ${open ? 'open' : 'closed'}`;
+    const className = cls('feed-group', open ? 'open' : 'closed');
 
     return (
       <li className={className}>
         <div className="actions">
-          {open ? closeGroup : openGroup}
+          {open ? collapse : expand}
         </div>
         <div className="title">{group.key}</div>
+        <div className="item-count">{this.props.count}</div>
       </li>
     );
   }

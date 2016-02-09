@@ -22,6 +22,7 @@
     @include absolute($content-padding, $content-padding, $content-padding, $content-padding);
 
     overflow-y: scroll;
+    padding-bottom: 30px;
     transition: opacity $delay-long ease;
 
     .light-theme & {
@@ -86,10 +87,6 @@
     &:active {
       background-color: inherit;
       opacity: 1;
-
-      i {
-        transform: scale($icon-scale-factor);
-      }
     }
   }
 }
