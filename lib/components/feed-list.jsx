@@ -8,8 +8,8 @@ const constants = require('../constants');
 const feedConstants = constants.feeds;
 const FeedItem = require('./feed-item.jsx');
 const FeedGroup = require('./feed-group.jsx');
+const Header = require('./feed-list-header.jsx');
 const trans = require('trans');
-const Button = require('./icon-button.jsx');
 
 module.exports = class FeedList extends React.Component {
   constructor(props) {
@@ -27,11 +27,15 @@ module.exports = class FeedList extends React.Component {
     this.collapseAllGroups = this.collapseAllGroups.bind(this);
     this.expandAllGroups = this.expandAllGroups.bind(this);
     this.toggleGroupOpen = this.toggleGroupOpen.bind(this);
+    this.toggleGroupFeeds = this.toggleGroupFeeds.bind(this);
     this.allGroupsCollapsed = this.allGroupsCollapsed.bind(this);
     this.allGroupsExpanded = this.allGroupsExpanded.bind(this);
-    this.anyGroupsCollapsed = this.anyGroupsCollapsed.bind(this);
-    this.anyGroupsExpanded = this.anyGroupsExpanded.bind(this);
     this.onFilterChange = debounce(this.onFilterChange.bind(this), 150);
+    this.onAddFeedStart = this.onAddFeedStart.bind(this);
+  }
+
+  onAddFeedStart() {
+    console.log('TODO: open add feed dialog');
   }
 
   updateFeeds(feeds) {
@@ -60,7 +64,7 @@ module.exports = class FeedList extends React.Component {
 
   onFilterChange(event) {
     const filter = event.target.value.toLowerCase();
-    const feeds = (filter === ':unread')
+    const feeds = (filter === ':unread' || filter === ':new')
       ? this.filterByUnread()
       : this.filterByQuery(filter);
     this.updateFeeds(feeds);
@@ -76,8 +80,12 @@ module.exports = class FeedList extends React.Component {
     this.setState({ closedGroups: {} });
   }
 
+  closedGroupsCount() {
+    return trans(this.state.closedGroups).array().filter('value').count();
+  }
+
   allGroupsCollapsed() {
-    const closed = trans(this.state.closedGroups).array().filter('value').count();
+    const closed = this.closedGroupsCount();
     const all = this.state.groupedFeeds.length;
     return closed === all;
   }
@@ -87,7 +95,7 @@ module.exports = class FeedList extends React.Component {
   }
 
   allGroupsExpanded() {
-    return Object.keys(this.state.closedGroups).length === 0;
+    return this.closedGroupsCount() === 0;
   }
 
   anyGroupsExpanded() {
@@ -184,57 +192,23 @@ module.exports = class FeedList extends React.Component {
   }
 
   render() {
-    const grouped = this.state.grouped;
-    const group = (
-      <Button
-        icon="group"
-        onClick={() => this.toggleGroupFeeds(true)}
-        title="Group feeds by first tag"
-      />
-    );
-    const ungroup = (
-      <Button
-        icon="ungroup"
-        title="Ungroup feeds"
-        onClick={() => this.toggleGroupFeeds(false)}
-      />
-    );
-    const expand = (
-      <Button
-        icon="plus-box"
-        title="Expand all groups"
-        disabled={this.allGroupsExpanded()}
-        onClick={this.expandAllGroups}
-      />
-    );
-    const collapse = (
-      <Button
-        icon="minus-box"
-        title="Collapse all groups"
-        disabled={this.allGroupsCollapsed()}
-        onClick={this.collapseAllGroups}
-      />
-    );
-    const parentClass = `feed-list ${this.props.className || ''}`;
-    const count = this.state.feeds.length;
-    const placeholder = count > 0 ? `${count} feeds` : 'loading feeds ...';
+    const className = `feed-list ${this.props.className || ''}`;
 
     return (
-      <div className={parentClass}>
-        <div className="feed-list-header">
-          <input
-            className="filter-input"
-            type="search"
-            title="Type to filter feeds"
-            placeholder={placeholder}
-            onChange={this.onFilterChange}
-          />
-          {grouped ? ungroup : group}
-          {grouped ? expand : null}
-          {grouped ? collapse : null}
-        </div>
+      <div className={className}>
+        <Header
+          toggleGroupFeeds={this.toggleGroupFeeds}
+          collapseAllGroups={this.collapseAllGroups}
+          expandAllGroups={this.expandAllGroups}
+          allGroupsExpanded={this.allGroupsExpanded()}
+          allGroupsCollapsed={this.allGroupsCollapsed()}
+          feedCount={this.state.feeds.length}
+          onFilterChange={this.onFilterChange}
+          onAddFeed={this.onAddFeedStart}
+          grouped={this.state.grouped}
+        />
         <ul className="feed-list-items">
-          {grouped ? this.renderGroups() : this.renderItems()}
+          {this.state.grouped ? this.renderGroups() : this.renderItems()}
         </ul>
       </div>
     );

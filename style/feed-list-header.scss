@@ -1,0 +1,14 @@
+.feed-list {
+  .feed-list-header {
+    @include flex();
+
+    padding: 5px 15px;
+
+    .filter-input {
+      flex: 1;
+      height: 2em;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}

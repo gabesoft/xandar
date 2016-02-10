@@ -1,0 +1,100 @@
+.feed-list {
+  @mixin feed-item-theme($color) {
+    .actions {
+      box-shadow: 0 0 16px 8px $color;
+    }
+
+    &:hover,
+    .actions,
+    .avatar {
+      background-color: $color;
+    }
+  }
+
+  .feed-item {
+    @include flex();
+    @include ellipsis();
+
+    cursor: pointer;
+    line-height: 2em;
+    position: relative;
+    transition: background-color $delay-short ease;
+    width: 100%;
+
+    &:hover {
+      .actions {
+        opacity: 1;
+      }
+    }
+
+    .light-theme & {
+      @include feed-item-theme($background-light-highlight-color);
+    }
+
+    .dark-theme & {
+      @include feed-item-theme($background-dark-highlight-color);
+    }
+
+    .post-counts {
+      $span-width: 30px;
+      $field-width: ($span-width + 5) * 2;
+
+      flex-shrink: 0;
+      font-size: 0.8em;
+      padding: 0 4px 0 0;
+      text-align: right;
+      width: $field-width;
+
+      span {
+        display: inline-block;
+        width: $span-width;
+      }
+
+      .all {
+        opacity: 0.3;
+      }
+    }
+
+    .actions {
+      @include flex(center, space-around);
+      @include absolute(0px, 0px, 0px, 0);
+
+      opacity: 0;
+      padding: 0 10px;
+      transition: opacity $delay-short ease;
+
+      &.four {
+        width: 100px;
+      }
+
+      &.five {
+        width: 120px;
+      }
+    }
+
+    .avatar {
+      $avatar-size: 24px;
+
+      @include flex();
+
+      border-radius: 50%;
+      font-size: 0.8em;
+      font-weight: 300;
+      height: $avatar-size;
+      margin: 0 2px;
+      min-width: $avatar-size;
+      text-transform: uppercase;
+      width: $avatar-size;
+    }
+
+    .title {
+      @include ellipsis();
+
+      flex: 1;
+      font-size: 0.9em;
+      font-style: italic;
+      font-weight: 300;
+      text-transform: capitalize;
+    }
+  }
+}

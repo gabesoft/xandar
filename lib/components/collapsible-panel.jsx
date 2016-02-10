@@ -4,7 +4,6 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const Button = require('./icon-button.jsx');
 const genId = require('../util').genId;
-const timeout = require('../util').timeout;
 const $ = require('jquery');
 
 module.exports = class CollapsiblePanel extends React.Component {
@@ -53,12 +52,6 @@ module.exports = class CollapsiblePanel extends React.Component {
 
   componentDidMount() {
     $(document).on(`mouseup.${this.id}`, this.onMouseUp);
-    if (this.el) {
-      const el = ReactDOM.findDOMNode(this.el);
-      timeout(100).then(() => {
-        $(el).addClass('active');
-      });
-    }
   }
 
   componentWillUnmount() {
