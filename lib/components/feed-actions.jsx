@@ -16,8 +16,8 @@ module.exports = class FeedActions extends React.Component {
     const actionsClass = `actions ${subscribed ? 'five' : 'four'}`;
 
     const edit = (<Button icon="pencil"/>);
-    const plus = (<Button icon="plus-circle-outline" color="green"/>);
-    const minus = (<Button icon="minus-circle-outline" color="red"/>);
+    const plus = (<Button icon="plus-circle-outline" title="Subscribe to feed" color="green"/>);
+    const minus = (<Button icon="minus-circle-outline" title="Unsubscribe from feed" color="red"/>);
 
     return (
       <div className={actionsClass}>

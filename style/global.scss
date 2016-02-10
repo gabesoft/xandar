@@ -66,6 +66,26 @@ a:not(.icon-button) {
   }
 }
 
+::-webkit-input-placeholder {
+  color: currentColor;
+  opacity: 0.5;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  color: currentColor;
+  opacity: 0.5;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+  color: currentColor;
+  opacity: 0.5;
+}
+
+:-ms-input-placeholder {
+  color: currentColor;
+  opacity: 0.5;
+}
+
 p, h1, h2, h3, h4, h5, h6 {
   -webkit-font-smoothing: antialiased;
 }

@@ -3,6 +3,7 @@
 const React = require('react');
 const store = require('../flux/feed-store');
 const actions = require('../flux/feed-actions');
+const debounce = require('../util').debounce;
 const constants = require('../constants');
 const feedConstants = constants.feeds;
 const FeedItem = require('./feed-item.jsx');
@@ -26,14 +27,43 @@ module.exports = class FeedList extends React.Component {
     this.collapseAllGroups = this.collapseAllGroups.bind(this);
     this.expandAllGroups = this.expandAllGroups.bind(this);
     this.toggleGroupOpen = this.toggleGroupOpen.bind(this);
+    this.allGroupsCollapsed = this.allGroupsCollapsed.bind(this);
+    this.allGroupsExpanded = this.allGroupsExpanded.bind(this);
+    this.anyGroupsCollapsed = this.anyGroupsCollapsed.bind(this);
+    this.anyGroupsExpanded = this.anyGroupsExpanded.bind(this);
+    this.onFilterChange = debounce(this.onFilterChange.bind(this), 150);
   }
 
-  updateFeeds() {
-    const feeds = store.getFeeds() || [];
+  updateFeeds(feeds) {
+    feeds = feeds || store.getFeeds() || [];
     this.setState({
       feeds,
       groupedFeeds: this.groupFeeds(feeds)
     });
+  }
+
+  filterByQuery(filter) {
+    return store
+      .getFeeds()
+      .filter(feed => {
+        const author = (feed.author || '');
+        const title = ((feed.subscription || {}).title || feed.title || '');
+        return title.toLowerCase().match(filter) || author.toLowerCase().match(filter);
+      });
+  }
+
+  filterByUnread() {
+    return store
+      .getFeeds()
+      .filter(feed => feed.subscription && feed.subscription.unreadCount > 0);
+  }
+
+  onFilterChange(event) {
+    const filter = event.target.value.toLowerCase();
+    const feeds = (filter === ':unread')
+      ? this.filterByUnread()
+      : this.filterByQuery(filter);
+    this.updateFeeds(feeds);
   }
 
   collapseAllGroups() {
@@ -44,6 +74,24 @@ module.exports = class FeedList extends React.Component {
 
   expandAllGroups() {
     this.setState({ closedGroups: {} });
+  }
+
+  allGroupsCollapsed() {
+    const closed = trans(this.state.closedGroups).array().filter('value').count();
+    const all = this.state.groupedFeeds.length;
+    return closed === all;
+  }
+
+  anyGroupsCollapsed() {
+    return !this.allGroupsExpanded();
+  }
+
+  allGroupsExpanded() {
+    return Object.keys(this.state.closedGroups).length === 0;
+  }
+
+  anyGroupsExpanded() {
+    return !this.allGroupsCollapsed();
   }
 
   toggleGroupFeeds(value) {
@@ -155,6 +203,7 @@ module.exports = class FeedList extends React.Component {
       <Button
         icon="plus-box"
         title="Expand all groups"
+        disabled={this.allGroupsExpanded()}
         onClick={this.expandAllGroups}
       />
     );
@@ -162,14 +211,24 @@ module.exports = class FeedList extends React.Component {
       <Button
         icon="minus-box"
         title="Collapse all groups"
+        disabled={this.allGroupsCollapsed()}
         onClick={this.collapseAllGroups}
       />
     );
     const parentClass = `feed-list ${this.props.className || ''}`;
+    const count = this.state.feeds.length;
+    const placeholder = count > 0 ? `${count} feeds` : 'loading feeds ...';
 
     return (
       <div className={parentClass}>
         <div className="feed-list-header">
+          <input
+            className="filter-input"
+            type="search"
+            title="Type to filter feeds"
+            placeholder={placeholder}
+            onChange={this.onFilterChange}
+          />
           {grouped ? ungroup : group}
           {grouped ? expand : null}
           {grouped ? collapse : null}

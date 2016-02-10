@@ -23,7 +23,8 @@
 
     overflow-y: scroll;
     padding-bottom: 30px;
-    transition: opacity $delay-long ease;
+    transition: opacity $delay-long linear;
+    opacity: 0;
 
     .light-theme & {
       background-color: $background-light-color;
@@ -43,6 +44,12 @@
   &.right {
     .drag-icon {
       left: $right-drag-icon-offset;
+    }
+  }
+
+  &.active:not(.collapsed) {
+    .panel-content {
+      opacity: 1;
     }
   }
 

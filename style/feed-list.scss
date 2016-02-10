@@ -13,17 +13,23 @@
     }
   }
 
-  @mixin feed-group-theme($color-bg, $color-fg) {
-    &:hover {
-      .title,
-      .item-count {
-        color: $color-fg;
-      }
-    }
-
+  @mixin feed-group-theme($color) {
     .title {
-      border-bottom: 1px solid $color-bg;
+      border-bottom: 1px solid $color;
       transform-origin: left;
+    }
+  }
+
+  .feed-list-header {
+    @include flex();
+
+    padding: 5px 15px;
+
+    .filter-input {
+      flex: 1;
+      height: 2em;
+      margin: 0;
+      padding: 0;
     }
   }
 
@@ -34,16 +40,16 @@
       padding-top: 15px;
     }
 
+    &:hover {
+      color: $accent-blue-color;
+    }
+
     .light-theme & {
-      @include feed-group-theme(
-        $background-light-highlight-color,
-        $content-dark-emphasized-color);
+      @include feed-group-theme($background-light-highlight-color);
     }
 
     .dark-theme & {
-      @include feed-group-theme(
-        $background-dark-highlight-color,
-        $content-light-emphasized-color);
+      @include feed-group-theme($background-dark-highlight-color);
     }
 
     .title,
