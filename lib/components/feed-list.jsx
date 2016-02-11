@@ -4,6 +4,7 @@ const React = require('react');
 const store = require('../flux/feed-store');
 const actions = require('../flux/feed-actions');
 const debounce = require('../util').debounce;
+const cls = require('../util').cls;
 const constants = require('../constants');
 const feedConstants = constants.feeds;
 const FeedItem = require('./feed-item.jsx');
@@ -192,7 +193,11 @@ module.exports = class FeedList extends React.Component {
   }
 
   render() {
-    const className = `feed-list ${this.props.className || ''}`;
+    const className = cls(
+      'feed-list',
+      this.props.className || '',
+      this.state.grouped ? 'grouped' : 'ungrouped'
+    );
 
     return (
       <div className={className}>

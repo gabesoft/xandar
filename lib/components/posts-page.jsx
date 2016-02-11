@@ -1,6 +1,6 @@
 const React = require('react');
 const Posts = require('./post-list-old.jsx');
-const PostQueries = require('./post-query-list.jsx');
+const PostQueries = require('./post-query-list-old.jsx');
 const Search = require('./nav-post-search.jsx');
 const Navbar = require('./navbar.jsx');
 const Footer = require('./footer.jsx');

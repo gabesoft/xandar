@@ -73,18 +73,7 @@
     }
 
     .avatar {
-      $avatar-size: 24px;
-
-      @include flex();
-
-      border-radius: 50%;
-      font-size: 0.8em;
-      font-weight: 300;
-      height: $avatar-size;
-      margin: 0 2px;
-      min-width: $avatar-size;
-      text-transform: uppercase;
-      width: $avatar-size;
+      @include item-text-avatar();
     }
 
     .title {

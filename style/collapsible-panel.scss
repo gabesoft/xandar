@@ -21,6 +21,8 @@
   .panel-content {
     @include absolute($content-padding, $content-padding, $content-padding, $content-padding);
 
+    animation: fade-in 1s;
+    opacity: 1;
     overflow-y: scroll;
     padding-bottom: 30px;
     transition: opacity $delay-long linear;

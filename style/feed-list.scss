@@ -1,3 +1,13 @@
 .feed-list {
   line-height: 1em;
+
+  .feed-list-items {
+    padding: 5px;
+  }
+
+  &.grouped {
+    .feed-list-items {
+      padding: 0;
+    }
+  }
 }

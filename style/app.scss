@@ -13,7 +13,6 @@
 
 @import 'awesomplete';
 @import 'hljs-solarized-light';
-@import 'post-query-list';
 @import 'react-modal';
 @import 'react-tagsinput';
 @import 'toast';
@@ -21,6 +20,9 @@
 @import 'nav-header';
 @import 'forms';
 @import 'post-list';
+
+@import 'post-query-list';
+@import 'post-query-item';
 
 @import 'feed-list';
 @import 'feed-list-header';
@@ -34,6 +36,7 @@
 @import 'post-carousel';
 @import 'feed-list-old';
 @import 'post-list-old';
+@import 'post-query-list-old';
 
 .app-mount,
 .app-main {

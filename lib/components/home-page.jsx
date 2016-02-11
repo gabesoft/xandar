@@ -4,6 +4,7 @@ const React = require('react');
 const SidePanel = require('./collapsible-panel.jsx');
 const Header = require('./nav-header.jsx');
 const FeedList = require('./feed-list.jsx');
+const PostQueryList = require('./post-query-list.jsx');
 
 module.exports = class HomePage extends React.Component {
   componentDidMount() {
@@ -35,7 +36,7 @@ module.exports = class HomePage extends React.Component {
           </div>
 
           <SidePanel className="app-content-right right" direction="-1">
-            <span></span>
+            <PostQueryList/>
           </SidePanel>
         </div>
 
