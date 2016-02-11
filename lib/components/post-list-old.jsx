@@ -13,7 +13,7 @@ const actions = require('../flux/post-actions');
 const Carousel = require('./post-carousel.jsx');
 const toast = require('../toast').toast;
 
-module.exports = class PostList extends React.Component {
+module.exports = class PostListOld extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

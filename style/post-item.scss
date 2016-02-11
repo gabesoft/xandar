@@ -1,0 +1,86 @@
+.post-list {
+  @mixin post-item-theme($color) {
+    .actions {
+      box-shadow: 0 0 16px 8px $color;
+    }
+
+    &:hover,
+    .actions,
+    .feed-info .avatar {
+      background-color: $color;
+    }
+  }
+
+  .post-item {
+    @include flex();
+    @include ellipsis();
+
+    cursor: pointer;
+    line-height: 2em;
+    position: relative;
+    transition: background-color $delay-short ease;
+    width: 100%;
+
+    &:hover {
+      .actions {
+        opacity: 1;
+      }
+    }
+
+    .light-theme & {
+      @include post-item-theme($background-light-highlight-color);
+    }
+
+    .dark-theme & {
+      @include post-item-theme($background-dark-highlight-color);
+    }
+
+    .actions {
+      @include flex(center, space-around);
+      @include absolute(0px, 0px, 0px, 0);
+
+      opacity: 0;
+      padding: 0 10px;
+      transition: opacity $delay-short ease;
+    }
+
+    .title {
+      @include ellipsis();
+
+      flex: 1;
+      font-size: 1em;
+      font-weight: 400;
+      text-transform: capitalize;
+    }
+
+    .date {
+      min-width: 75px;
+      text-align: right;
+      font-weight: 300;
+      font-size: 0.9em;
+    }
+
+    .feed-info {
+      $feed-info-width: 20%;
+
+      @include flex();
+
+      min-width: $feed-info-width;
+      width: $feed-info-width;
+
+      .avatar {
+        @include text-avatar();
+      }
+
+      .title {
+        @include ellipsis();
+
+        flex: 1;
+        font-size: 0.9em;
+        font-style: italic;
+        font-weight: 300;
+        text-transform: capitalize;
+      }
+    }
+  }
+}

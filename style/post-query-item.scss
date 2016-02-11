@@ -65,7 +65,7 @@
     }
 
     .avatar {
-      @include item-text-avatar();
+      @include text-avatar();
       text-transform: lowercase;
       font-size: 0.9em;
 

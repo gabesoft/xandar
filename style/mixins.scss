@@ -32,7 +32,7 @@
   font-size: map-get($icon-sizes, $size);
 }
 
-@mixin item-text-avatar {
+@mixin text-avatar {
   $avatar-size: 24px;
 
   @include flex();

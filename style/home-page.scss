@@ -45,6 +45,8 @@
 
   .app-content-center {
     flex: 1;
+    overflow-y: scroll;
+    box-shadow: inset 0 0 1px #000;
   }
 
   .app-content-right {
