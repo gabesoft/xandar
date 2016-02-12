@@ -76,10 +76,14 @@ module.exports = class FeedList extends React.Component {
     this.updateFeeds(feeds);
   }
 
+  getAllGroups(groupedFeeds) {
+    return trans(groupedFeeds || this.state.groupedFeeds || [])
+      .object('key', 'key')
+      .value();
+  }
+
   collapseAllGroups() {
-    this.setState({
-      closedGroups: trans(this.state.groupedFeeds).object('key', 'key').value()
-    });
+    this.setState({ closedGroups: this.getAllGroups() });
   }
 
   expandAllGroups() {
@@ -96,16 +100,8 @@ module.exports = class FeedList extends React.Component {
     return closed === all;
   }
 
-  anyGroupsCollapsed() {
-    return !this.allGroupsExpanded();
-  }
-
   allGroupsExpanded() {
     return this.closedGroupsCount() === 0;
-  }
-
-  anyGroupsExpanded() {
-    return !this.allGroupsCollapsed();
   }
 
   toggleGroupFeeds(value) {

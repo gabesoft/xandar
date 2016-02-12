@@ -19,7 +19,7 @@ module.exports = class HomePage extends React.Component {
   }
 
   componentDidMount() {
-    timeout(300).then(() => this.loadMorePosts());
+    timeout(500).then(() => this.loadMorePosts());
   }
 
   componentWillUnmount() {
