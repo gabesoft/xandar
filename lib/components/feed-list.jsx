@@ -25,6 +25,7 @@ module.exports = class FeedList extends React.Component {
     };
 
     this.onStoreChange = this.onStoreChange.bind(this);
+    this.onScroll = this.onScroll.bind(this);
     this.collapseAllGroups = this.collapseAllGroups.bind(this);
     this.expandAllGroups = this.expandAllGroups.bind(this);
     this.toggleGroupOpen = this.toggleGroupOpen.bind(this);
@@ -37,6 +38,10 @@ module.exports = class FeedList extends React.Component {
 
   onAddFeedStart() {
     console.log('TODO: open add feed dialog');
+  }
+
+  onScroll(event) {
+    this.setState({ scrolled: event.target.scrollTop > 0 });
   }
 
   updateFeeds(feeds) {
@@ -198,6 +203,7 @@ module.exports = class FeedList extends React.Component {
       this.props.className || '',
       this.state.grouped ? 'grouped' : 'ungrouped'
     );
+    const listClass = cls('feed-list-items', this.state.scrolled ? 'scrolled' : null);
 
     return (
       <div className={className}>
@@ -212,9 +218,11 @@ module.exports = class FeedList extends React.Component {
           onAddFeed={this.onAddFeedStart}
           grouped={this.state.grouped}
         />
-        <ul className="feed-list-items">
-          {this.state.grouped ? this.renderGroups() : this.renderItems()}
-        </ul>
+        <div onScroll={this.onScroll} className={listClass}>
+          <ul>
+            {this.state.grouped ? this.renderGroups() : this.renderItems()}
+          </ul>
+        </div>
       </div>
     );
   }

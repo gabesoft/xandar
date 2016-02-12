@@ -43,9 +43,9 @@ module.exports = class PostList extends React.Component {
         <div className="post-list-header">
           <span></span>
         </div>
-        <ul className="post-list-items">
-          {items}
-        </ul>
+        <div className="post-list-items">
+          <ul>{items}</ul>
+        </div>
       </div>
     );
   }

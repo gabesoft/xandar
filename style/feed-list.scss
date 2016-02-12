@@ -1,7 +1,20 @@
 .feed-list {
+  $header-height: 50px;
+
   line-height: 1em;
+  height: 100%;
+
+  .feed-list-header {
+    @include absolute(0px, 0px, 0, 0px);
+
+    height: $header-height;;
+  }
 
   .feed-list-items {
+    @include absolute($header-height, 0px, 0px, 0px);
+
+    height: calc(100% - $header-height);
+    overflow-y: scroll;
     padding: 5px;
   }
 

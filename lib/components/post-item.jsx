@@ -10,7 +10,12 @@ const Button = require('./icon-button.jsx');
 module.exports = class PostItem extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { open: false };
+    this.onClick = this.onClick.bind(this);
+  }
+
+  onClick() {
+    this.setState({ open: !this.state.open });
   }
 
   render() {
@@ -19,9 +24,16 @@ module.exports = class PostItem extends React.Component {
     const feedTitle = data._source.title;
     const color = getColor(feedTitle);
     const avatarClass = cls('avatar', `${color}-fg`);
+    const className = cls('post-item', this.state.open ? 'open' : 'closed');
+    const description = (
+      <div
+        className="description"
+        dangerouslySetInnerHTML={{ __html: post.description }}>
+      </div>
+    );
 
     return (
-      <li className="post-item">
+      <li onClick={this.onClick} className={className}>
         <div className="feed-info">
           <div className={avatarClass}>
             <span>{getInitials(feedTitle)}</span>
@@ -34,11 +46,13 @@ module.exports = class PostItem extends React.Component {
           {post.title}
         </div>
         <div className="actions">
-          <Button icon="open-in-new"/>
+          <Button icon="open-in-new" href={post.link} target="_blank" title="Open in new window"/>
+          <Button icon="view-carousel" title="Open in carousel view"/>
         </div>
         <div className="date">
           {moment(post.date).fromNow(true)}
         </div>
+        {this.state.open ? description : null}
       </li>
     );
   }

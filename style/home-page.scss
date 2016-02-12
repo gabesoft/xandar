@@ -1,4 +1,6 @@
 .home-page {
+  position: relative;
+
   .app-main {
     align-items: center;
     display: flex;
@@ -45,9 +47,10 @@
 
   .app-content-center {
     flex: 1;
+    margin: 0 15px;
     overflow-y: scroll;
-    box-shadow: inset 0 0 1px #000;
-  }
+    position: relative;
+}
 
   .app-content-right {
     width: 25%;
