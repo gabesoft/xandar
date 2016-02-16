@@ -2,6 +2,9 @@ $delay-short: .3s;
 $delay-medium: .5s;
 $delay-long: .7s;
 
+$font-content: "Open Sans", sans-serif;
+$font-headers: "Roboto Slab", serif;
+
 $icon-scale-factors: (
   "small": 1.5,
   "medium": 2,
@@ -14,3 +17,7 @@ $icon-sizes: (
   "large": 32px,
   "xlarge": 48px
 );
+
+$item-transition: $delay-short cubic-bezier(.14, .79, .62, 1);
+$header-item-height: 30px;
+$feed-info-width: 20%;

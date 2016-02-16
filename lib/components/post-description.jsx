@@ -1,6 +1,5 @@
 'use strict';
 
-
 const classes = {
   button: 'btn-highlight',
   input: 'input-highlight',
@@ -15,6 +14,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const ReactServer = require('react-dom/server');
 const escape = require('../util').regexpEscape;
+const cls = require('../util').cls;
 const Awesomplete = require('awesomplete');
 const Loader = require('./loader.jsx');
 const $ = require('jquery');
@@ -33,9 +33,11 @@ const inputFactory = React.createFactory(LangInput);
 module.exports = class PostDescription extends React.Component {
   constructor(props) {
     super(props);
+
     this.blocks = this.props.post._source.codeBlocks || [];
-    this.onIframeLoaded = this.onIframeLoaded.bind(this);
     this.state = { loading: true };
+
+    this.onIframeLoaded = this.onIframeLoaded.bind(this);
   }
 
   onIframeLoaded() {
@@ -48,8 +50,30 @@ module.exports = class PostDescription extends React.Component {
     actions.savePost(post);
   }
 
+  getClassName(isIframe) {
+    return cls(
+      classes.description,
+      this.props.className,
+      isIframe ? 'iframe' : null
+    );
+  }
+
   renderLoader() {
     return (<Loader size="big" className="post-content-loader"/>);
+  }
+
+  renderDefault() {
+    const post = this.props.post._source.post;
+    const html = { __html: post.description };
+    return (
+      <div className={this.getClassName()}>
+        <div
+          className="post-description-content"
+          ref={el => this.dataEl = el}
+          dangerouslySetInnerHTML={html}>
+        </div>
+      </div>
+    );
   }
 
   renderIframe(src) {
@@ -57,14 +81,14 @@ module.exports = class PostDescription extends React.Component {
     const html = { __html: post.description };
 
     return (
-      <div className={classes.description}>
+      <div className={this.getClassName(true)}>
         {this.state.loading ? this.renderLoader() : null}
         <iframe
           src={src}
           onLoad={this.onIframeLoaded}
           allowFullScreen
         />
-        <div className={classes.description}>
+        <div>
           <div dangerouslySetInnerHTML={html}></div>
         </div>
       </div>
@@ -108,16 +132,6 @@ module.exports = class PostDescription extends React.Component {
     if (match && match[1] && link.match(/reddit.com/)) {
       return this.renderIframe(this.processYoutubeLink(match[1]) || match[1]);
     }
-  }
-
-  processDefault() {
-    const post = this.props.post._source.post;
-    const html = { __html: post.description };
-    return (
-      <div className={classes.description}>
-        <div ref={el => this.dataEl = el} dangerouslySetInnerHTML={html}></div>
-      </div>
-    );
   }
 
   initAwesomplete(input) {
@@ -260,6 +274,10 @@ module.exports = class PostDescription extends React.Component {
     this.clearEventHandlers();
   }
 
+  componentWillReceiveProps(props) {
+    this.setState({ loading: this.props.post._id !== props.post._id });
+  }
+
   componentDidUpdate() {
     this.blocks = this.props.post._source.codeBlocks || [];
     this.initializeCodeBlocks();
@@ -275,7 +293,7 @@ module.exports = class PostDescription extends React.Component {
     processors.push(() => this.processHackerNews());
     processors.push(() => this.processReddit());
     processors.push(() => this.processYoutube());
-    processors.push(() => this.processDefault());
+    processors.push(() => this.renderDefault());
 
     return (processors.find(process => process())());
   }

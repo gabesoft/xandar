@@ -1,0 +1,71 @@
+.post-list {
+  @mixin post-item-detail-theme($color) {
+    .footer {
+      background-color: $color;
+    }
+  }
+
+  .post-item-detail {
+    $header-height: 30px;
+    $footer-height: 30px;
+
+    @include flex($flex-direction: column);
+
+    .light-theme & {
+      @include post-item-detail-theme($background-light-highlight-color);
+    }
+
+    .dark-theme & {
+      @include post-item-detail-theme($background-dark-highlight-color);
+    }
+
+    .header,
+    .footer,
+    .content {
+      width: 100%;
+    }
+
+    .header,
+    .footer {
+      cursor: pointer;
+    }
+
+    .header {
+      @include header-item(true);
+
+      height: $header-height;
+
+      .title {
+        @include item-title($font-weight: 400);
+      }
+
+      .date {
+        @include item-date();
+      }
+
+      .actions {
+        @include item-actions();
+      }
+
+      .feed-info {
+        @include feed-info-item();
+      }
+    }
+
+    .content {
+      flex: 1;
+      padding: 15px 0;
+    }
+
+    .footer {
+      @include flex(center, flex-end);
+
+      height: $footer-height;
+      position: relative;
+
+      .actions {
+        @include item-actions(1);
+      }
+    }
+  }
+}

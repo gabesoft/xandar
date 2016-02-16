@@ -24,7 +24,7 @@ function buildSass() {
   const mdiCss = new Funnel(mdiCssDir, {
     destDir: 'mdi',
     include: ['materialdesignicons.css'],
-    getDestinationPath: relPath => {
+    getDestinationPath: () => {
       return '_materialdesignicons.scss';
     }
   });

@@ -1,39 +1,6 @@
 .feed-list {
-  @mixin feed-item-theme($color) {
-    .actions {
-      box-shadow: 0 0 16px 8px $color;
-    }
-
-    &:hover,
-    .actions,
-    .avatar {
-      background-color: $color;
-    }
-  }
-
   .feed-item {
-    @include flex();
-    @include ellipsis();
-
-    cursor: pointer;
-    line-height: 2em;
-    position: relative;
-    transition: background-color $delay-short ease;
-    width: 100%;
-
-    &:hover {
-      .actions {
-        opacity: 1;
-      }
-    }
-
-    .light-theme & {
-      @include feed-item-theme($background-light-highlight-color);
-    }
-
-    .dark-theme & {
-      @include feed-item-theme($background-dark-highlight-color);
-    }
+    @include header-item();
 
     .post-counts {
       $span-width: 30px;
@@ -56,12 +23,7 @@
     }
 
     .actions {
-      @include flex(center, space-around);
-      @include absolute(0px, 0px, 0px, 0);
-
-      opacity: 0;
-      padding: 0 10px;
-      transition: opacity $delay-short ease;
+      @include item-actions();
 
       &.four {
         width: 100px;
@@ -77,13 +39,7 @@
     }
 
     .title {
-      @include ellipsis();
-
-      flex: 1;
-      font-size: 0.9em;
-      font-style: italic;
-      font-weight: 300;
-      text-transform: capitalize;
+      @include item-title();
     }
   }
 }

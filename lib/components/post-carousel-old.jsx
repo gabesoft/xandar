@@ -63,7 +63,7 @@ module.exports = class PostContent extends React.Component {
     const data = this.props.post;
     const post = data._source.post;
     return (
-      <div className="post-carousel">
+      <div className="post-carousel-old">
         <div className="post-header">
           <span className="feed-title">{data._source.title}</span>
           <span className="post-title right">{post.title}</span>

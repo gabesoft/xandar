@@ -1,10 +1,15 @@
 .post-description {
   overflow: scroll;
-  padding: 1em 2em;
+  padding: 0;
   margin: 0 auto;
   position: relative;
-  background: #fdf6e3;
-  color: #586e75;
+  color: currentColor;
+
+  .post-description-content {
+    font-size: 1em !important;
+    margin: 0 auto;
+    max-width: 650px;
+  }
 
   code, kbd, pre, samp {
     font-family: monaco, Consolas, 'Lucida Console', monospace;
@@ -41,10 +46,15 @@
     }
   }
 
+  .wp-video {
+    max-width: 100% !important;
+  }
+
   code:hover .btn-highlight {
     opacity: 1;
   }
 
+  video,
   iframe {
     border: none;
     display: block;
@@ -90,27 +100,31 @@
   }
 
   h1 {
-    font-size: 2rem;
-  }
-
-  h2 {
-    font-size: 1.6rem;
-  }
-
-  h3 {
     font-size: 1.4rem;
   }
 
-  h4 {
+  h2 {
     font-size: 1.3rem;
   }
 
-  p {
-    color: #586e75;
+  h3 {
+    font-size: 1.2rem;
   }
 
-  a {
-    color: $primary-color;
+  h4 {
+    font-size: 1.1rem;
+  }
+
+  h5 {
+    font-size: 1rem;
+  }
+
+  p {
+    color: currentColor;
+  }
+
+  a:not(.btn-icon) {
+    background-color: transparent !important;
   }
 
   img[height="1"] {
@@ -131,9 +145,20 @@
     margin: 1.5rem 0;
   }
 
+  .light-theme & {
+    .post-content-loader {
+      background-color: $background-light-color;
+    }
+  }
+
+  .dark-theme & {
+    .post-content-loader {
+      background-color: $background-dark-color;
+    }
+  }
+
   .post-content-loader {
     align-items: flex-start;
-    background: #fdf6e3;
     bottom: 0;
     display: flex;
     height: 100%;

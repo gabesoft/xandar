@@ -110,6 +110,10 @@
   from { opacity: 0 }
 }
 
+@keyframes fade-out {
+  to { opacity: 0 }
+}
+
 @keyframes caret {
   50% { border-right-color: transparent; }
 }

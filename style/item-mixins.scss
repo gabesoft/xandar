@@ -1,0 +1,111 @@
+@mixin item-actions($opacity: 0) {
+  $box-shadow: -20px 0 11px -4px;
+
+  @include flex(center, space-around);
+  @include absolute(0px, 0px, 0px, 0);
+
+  opacity: $opacity;
+  padding: 0 10px;
+  transition: opacity $item-transition;
+
+  .light-theme & {
+    box-shadow: $box-shadow $background-light-highlight-color;
+  }
+
+  .dark-theme & {
+    box-shadow: $box-shadow $background-dark-highlight-color;
+  }
+}
+
+@mixin header-item($highlight-background: false) {
+  @include flex();
+
+  cursor: pointer;
+  height: $header-item-height;
+  line-height: 2em;
+  position: relative;
+  transition: background-color $item-transition;
+  width: 100%;
+
+  &:hover {
+    .actions {
+      opacity: 1;
+    }
+  }
+
+  .light-theme & {
+    @include header-item-theme($background-light-highlight-color);
+    @if $highlight-background {
+      background-color: $background-light-highlight-color;
+    }
+  }
+
+  .dark-theme & {
+    @include header-item-theme($background-dark-highlight-color);
+    @if $highlight-background {
+      background-color: $background-dark-highlight-color;
+    }
+  }
+}
+
+@mixin header-item-theme($color) {
+  &:hover,
+  .actions,
+  .avatar {
+    background-color: $color;
+  }
+}
+
+@mixin text-avatar {
+  $avatar-size: 24px;
+
+  @include flex();
+
+  border-radius: 50%;
+  font-size: 0.8em;
+  font-weight: 400;
+  height: $avatar-size;
+  margin: 0 5px 0 1px;
+  min-width: $avatar-size;
+  text-transform: uppercase;
+  width: $avatar-size;
+}
+
+@mixin item-title($font-weight: 300, $font-size: .9em, $text-transform: capitalize, $font-style: normal, $font-family: $font-content) {
+  @include ellipsis();
+
+  flex: 1;
+  font-family: $font-family;
+  font-size: $font-size;
+  font-style: $font-style;
+  font-weight: $font-weight;
+  text-transform: $text-transform;
+}
+
+@mixin item-date() {
+  @include ellipsis();
+
+  min-width: 75px;
+  text-align: right;
+  font-weight: 300;
+  font-size: 0.9em;
+  padding: 0 5px;
+}
+
+@mixin feed-info-item() {
+  @include flex();
+
+  min-width: $feed-info-width;
+  padding-right: 5px;
+  width: $feed-info-width;
+
+  .avatar {
+    @include text-avatar();
+  }
+
+  .title {
+    @include item-title();
+
+    text-align: left;
+  }
+}

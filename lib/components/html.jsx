@@ -17,9 +17,12 @@ module.exports = React.createClass({
           <meta name="viewport" content="width=device-width, initial-scale=1"/>
           <title>{this.props.title}</title>
           <link rel="stylesheet" href={url.resolve(assets, 'app.css')}/>
+
+          <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700" rel="stylesheet" type="text/css"/>
+          <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic" rel="stylesheet" type="text/css"/>
         </head>
         <body className={this.props.page + ' ' + this.props.theme}>
-          <div className="app-container" id="app-mount"></div>
+          <div className='app-container' id="app-mount"></div>
           <script id="app-state"
             dangerouslySetInnerHTML={{ __html: this.props.state }}>
           </script>

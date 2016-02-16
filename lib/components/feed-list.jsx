@@ -21,7 +21,7 @@ module.exports = class FeedList extends React.Component {
       feeds,
       grouped: true,
       groupedFeeds: this.groupFeeds(feeds),
-      closedGroups: {}
+      closedGroups: { unsubscribed: true }
     };
 
     this.onStoreChange = this.onStoreChange.bind(this);

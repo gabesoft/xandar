@@ -2,8 +2,7 @@
 
 const React = require('react');
 const Button = require('./icon-button.jsx');
-const getInitials = require('../util').getInitials;
-const getColor = require('../util').getColor;
+const Avatar = require('./text-avatar.jsx');
 const cls = require('../util').cls;
 
 module.exports = class PostQueryItem extends React.Component {
@@ -22,16 +21,12 @@ module.exports = class PostQueryItem extends React.Component {
     const unpin = <Button icon="pin-off" title="Unpin query"/>;
     const pinned = this.state.pin !== 0;
     const title = this.state.title || query.text;
-    const color = getColor(title);
-    const avatarClass = cls('avatar', `${color}-fg`);
     const titleClass = this.state.title ? 'title' : 'text';
     const className = cls('post-query-item', pinned ? 'pinned-item' : 'unpinned-item');
 
     return (
       <li className={className}>
-        <div className={avatarClass}>
-          <span>{getInitials(title)}</span>
-        </div>
+        <Avatar text={title}/>
         <div className={titleClass} title={query.text}>
           {title}
         </div>

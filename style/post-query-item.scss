@@ -1,66 +1,34 @@
 .post-query-list {
-  @mixin post-query-item-theme($color-bg, $color-fg) {
-    .actions {
-      box-shadow: 0 0 16px 8px $color-bg;
-    }
-
+  @mixin post-query-item-theme($color) {
     &.pinned-item {
       .avatar {
-        box-shadow: 0 0 0 .5px $color-fg;
+        box-shadow: 0 0 0 .6px $color;
       }
-    }
-
-    &:hover,
-    .actions,
-    .avatar {
-      background-color: $color-bg;
     }
   }
 
   .post-query-item {
-    @include flex();
-    @include ellipsis();
-
-    cursor: pointer;
-    line-height: 2em;
-    position: relative;
-    transition: background-color $delay-short ease;
-    width: 100%;
+    @include header-item();
 
     .light-theme & {
-      @include post-query-item-theme($background-light-highlight-color, $content-light-emphasized-color);
+      @include post-query-item-theme($content-light-emphasized-color);
     }
 
     .dark-theme & {
-      @include post-query-item-theme($background-dark-highlight-color, $content-dark-emphasized-color);
-    }
-
-    &:hover {
-      .actions {
-        opacity: 1;
-      }
+      @include post-query-item-theme($content-dark-emphasized-color);
     }
 
     .text,
     .title {
-      @include ellipsis();
-
-      flex: 1;
-      font-size: 0.9em;
-      font-weight: 300;
+      @include item-title();
     }
 
-    .title {
-      text-transform: capitalize;
+    .text {
+      text-transform: none;
     }
 
     .actions {
-      @include flex(center, space-around);
-      @include absolute(0px, 0px, 0px, 0);
-
-      opacity: 0;
-      padding: 0 10px;
-      transition: opacity $delay-short ease;
+      @include item-actions();
       width: 60px;
     }
 

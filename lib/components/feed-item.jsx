@@ -2,10 +2,8 @@
 
 const React = require('react');
 const Actions = require('./feed-item-actions.jsx');
-const getInitials = require('../util').getInitials;
-const getColor = require('../util').getColor;
-const cls = require('../util').cls;
 const Counts = require('./post-counts.jsx');
+const Avatar = require('./text-avatar.jsx');
 
 
 module.exports = class Feed extends React.Component {
@@ -14,14 +12,10 @@ module.exports = class Feed extends React.Component {
     const title = (feed.subscription || {}).title || feed.title;
     const subscribed = Boolean(feed.subscription);
     const className = `feed-item ${this.props.className || ''}`;
-    const color = getColor(title);
-    const avatarClass = cls('avatar', subscribed ? '' : 'invisible', `${color}-fg`);
 
     return (
       <li className={className}>
-        <div className={avatarClass}>
-          <span>{getInitials(title)}</span>
-        </div>
+        <Avatar text={title} className={subscribed ? '' : 'invisible'}/>
         <div className="title">
           {title.toLowerCase()}
         </div>

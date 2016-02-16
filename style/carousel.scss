@@ -1,0 +1,101 @@
+$sidepanel-width: 100px;
+$sidepanel-height: 400px;
+
+.carousel {
+  $content-padding: 30px;
+
+  @include flex($flex-direction: column);
+
+  height: 100%;
+  position: relative;
+
+  .post-description {
+    height: calc(100% - #{$content-padding});
+    padding-top: $content-padding;
+
+    iframe {
+      height: calc(100% - 100px);
+    }
+  }
+
+  .header {
+    @include header-item();
+
+    .title {
+      @include item-title($font-weight: 600, $font-family: $font-headers, $font-size: 1.2em);
+
+      text-align: center;
+    }
+
+    .date {
+      @include item-date();
+
+      min-width: $feed-info-width;
+      width: $feed-info-width;
+    }
+
+    .actions {
+      @include item-actions();
+    }
+
+    .feed-info {
+      @include feed-info-item();
+    }
+  }
+
+  .content {
+    flex: 1;
+    height: 100%;
+    overflow-y: scroll;
+    width: 100%;
+    opacity: 1;
+    animation: fade-in $delay-short;
+  }
+
+  .sidepanel {
+    $side-position: 15px;
+
+    @include flex($flex-direction: column);
+    @include absolute(0px, 0, 0px, 0);
+
+    opacity: 0;
+    transition: opacity $delay-short linear;
+    width: $sidepanel-width;
+    max-height: $sidepanel-height;
+    margin: auto;
+
+    .dark-theme & {
+      .icon-button {
+        background-color: $background-dark-highlight-color;
+      }
+    }
+
+    .light-theme & {
+      .icon-button {
+        background-color: $background-light-highlight-color;
+      }
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &.left {
+      left: $side-position;
+    }
+
+    &.right {
+      right: $side-position;
+    }
+
+    .icon-button {
+      opacity: 0.5;
+      transition: box-shadow $delay-short ease;
+
+      &:hover {
+        box-shadow: 0 0 0 1px currentColor;
+        opacity: 1;
+      }
+    }
+  }
+}

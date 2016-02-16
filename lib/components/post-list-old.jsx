@@ -10,7 +10,7 @@ const sc = ct.search;
 const store = require('../flux/post-store');
 const dispatcher = require('../flux/dispatcher');
 const actions = require('../flux/post-actions');
-const Carousel = require('./post-carousel.jsx');
+const Carousel = require('./post-carousel-old.jsx');
 const toast = require('../toast').toast;
 
 module.exports = class PostListOld extends React.Component {
@@ -139,7 +139,7 @@ module.exports = class PostListOld extends React.Component {
   render() {
     const moreButton = (
       <a className="waves-effect waves-light btn-large" onClick={this.onLoadMore}>
-        Load More (Showing {this.state.posts.length} of {store.getTotalPosts()})
+        Load More (Showing {this.state.posts.length} of {store.getTotalPostCount()})
       </a>
     );
     const loader = (<Loader size="medium" className="post-list-loader"/>);
