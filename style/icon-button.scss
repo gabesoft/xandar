@@ -1,7 +1,9 @@
 @mixin icon-button($size, $color, $scale-factor) {
-  $expanded-size: $scale-factor * map-get($icon-sizes, $size);
-  width: $expanded-size;
-  line-height: $expanded-size;
+  $size-value: map-get($icon-sizes, $size);
+
+  height: $size-value;
+  line-height: $size-value;
+  width: $size-value;
 
   &:hover:not([disabled]),
   &:active:not([disabled]) {
@@ -12,19 +14,11 @@
 
   &:active.scale-active,
   &:hover:not([disabled]) {
-    i {
-      transform: scale($scale-factor);
-    }
+    transform: scale($scale-factor);
   }
 
   &:hover:active:not(.scale-active) {
-    i {
-      transform: scale(1);
-    }
-  }
-
-  i {
-    @include icon($size);
+    transform: scale(1);
   }
 }
 
@@ -32,7 +26,11 @@
   background-color: transparent;
   color: currentColor;
   display: inline-block;
+  margin: 2px;
   text-align: center;
+  transform-origin: center;
+  transform: scale(1);
+  transition: all $delay-short ease;
 
   @each $color, $color-value in $accent-colors {
     @each $size, $size-value in $icon-sizes {
@@ -42,14 +40,6 @@
         }
       }
     }
-  }
-
-  i {
-    text-align: center;
-    transform-origin: center;
-    transform: scale(1);
-    transition: all $delay-short ease;
-    vertical-align: middle;
   }
 
   &[disabled] {

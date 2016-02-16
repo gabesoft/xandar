@@ -36,7 +36,7 @@
       height: $header-height;
 
       .title {
-        @include item-title($font-weight: 400);
+        @include item-title($font-weight: 400, $font-family: $font-headers);
       }
 
       .date {
@@ -45,6 +45,7 @@
 
       .actions {
         @include item-actions();
+
       }
 
       .feed-info {
@@ -65,6 +66,7 @@
 
       .actions {
         @include item-actions(1);
+
       }
     }
   }

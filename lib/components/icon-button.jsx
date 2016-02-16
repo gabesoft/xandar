@@ -51,7 +51,7 @@ module.exports = class IconButton extends React.Component {
         onDoubleClick={this.onDoubleClick}
         onMouseDown={this.onMouseDown}
         onClick={this.onClick}>
-        <Icon name={this.props.icon}/>
+        <Icon name={this.props.icon} size={this.props.size}/>
       </a>
     );
   }

@@ -11,34 +11,35 @@ const Funnel = require('broccoli-funnel'),
 
 function buildSass() {
   const modulesDir = 'node_modules';
+  const vendorFonts = path.join('vendor', 'fonts');
+  const vendorStyle = path.join('vendor', 'style');
+
   const materializeDir = path.join(modulesDir, 'materialize-css');
-  const mdiFontsDir = path.join(modulesDir, 'mdi', 'fonts');
-  const mdiCssDir = path.join(modulesDir, 'mdi', 'css');
-  const robotoFontsDir = path.join(materializeDir, 'dist', 'font', 'roboto');
+  const mdiCommunityFontsDir = path.join(vendorFonts, 'mdi');
 
   const materialize = new Funnel(path.join(materializeDir, 'sass'), {
     destDir: 'materialize',
     include: ['**/*.scss']
   });
-  const mdiFonts = new Funnel(mdiFontsDir, { destDir: 'fonts' });
-  const mdiCss = new Funnel(mdiCssDir, {
+
+  const mdiCommunityFonts = new Funnel(mdiCommunityFontsDir, { destDir: 'fonts' });
+  const mdiCommunityStyle = new Funnel(vendorStyle, {
     destDir: 'mdi',
-    include: ['materialdesignicons.css'],
+    include: ['mdi.css'],
     getDestinationPath: () => {
       return '_materialdesignicons.scss';
     }
   });
 
-  const robotoFonts = new Funnel(robotoFontsDir, { destDir: 'font/roboto' });
   const sass = new Funnel('style', {
     destDir: '/',
     include: ['**/*.scss']
   });
-  const css = new Sass([sass, materialize, mdiCss], 'app.scss', 'app.css');
+  const css = new Sass([sass, materialize, mdiCommunityStyle], 'app.scss', 'app.css');
   const cssPrefixed = new Autoprefixer(css);
   const cssMinified = new UglifyCss(cssPrefixed);
 
-  return new Merge([cssMinified, mdiFonts, robotoFonts]);
+  return new Merge([cssMinified, mdiCommunityFonts]);
 }
 
 function buildJs() {

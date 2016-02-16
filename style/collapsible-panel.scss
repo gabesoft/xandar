@@ -2,8 +2,8 @@
   $max-width-collapsed: 20px;
   $max-width-expanded: 60%;
   $content-padding: 4px;
-  $left-drag-icon-offset: -16px;
-  $right-drag-icon-offset: -16px;
+  $left-drag-icon-offset: -12px;
+  $right-drag-icon-offset: -12px;
 
   min-width: $max-width-collapsed;
   max-width: $max-width-expanded;
@@ -73,17 +73,42 @@
   }
 
   .drag-icon {
+    $padding-vert: 15px;
+    $padding-side: 3px;
+
     @include absolute(50%);
 
     cursor: ew-resize;
     opacity: 0;
-    padding: 15px 0;
-    transform: translateY(-50%);
-    transition: all $delay-long ease;
     z-index: 2;
 
-    &:hover {
-      background-color: inherit;
+    i:after {
+      @include absolute(
+        -#{$padding-vert},
+        -#{$padding-side},
+        -#{$padding-vert},
+        -#{$padding-side}
+      );
+
+      content: '';
+      opacity: 0;
+      transition: opacity $delay-short;
+      z-index: -1;
+
+      .light-theme & {
+        background-color: $background-light-highlight-color;
+      }
+
+      .dark-theme & {
+        background-color: $background-dark-highlight-color;
+      }
+    }
+
+    &:hover,
+    &:active {
+      i:after {
+        opacity: 1;
+      }
     }
 
     &:active {

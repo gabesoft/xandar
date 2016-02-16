@@ -1,6 +1,7 @@
 'use strict';
 
 const React = require('react');
+const cls = require('../util').cls;
 
 module.exports = class Icon extends React.Component {
   constructor(props) {
@@ -29,7 +30,13 @@ module.exports = class Icon extends React.Component {
   }
 
   render() {
-    const className = `mdi mdi-${this.props.name} ${this.props.className || ''}`;
+    const className = cls(
+      'mdi',
+      `mdi-${this.props.name}`,
+      this.props.className || '',
+      this.props.size || 'small'
+    );
+
     return (
       <i
         className={className}

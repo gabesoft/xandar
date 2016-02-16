@@ -11,7 +11,7 @@
     }
 
     .title {
-      @include item-title($font-weight: 400, $font-family: $font-headers, $font-size: 1em);
+      @include item-title($font-weight: 400, $font-family: $font-headers);
     }
 
     .date {
@@ -20,6 +20,11 @@
 
     .feed-info {
       @include feed-info-item();
+    }
+
+    .new-icon {
+      color: $accent-green-color;
+      font-size: 0.6em;
     }
   }
 }

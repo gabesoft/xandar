@@ -81,7 +81,11 @@ module.exports = class Carousel extends React.Component {
           </div>
           <div className="title">{post.title}</div>
           <div className="actions">
-            <Button icon="close" color="red" onClick={() => this.props.onClose(data)}/>
+            <Button
+              icon="view-list"
+              title="List view"
+              onClick={() => this.props.onClose(data)}
+            />
             <Button icon="open-in-new" href={post.link} target="_blank" title="Open in new window"/>
           </div>
           <Date value={post.date}/>

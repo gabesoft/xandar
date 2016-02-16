@@ -20,14 +20,14 @@ module.exports = class FeedGroup extends React.Component {
     const expand = (
       <Button
         icon="chevron-right"
-        scale="large"
+        scale="medium"
         onClick={() => this.toggleGroupOpen(true)}
       />
     );
     const collapse = (
       <Button
         icon="chevron-down"
-        scale="large"
+        scale="medium"
         onClick={() => this.toggleGroupOpen(false)}
       />
     );

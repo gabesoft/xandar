@@ -26,9 +26,6 @@ module.exports = class HomePage extends React.Component {
   componentDidMount() {
     this.loadMorePosts();
     timeout(500).then(() => this.loadMorePosts());
-
-    // TODO: remove
-    /* timeout(500).then(() => this.setState({ carouselIndex: 17 })); */
   }
 
   loadMorePosts() {
@@ -41,7 +38,7 @@ module.exports = class HomePage extends React.Component {
   }
 
   onOpenInCarousel(post, index) {
-    console.log(index); // TODO: remove
+    /* console.log(index); // TODO: remove */
     this.setState({ carouselIndex: index });
   }
 

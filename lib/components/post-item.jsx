@@ -6,6 +6,7 @@ const Button = require('./icon-button.jsx');
 const Avatar = require('./text-avatar.jsx');
 const Date = require('./date.jsx');
 const cls = require('../util').cls;
+const Icon = require('./icon.jsx');
 
 module.exports = class PostItemClosed extends React.Component {
   constructor(props) {
@@ -22,8 +23,14 @@ module.exports = class PostItemClosed extends React.Component {
   render() {
     const data = this.props.post;
     const post = data._source.post;
+    const read = data._source.read;
     const feedTitle = data._source.title;
-    const className = cls('post-item', this.props.highlight ? 'highlight' : null);
+    const newIcon = <span className="new-icon">NEW</span>;
+    const className = cls(
+      'post-item',
+      this.props.highlight ? 'highlight' : null,
+      read ? null : 'unread'
+    );
 
     return (
       <li onClick={() => this.props.onOpen(data)} className={className}>
@@ -40,6 +47,7 @@ module.exports = class PostItemClosed extends React.Component {
             title="Open in carousel view"
           />
         </div>
+        {read ? null : newIcon}
         <Date value={post.date}/>
       </li>
     );

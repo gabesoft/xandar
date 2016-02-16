@@ -89,8 +89,8 @@ $sidepanel-height: 400px;
     }
 
     .icon-button {
+      box-sizing: border-box;
       opacity: 0.5;
-      transition: box-shadow $delay-short ease;
 
       &:hover {
         box-shadow: 0 0 0 1px currentColor;

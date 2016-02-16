@@ -1,0 +1,11 @@
+# Material design icons
+- [community repo](https://github.com/Templarian/MaterialDesign)
+- [official repo](https://github.com/google/material-design-icons)
+- icon search
+    - https://design.google.com/icons/
+    - https://materialdesignicons.com/
+- generate font files [here](https://icomoon.io/app/#/select)
+    - preferences 
+    - font name: material-design-icons
+    - class prefix: mdi-
+- copy the font files as well as style.css

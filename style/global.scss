@@ -81,6 +81,12 @@ nav {
   }
 }
 
+i {
+  @each $size, $size-value in $icon-sizes {
+    &.#{$size} { @include icon($size); }
+  }
+}
+
 blockquote {
   .light-theme & {
     border-left: 3px solid $content-dark-color;

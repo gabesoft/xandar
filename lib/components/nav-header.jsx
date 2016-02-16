@@ -43,7 +43,7 @@ module.exports = class NavHeader extends React.Component {
               </a>
             </div>
           </div>
-          <Icon name="account-outline" className="user-icon"/>
+          <Icon name="account-outline" className="user-icon" size="medium"/>
         </div>
       </div>
     );

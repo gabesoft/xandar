@@ -21,7 +21,7 @@ module.exports = class LoginPage extends React.Component {
           <div className="app-container" id="app-mount">
             <h1 className="intro">Hello! Please login to continue ...</h1>
             <Button
-              icon="github-circle"
+              icon="github"
               className="login-button"
               size="xlarge"
               href={this.props.loginUrl}
