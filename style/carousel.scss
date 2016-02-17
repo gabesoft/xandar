@@ -11,7 +11,7 @@ $sidepanel-height: 400px;
 
   .post-description {
     height: calc(100% - #{$content-padding});
-    padding-top: $content-padding;
+    padding: $content-padding 0;
 
     iframe {
       height: calc(100% - 100px);

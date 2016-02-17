@@ -7,7 +7,7 @@ const router = require('react-router');
 const Router = router.Router;
 const Route = router.Route;
 const Redirect = router.Redirect;
-const history = require('../history');
+const history = require('react-router').browserHistory;
 
 module.exports = class AppRouter extends React.Component {
   constructor(props) {

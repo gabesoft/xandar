@@ -4,6 +4,16 @@ const React = require('react');
 const Button = require('./icon-button.jsx');
 
 module.exports = class FeedListHeader extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onFilterChange = this.onFilterChange.bind(this);
+  }
+
+  onFilterChange(event) {
+    event.persist();
+    this.props.onFilterChange(event);
+  }
+
   render() {
     const grouped = this.props.grouped;
 
@@ -47,7 +57,7 @@ module.exports = class FeedListHeader extends React.Component {
           type="search"
           title="Type to filter feeds"
           placeholder={placeholder}
-          onChange={this.props.onFilterChange}
+          onChange={this.onFilterChange}
         />
         {grouped ? expand : null}
         {grouped ? collapse : null}

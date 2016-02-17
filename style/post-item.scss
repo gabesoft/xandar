@@ -11,7 +11,7 @@
     }
 
     .title {
-      @include item-title($font-weight: 400, $font-family: $font-headers);
+      @include item-title($font-weight: 400, $font-family: $font-headers, $font-size: 1.1em);
     }
 
     .date {

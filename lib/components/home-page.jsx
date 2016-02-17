@@ -7,7 +7,7 @@ const FeedList = require('./feed-list.jsx');
 const PostQueryList = require('./post-query-list.jsx');
 const PostList = require('./post-list.jsx');
 const Carousel = require('./carousel.jsx');
-const cls = require('../util').cls;
+const Scrolled = require('./scrolled.jsx');
 const actions = require('../flux/post-actions');
 const store = require('../flux/post-store');
 const timeout = require('../util').timeout;
@@ -15,7 +15,7 @@ const timeout = require('../util').timeout;
 module.exports = class HomePage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { scrolled: false, carouselIndex: null };
+    this.state = { carouselIndex: null };
     this.onScroll = this.onScroll.bind(this);
     this.onOpenInCarousel = this.onOpenInCarousel.bind(this);
     this.onCarouselClose = this.onCarouselClose.bind(this);
@@ -38,7 +38,6 @@ module.exports = class HomePage extends React.Component {
   }
 
   onOpenInCarousel(post, index) {
-    /* console.log(index); // TODO: remove */
     this.setState({ carouselIndex: index });
   }
 
@@ -68,11 +67,9 @@ module.exports = class HomePage extends React.Component {
 
   onScroll(event) {
     if (this.state.carouselIndex !== null) {
-      this.setState({ scrolled: false });
       return;
     }
 
-    this.setState({ scrolled: event.target.scrollTop > 0 });
     const el = event.target;
     const scrolled = el.scrollTop / (el.scrollHeight - el.clientHeight);
     const scrollUp = el.scrollTop > this.lastScrollTop;
@@ -99,7 +96,6 @@ module.exports = class HomePage extends React.Component {
 
   render() {
     const user = this.props.route.user;
-    const centerClass = cls('app-content-center', this.state.scrolled ? 'scrolled' : null);
     const postList = (
       <PostList
         onOpenInCarousel={this.onOpenInCarousel}
@@ -117,9 +113,12 @@ module.exports = class HomePage extends React.Component {
             <FeedList/>
           </SidePanel>
 
-          <div onScroll={this.onScroll} className={centerClass}>
+          <Scrolled
+            onScroll={this.onScroll}
+            disabled={this.state.carouselIndex !== null}
+            className="app-content-center">
             {this.state.carouselIndex === null ? postList : this.renderCarousel()}
-          </div>
+          </Scrolled>
 
           <SidePanel className="app-content-right right" direction="-1">
             <PostQueryList/>

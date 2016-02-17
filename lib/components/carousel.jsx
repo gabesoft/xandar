@@ -2,11 +2,11 @@
 
 const React = require('react');
 const ReactDOM = require('react-dom');
-const cls = require('../util').cls;
 const Avatar = require('./text-avatar.jsx');
 const Date = require('./date.jsx');
 const Button = require('./icon-button.jsx');
 const Description = require('./post-description.jsx');
+const Scrolled = require('./scrolled.jsx');
 
 module.exports = class Carousel extends React.Component {
   constructor(props) {
@@ -15,12 +15,7 @@ module.exports = class Carousel extends React.Component {
 
     this.moveLeft = this.moveLeft.bind(this);
     this.moveRight = this.moveRight.bind(this);
-    this.onContentScroll = this.onContentScroll.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
-  }
-
-  onContentScroll(event) {
-    this.setState({ scrolled: event.target.scrollTop > 0 });
   }
 
   scrollElement(parent, selector) {
@@ -68,7 +63,6 @@ module.exports = class Carousel extends React.Component {
     const data = this.props.post;
     const post = data._source.post;
     const feedTitle = data._source.title;
-    const contentClass = cls('content', this.state.scrolled ? 'scrolled' : null);
 
     // TODO: set disabled sidepanels at edges
 
@@ -90,9 +84,9 @@ module.exports = class Carousel extends React.Component {
           </div>
           <Date value={post.date}/>
         </div>
-        <div className={contentClass} onScroll={this.onContentScroll}>
+        <Scrolled className="content">
           <Description post={data}/>
-        </div>
+        </Scrolled>
         <div className="sidepanel right">
           <Button onClick={this.moveRight} icon="chevron-right" size="xlarge"/>
         </div>
