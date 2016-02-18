@@ -61,6 +61,7 @@ module.exports = class HomePage extends React.Component {
     if (post._source.read !== read) {
       post._source.read = read;
       actions.savePost(post);
+      actions.updateReadStatus({ data: post });
     }
   }
 

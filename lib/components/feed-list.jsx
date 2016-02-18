@@ -20,6 +20,7 @@ module.exports = class FeedList extends React.Component {
     const feeds = store.getFeeds();
     this.state = {
       feeds,
+      filter: null,
       grouped: true,
       groupedFeeds: this.groupFeeds(feeds),
       closedGroups: { unsubscribed: true }
@@ -64,13 +65,21 @@ module.exports = class FeedList extends React.Component {
       .filter(feed => feed.subscription && feed.subscription.unreadCount > 0);
   }
 
-  onFilterChange(event) {
-    const filter = event.target.value.toLowerCase();
+  applyFilter(filter) {
+    filter = filter || this.state.filter;
+
     const feeds = (filter === ':unread' || filter === ':new')
       ? this.filterByUnread()
       : this.filterByQuery(filter);
+
     this.updateFeeds(feeds);
   }
+
+  onFilterChange(event) {
+    const filter = event.target.value.toLowerCase();
+    this.setState({ filter });
+    this.applyFilter(filter);
+}
 
   getAllGroups(groupedFeeds) {
     return trans(groupedFeeds || this.state.groupedFeeds || [])
@@ -138,7 +147,11 @@ module.exports = class FeedList extends React.Component {
 
   onStoreChange(data) {
     if (data.type === 'feeds') {
-      this.updateFeeds();
+      if (this.state.filter) {
+        this.applyFilter();
+      } else {
+        this.updateFeeds();
+      }
       this.setState({ loading: false });
     }
   }

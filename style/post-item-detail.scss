@@ -11,6 +11,9 @@
 
     @include flex($flex-direction: column);
 
+    animation: fade-in $delay-medium;
+    opacity: 1;
+
     .light-theme & {
       @include post-item-detail-theme($background-light-highlight-color);
     }
