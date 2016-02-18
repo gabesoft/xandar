@@ -35,10 +35,17 @@ module.exports = class FeedList extends React.Component {
     this.allGroupsExpanded = this.allGroupsExpanded.bind(this);
     this.onFilterChange = debounce(this.onFilterChange.bind(this), 150);
     this.onAddFeedStart = this.onAddFeedStart.bind(this);
+    this.onFeedMarkAsRead = this.onFeedMarkAsRead.bind(this);
   }
 
   onAddFeedStart() {
     console.log('TODO: open add feed dialog');
+  }
+
+  onFeedMarkAsRead(feed) {
+    feed.subscription.unreadCount = 0;
+    actions.markPostsAsRead(feed);
+    this.setState({ feeds: this.state.feeds });
   }
 
   updateFeeds(feeds) {
@@ -197,7 +204,12 @@ module.exports = class FeedList extends React.Component {
     feeds = feeds || this.state.feeds;
     return feeds.map((feed, index) => {
       return (
-        <FeedItem key={`${feed.id}-${index}`} feed={feed} className={className}/>
+        <FeedItem
+          key={`${feed.id}-${index}`}
+          feed={feed}
+          className={className}
+          onMarkAsRead={this.onFeedMarkAsRead}
+        />
       );
     });
   }

@@ -13,14 +13,42 @@ module.exports = class FeedActions extends React.Component {
     const feed = this.props.feed;
 
     const subscribed = Boolean(feed.subscription);
-    const actionsClass = `actions ${subscribed ? 'five' : 'four'}`;
+    const hasUnread = subscribed && feed.subscription.unreadCount > 0;
 
-    const edit = (<Button icon="pencil"/>);
-    const plus = (<Button icon="plus-circle-outline" title="Subscribe to feed" color="green"/>);
-    const minus = (<Button icon="minus-circle-outline" title="Unsubscribe from feed" color="red"/>);
+    const edit = (
+      <Button
+        icon="pencil"
+        onClick={this.props.onEdit}
+        title="Edit subscription"
+      />
+    );
+    const plus = (
+      <Button
+        color="green"
+        icon="plus-circle-outline"
+        onClick={this.props.onSubscribe}
+        title="Subscribe to feed"
+      />
+    );
+    const minus = (
+      <Button
+        color="red"
+        icon="minus-circle-outline"
+        onClick={this.props.onUnsubscribe}
+        title="Unsubscribe from feed"
+      />
+    );
+    const markAsRead = (
+      <Button
+        icon="read"
+        onClick={this.props.onMarkAsRead}
+        title="Mark all posts as read"
+      />
+    );
 
     return (
-      <div className={actionsClass}>
+      <div className="actions">
+        {hasUnread ? markAsRead : null}
         {subscribed ? edit : null}
         {subscribed ? minus : plus}
         <Button icon="open-in-new" href={feed.link} target="_blank"/>

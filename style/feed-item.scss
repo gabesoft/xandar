@@ -31,14 +31,6 @@
 
     .actions {
       @include item-actions();
-
-      &.four {
-        width: 100px;
-      }
-
-      &.five {
-        width: 120px;
-      }
     }
 
     .avatar {

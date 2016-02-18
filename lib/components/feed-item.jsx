@@ -20,7 +20,13 @@ module.exports = class Feed extends React.Component {
           {title.toLowerCase()}
         </div>
         <Counts feed={feed}/>
-        <Actions feed={feed}/>
+        <Actions
+          feed={feed}
+          onEdit={this.onEdit}
+          onSubscribe={this.onSubscribe}
+          onUnsubscribe={this.onUnsubscribe}
+          onMarkAsRead={() => this.props.onMarkAsRead(feed)}
+        />
       </li>
     );
   }
