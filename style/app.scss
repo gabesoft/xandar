@@ -23,6 +23,7 @@
 
 @import 'item-mixins';
 @import 'icon-button';
+@import 'loader';
 
 @import 'global';
 @import 'login-page';
@@ -83,6 +84,7 @@
   float: left;
   width: calc(100% - 150px);
 }
+
 .collapsible-header {
   line-height: 24px;
   user-select: none;

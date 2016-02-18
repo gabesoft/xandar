@@ -1,6 +1,6 @@
 .home-page {
   $header-height: 100px;
-  $footer-height: 50px;
+  $footer-height: 10px;
 
   position: relative;
 
@@ -28,7 +28,6 @@
   }
 
   .app-footer {
-    background: $content-dark-color;
     width: 100%;
     height: $footer-height;
   }
@@ -51,12 +50,31 @@
     width: 25%;
   }
 
+  &.light-theme {
+    .app-content-center.loading-more {
+      border-bottom: 2px solid $background-light-highlight-color;
+    }
+  }
+
+  &.dark-theme {
+    .app-content-center.loading-more {
+      border-bottom: 2px solid $background-dark-highlight-color;
+    }
+  }
+
   .app-content-center {
     flex: 1;
     margin: 0 15px;
     overflow-y: scroll;
     position: relative;
 }
+
+  .app-content-loader {
+    background-color: transparent;
+    height: 80px;
+    width: 80px;
+    margin: auto;
+  }
 
   .app-content-right {
     width: 25%;

@@ -266,8 +266,16 @@ module.exports = class PostDescription extends React.Component {
     }
   }
 
+  removeSharing() {
+    const el = ReactDOM.findDOMNode(this.dataEl);
+    if (el) {
+      $('a[title="Like on Facebook"]').parent().remove();
+    }
+  }
+
   componentDidMount() {
     this.initializeCodeBlocks();
+    this.removeSharing();
   }
 
   componentWillUpdate() {
@@ -281,6 +289,7 @@ module.exports = class PostDescription extends React.Component {
   componentDidUpdate() {
     this.blocks = this.props.post._source.codeBlocks || [];
     this.initializeCodeBlocks();
+    this.removeSharing();
   }
 
   componentWillUnmount() {

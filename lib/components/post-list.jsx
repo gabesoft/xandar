@@ -29,6 +29,7 @@ module.exports = class PostList extends React.Component {
 
   onOpenPost(data) {
     this.setState({ openPost: data._id });
+    this.props.markAsRead(data);
   }
 
   onClosePost(post, scroll) {

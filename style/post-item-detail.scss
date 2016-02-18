@@ -19,6 +19,10 @@
       @include post-item-detail-theme($background-dark-highlight-color);
     }
 
+    iframe {
+      max-width: 600px;
+    }
+
     .header,
     .footer,
     .content {

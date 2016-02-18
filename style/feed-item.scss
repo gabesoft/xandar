@@ -2,6 +2,9 @@
   .feed-item {
     @include header-item();
 
+    animation: fade-in $delay-medium;
+    opacity: 1;
+
     .post-counts {
       $span-width: 30px;
       $field-width: ($span-width + 5) * 2;

@@ -24,8 +24,18 @@ module.exports = class PostItemOpen extends React.Component {
 
     return (
       <div className={cls('actions', className)}>
-        <Button icon="close" color="red" onClick={() => this.props.onClose(data, scroll)}/>
-        <Button icon="open-in-new" href={post.link} target="_blank" title="Open in new window"/>
+        <Button
+          icon="close"
+          color="red"
+          onClick={() => this.props.onClose(data, scroll)}
+          title="Close post"
+        />
+        <Button
+          icon="open-in-new"
+          href={post.link}
+          target="_blank"
+          title="Open in new window"
+        />
         <Button
           icon="view-carousel"
           onClick={this.props.onOpenInCarousel}

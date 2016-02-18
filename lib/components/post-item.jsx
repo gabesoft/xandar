@@ -6,7 +6,6 @@ const Button = require('./icon-button.jsx');
 const Avatar = require('./text-avatar.jsx');
 const Date = require('./date.jsx');
 const cls = require('../util').cls;
-const Icon = require('./icon.jsx');
 
 module.exports = class PostItemClosed extends React.Component {
   constructor(props) {

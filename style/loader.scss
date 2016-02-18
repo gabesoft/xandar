@@ -1,0 +1,22 @@
+.loader {
+  @include absolute(0px, 0px, 0px, 0px);
+
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  pointer-events: none;
+  width: 100%;
+
+  @each $color, $color-value in $accent-colors {
+    .spinner-#{$color} { border-color: currentColor }
+  }
+
+  .light-theme & {
+    background-color: $background-light-color;
+  }
+
+  .dark-theme & {
+    background-color: $background-dark-color;
+  }
+}

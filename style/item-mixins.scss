@@ -23,6 +23,7 @@
   cursor: pointer;
   height: $header-item-height;
   line-height: 2em;
+  padding: 0 5px;
   position: relative;
   transition: background-color $item-transition;
   width: 100%;
@@ -85,7 +86,7 @@
 @mixin item-date() {
   @include ellipsis();
 
-  min-width: 75px;
+  min-width: 85px;
   text-align: right;
   font-weight: 300;
   font-size: 0.9em;
