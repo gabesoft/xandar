@@ -26,6 +26,8 @@ module.exports = class NavHeader extends React.Component {
     this.initAwesomplete = this.initAwesomplete.bind(this);
     this.onTagsDataChange = this.onTagsDataChange.bind(this);
     this.onFeedDataChange = this.onFeedDataChange.bind(this);
+    this.onSearchFocus = this.onSearchFocus.bind(this);
+    this.onSearchBlur = this.onSearchBlur.bind(this);
     this.updateQuery = this.updateQuery.bind(this);
     this.awesomplete = null;
     this.awesompleteInitialized = false;
@@ -42,7 +44,19 @@ module.exports = class NavHeader extends React.Component {
     this.tokenId = dispatcher.register(action => {
       switch (action.type) {
         case constants.search.SELECT_POST_QUERY:
-          this.setState({ searchValue: action.data.text });
+          this.setState({
+            searchValue: action.data.text || action.data.toString(),
+            queryTitle: action.data.title
+          });
+          break;
+        case constants.search.SAVE_POST_QUERY_DONE:
+          this.setState({ queryTitle: action.data.title });
+          break;
+        case constants.feeds.SUBSCRIBE_DONE:
+          actions.loadFeeds();
+          break;
+        case constants.feeds.UNSUBSCRIBE_DONE:
+          actions.loadFeeds();
           break;
         default:
           break;
@@ -54,6 +68,14 @@ module.exports = class NavHeader extends React.Component {
     tagStore.removeListener(constants.tags.STORE_CHANGE, this.onTagsDataChange);
     searchStore.removeListener(constants.search.STORE_CHANGE, this.onFeedDataChange);
     dispatcher.unregister(this.tokenId);
+  }
+
+  onSearchFocus() {
+    this.setState({ searchFocused: true });
+  }
+
+  onSearchBlur() {
+    this.setState({ searchFocused: false });
   }
 
   onSearchChange(event) {
@@ -80,7 +102,7 @@ module.exports = class NavHeader extends React.Component {
 
   updateQuery() {
     try {
-      this.setState({ queryError: false });
+      this.setState({ queryError: false, queryTitle: null });
 
       const last = this.state.lastQuery;
       const value = (this.state.searchValue || '').trim();
@@ -204,6 +226,10 @@ module.exports = class NavHeader extends React.Component {
   render() {
     const user = this.props.user.meta;
     const info = `${user.email} via github, click to logout`;
+    const searchFocused = this.state.searchFocused;
+    const hasTitle = this.state.queryTitle;
+    const showTitle = hasTitle && !searchFocused;
+    const headerClass = cls('header-text', showTitle ? 'title' : null);
     const className = cls(
       'nav-header',
       this.props.className,
@@ -218,6 +244,8 @@ module.exports = class NavHeader extends React.Component {
               className="search-input"
               type="search"
               onChange={this.onSearchChange}
+              onFocus={this.onSearchFocus}
+              onBlur={this.onSearchBlur}
               value={this.state.searchValue}
               ref={this.initAwesomplete}
             />
@@ -226,8 +254,10 @@ module.exports = class NavHeader extends React.Component {
         </div>
 
         <div className="nav-center">
-          <div className="header-text">
-            <span>{this.state.searchValue}</span>
+          <div className={headerClass}>
+            <span>
+              {showTitle ? this.state.queryTitle : this.state.searchValue}
+            </span>
           </div>
         </div>
 

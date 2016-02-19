@@ -1,6 +1,7 @@
 'use strict';
 
 const React = require('react');
+const ReactDOM = require('react-dom');
 const SidePanel = require('./collapsible-panel.jsx');
 const Loader = require('./loader.jsx');
 const Header = require('./nav-header.jsx');
@@ -33,13 +34,23 @@ module.exports = class HomePage extends React.Component {
     this.tokenId = dispatcher.register(action => {
       switch (action.type) {
         case constants.posts.ADD_POSTS_DONE:
-          this.setState({ loading: false });
+          this.setState({ loadingMore: false });
           break;
         case constants.posts.ADD_POSTS_FAIL:
-          this.setState({ loading: false });
+          this.setState({ loadingMore: false });
           break;
         case constants.search.UPDATE_QUERY_SEARCH:
           this.postQuery = action.query;
+          break;
+        case constants.posts.ADD_POSTS_START:
+          this.setState({ loadingMore: true });
+          break;
+        case constants.posts.LOAD_POSTS_START:
+          this.setState({ loading: true });
+          break;
+        case constants.posts.LOAD_POSTS_DONE:
+          this.setState({ loading: false });
+          this.scrollPostsToTop();
           break;
         case constants.search.SELECT_POST_QUERY:
           this.postQuery = action.data;
@@ -80,9 +91,10 @@ module.exports = class HomePage extends React.Component {
     const total = store.getTotalPostCount();
     const count = store.getPostCount();
 
-    if (total === 0 || count < total) {
+    if (total === 0) {
+      actions.loadPosts();
+    } else if (count < total) {
       actions.addPosts(this.postQuery, count);
-      this.setState({ loading: true });
     }
   }
 
@@ -138,6 +150,13 @@ module.exports = class HomePage extends React.Component {
     }
   }
 
+  scrollPostsToTop() {
+    const el = ReactDOM.findDOMNode(this.centerContentEl);
+    if (el) {
+      el.scrollTop = 0;
+    }
+  }
+
   renderCarousel() {
     const post = store.getPostByIndex(this.state.carouselIndex);
     return (
@@ -161,9 +180,10 @@ module.exports = class HomePage extends React.Component {
         highlightPost={(this.state.carouselPost || {})._id}
       />
     );
-    const loadingFirst = this.state.loading && store.getPostCount() === 0;
-    const loadingMore = this.state.loading && store.getPostCount() > 0;
-    const centerClass = cls('app-content-center', loadingMore ? 'loading-more' : null);
+    const centerClass = cls(
+      'app-content-center',
+      this.state.loadingMore ? 'loading-more' : null
+    );
 
     return (
       <div className="app-main">
@@ -178,6 +198,7 @@ module.exports = class HomePage extends React.Component {
           <Scrolled
             onScroll={this.onScroll}
             disabled={this.state.carouselIndex !== null}
+            ref={el => this.centerContentEl = el}
             className={centerClass}>
             {this.state.carouselIndex === null ? postList : this.renderCarousel()}
           </Scrolled>
@@ -186,7 +207,7 @@ module.exports = class HomePage extends React.Component {
             <PostQueryList/>
           </SidePanel>
 
-          {loadingFirst ? loader : null}
+          {this.state.loading ? loader : null}
         </div>
 
         <div className="app-footer"></div>

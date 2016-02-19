@@ -1,6 +1,6 @@
 .nav-header {
   $left-side-width: 25%;
-  $right-side-width: 15%;
+  $right-side-width: 25%;
   $side-width-max: 400px;
   $input-padding: 40px;
 
@@ -22,7 +22,7 @@
 
   .nav-center {
     flex: 1;
-    justify-content: flex-start;
+    justify-content: center;
     max-height: 85%;
     overflow: scroll;
     padding: 14px 15px;
@@ -47,6 +47,10 @@
     font-family: $font-headers;
     font-size: 1.1em;
     margin: auto 0;
+
+    &.title {
+      text-transform: capitalize;
+    }
   }
 
   .awesomplete {

@@ -5,6 +5,7 @@ const store = require('../flux/search-store');
 const constants = require('../constants');
 const actions = require('../flux/search-actions');
 const Item = require('./post-query-item.jsx');
+const dispatcher = require('../flux/dispatcher');
 
 module.exports = class PostQueryList extends React.Component {
   constructor(props) {
@@ -25,6 +26,20 @@ module.exports = class PostQueryList extends React.Component {
   componentDidMount() {
     store.addListener(constants.search.STORE_CHANGE, this.onStoreChange, false);
     actions.loadPostQueries();
+    this.tokenId = dispatcher.register(action => {
+      switch (action.type) {
+        case constants.search.SAVE_POST_QUERY_DONE:
+          actions.loadPostQueries();
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    store.removeListener(constants.search.STORE_CHANGE, this.onStoreChange);
+    dispatcher.unregister(this.tokenId);
   }
 
   render() {
