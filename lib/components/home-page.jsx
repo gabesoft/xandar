@@ -46,7 +46,7 @@ module.exports = class HomePage extends React.Component {
           this.setState({ loadingMore: true });
           break;
         case constants.posts.LOAD_POSTS_START:
-          this.setState({ loading: true });
+          this.setState({ loading: true, carouselIndex: null });
           break;
         case constants.posts.LOAD_POSTS_DONE:
           this.setState({ loading: false });
@@ -199,7 +199,8 @@ module.exports = class HomePage extends React.Component {
             onScroll={this.onScroll}
             disabled={this.state.carouselIndex !== null}
             ref={el => this.centerContentEl = el}
-            className={centerClass}>
+            className={centerClass}
+            type={this.state.carouselIndex === null ? 'list' : 'carousel'}>
             {this.state.carouselIndex === null ? postList : this.renderCarousel()}
           </Scrolled>
 

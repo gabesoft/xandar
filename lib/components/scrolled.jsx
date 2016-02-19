@@ -10,11 +10,20 @@ module.exports = class Scrolled extends React.Component {
     this.onScroll = this.onScroll.bind(this);
   }
 
+  updateScrolled(el) {
+    this.setState({ topScrolled: el && el.scrollTop > 0 });
+  }
 
   onScroll(event) {
-    this.setState({ topScrolled: event.target.scrollTop > 0 });
+    this.updateScrolled(event.target);
     if (this.props.onScroll) {
       this.props.onScroll(event);
+    }
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (this.props.type && this.props.type !== newProps.type) {
+      this.setState({ topScrolled: false });
     }
   }
 

@@ -1,22 +1,6 @@
 .post-query-list {
-  @mixin post-query-item-theme($color) {
-    &.pinned-item {
-      .avatar {
-        box-shadow: 0 0 0 .6px $color;
-      }
-    }
-  }
-
   .post-query-item {
     @include header-item();
-
-    .light-theme & {
-      @include post-query-item-theme($content-light-emphasized-color);
-    }
-
-    .dark-theme & {
-      @include post-query-item-theme($content-dark-emphasized-color);
-    }
 
     .text,
     .title {
@@ -25,6 +9,13 @@
 
     .text {
       text-transform: none;
+    }
+
+    &.pinned-item {
+      .text,
+      .title {
+        font-weight: 400;
+      }
     }
 
     .actions {

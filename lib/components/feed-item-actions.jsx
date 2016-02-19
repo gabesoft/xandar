@@ -7,6 +7,30 @@ module.exports = class FeedActions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.onSubscribe = this.onSubscribe.bind(this);
+    this.onUnsubscribe = this.onUnsubscribe.bind(this);
+    this.onEdit = this.onEdit.bind(this);
+    this.onMarkAsRead = this.onMarkAsRead.bind(this);
+  }
+
+  onSubscribe(event) {
+    event.stopPropagation();
+    this.props.onSubscribe();
+  }
+
+  onUnsubscribe(event) {
+    event.stopPropagation();
+    this.props.onUnsubscribe();
+  }
+
+  onEdit(event) {
+    event.stopPropagation();
+    this.props.onEdit();
+  }
+
+  onMarkAsRead(event) {
+    event.stopPropagation();
+    this.props.onMarkAsRead();
   }
 
   render() {
@@ -18,7 +42,7 @@ module.exports = class FeedActions extends React.Component {
     const edit = (
       <Button
         icon="pencil"
-        onClick={this.props.onEdit}
+        onClick={this.onEdit}
         title="Edit subscription"
       />
     );
@@ -26,7 +50,7 @@ module.exports = class FeedActions extends React.Component {
       <Button
         color="green"
         icon="plus-circle-outline"
-        onClick={this.props.onSubscribe}
+        onClick={this.onSubscribe}
         title="Subscribe to feed"
       />
     );
@@ -34,14 +58,14 @@ module.exports = class FeedActions extends React.Component {
       <Button
         color="red"
         icon="minus-circle-outline"
-        onClick={this.props.onUnsubscribe}
+        onClick={this.onUnsubscribe}
         title="Unsubscribe from feed"
       />
     );
     const markAsRead = (
       <Button
         icon="read"
-        onClick={this.props.onMarkAsRead}
+        onClick={this.onMarkAsRead}
         title="Mark all posts as read"
       />
     );

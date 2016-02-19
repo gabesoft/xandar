@@ -104,21 +104,16 @@ module.exports = class NavHeader extends React.Component {
     try {
       this.setState({ queryError: false, queryTitle: null });
 
-      const last = this.state.lastQuery;
       const value = (this.state.searchValue || '').trim();
       const queryObj = query.parse(value);
 
-      if (last !== queryObj.toString()) {
-        this.setState({ lastQuery: queryObj.toString() });
+      actions.updateQuerySearch({ query: queryObj });
 
-        actions.updateQuerySearch({ query: queryObj });
-
-        if ((this.state.searchValue || '').length > 0) {
-          actions.savePostQuery({ query: queryObj });
-        }
-
-        postActions.loadPosts(queryObj);
+      if ((this.state.searchValue || '').length > 0) {
+        actions.savePostQuery({ query: queryObj });
       }
+
+      postActions.loadPosts(queryObj);
     } catch (e) {
       this.setState({ queryError: true });
     }
