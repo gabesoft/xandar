@@ -20,6 +20,7 @@ module.exports = class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = { carouselIndex: null, loading: false };
+    this.postQuery = null;
     this.onScroll = this.onScroll.bind(this);
     this.onOpenInCarousel = this.onOpenInCarousel.bind(this);
     this.onCarouselClose = this.onCarouselClose.bind(this);
@@ -36,6 +37,12 @@ module.exports = class HomePage extends React.Component {
           break;
         case constants.posts.ADD_POSTS_FAIL:
           this.setState({ loading: false });
+          break;
+        case constants.search.UPDATE_QUERY_SEARCH:
+          this.postQuery = action.query;
+          break;
+        case constants.search.SELECT_POST_QUERY:
+          this.postQuery = action.data;
           break;
         default:
           break;
@@ -70,11 +77,11 @@ module.exports = class HomePage extends React.Component {
       return;
     }
 
-    const query = null; // TODO: use the current query here
     const total = store.getTotalPostCount();
     const count = store.getPostCount();
+
     if (total === 0 || count < total) {
-      actions.addPosts(query, count);
+      actions.addPosts(this.postQuery, count);
       this.setState({ loading: true });
     }
   }

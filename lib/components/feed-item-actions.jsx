@@ -51,9 +51,24 @@ module.exports = class FeedActions extends React.Component {
         {hasUnread ? markAsRead : null}
         {subscribed ? edit : null}
         {subscribed ? minus : plus}
-        <Button icon="open-in-new" href={feed.link} target="_blank"/>
-        <Button icon="ic_rss_feed_48px" href={feed.uri} target="_blank" color="orange"/>
-        <Button icon="delete" color="red"/>
+        <Button
+          icon="open-in-new"
+          href={feed.link}
+          target="_blank"
+          title="Open feed in new window"
+        />
+        <Button
+          icon="ic_rss_feed_48px"
+          href={feed.uri}
+          target="_blank"
+          title="Open rss in new window"
+          color="orange"
+        />
+        <Button
+          icon="delete"
+          color="red"
+          title="Delete feed"
+        />
       </div>
     );
   }

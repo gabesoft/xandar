@@ -2,6 +2,7 @@
 
 const expect = require('chai').expect,
       store = require('../lib/flux/search-store'),
+      tagStore = require('../lib/flux/tag-store'),
       queries = require('./support/queries.json'),
       Query = require('../lib/search-query'),
       eyes = require('eyes'),
@@ -25,6 +26,7 @@ describe('post query', () => {
         { feedId: 597, title: 'Hacker News' },
       ]
     });
+    tagStore.setTags(['javascript', 'css', 'web', 'a-tag', 'b-tag']);
   });
 
   const inputs = [

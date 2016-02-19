@@ -29,11 +29,19 @@ div.awesomplete > ul {
   padding: 0;
   border-radius: .3em;
   margin: .2em 0 0;
-  background: hsla(0,0%,100%,.9);
-  background: linear-gradient(to bottom right, white, hsla(0,0%,100%,.8));
-  border: 1px solid rgba(0,0,0,.3);
-  box-shadow: .05em .2em .6em rgba(0,0,0,.2);
   text-shadow: none;
+
+  border: 1px solid currentColor;
+
+  .dark-theme & {
+    background-color: rgba($background-dark-color, .8);
+    box-shadow: .05em .2em .6em rgba(0, 0, 0, .8);
+  }
+
+  .light-theme & {
+    background-color: rgba($background-light-color, .8);
+    box-shadow: .05em .2em .6em rgba(0, 0, 0, .2);
+  }
 }
 
 div.awesomplete > ul[hidden],
@@ -48,26 +56,26 @@ div.awesomplete > ul {
 
 div.awesomplete > ul[hidden],
 div.awesomplete > ul:empty {
+  display: block;
   opacity: 0;
   transform: scale(0);
-  display: block;
   transition-timing-function: ease;
 }
 
 /* Pointer */
 div.awesomplete > ul:before {
+  background: inherit;
+  border: none;
+  border-left: inherit;
+  border-top: inherit;
   content: "";
+  left: 1em;
+  padding: .4em;
   position: absolute;
   top: -.43em;
-  left: 1em;
-  width: 0; height: 0;
-  padding: .4em;
-  background: white;
-  border: inherit;
-  border-right: 0;
-  border-bottom: 0;
-  -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
+  width: 0; height: 0;
+  z-index: -1;
 }
 
 div.awesomplete > ul > li {
@@ -85,40 +93,44 @@ div.awesomplete > ul > li {
     flex-grow: 1;
     margin-right: 1em;
   }
-
-  i.material-icons {
-    font-size: $icon-size;
-    line-height: $icon-size;
-    margin: 0;
-    padding: 0;
-
-    &:hover {
-      color: $error-color;
-    }
-  }
 }
 
 div.awesomplete > ul > li:hover {
-  background: hsl(200, 40%, 80%);
-  color: black;
+  .dark-theme & {
+    background-color: $background-dark-highlight-color;
+  }
+
+  .light-theme & {
+    background-color: $background-light-highlight-color;
+  }
 }
 
 div.awesomplete > ul > li[aria-selected="true"] {
-  background-color: $secondary-color;
-  color: white;
+  &:first-child {
+    border-radius: 3px 3px 0 0;
+  }
+
+  &:last-child {
+    border-radius: 0 0 3px 3px;
+  }
+
+  &:only-child {
+    border-radius: 3px;
+  }
+
+  .light-theme & {
+    background-color: $background-light-highlight-color;
+  }
+
+  .dark-theme & {
+    background-color: $background-dark-highlight-color;
+  }
 }
 
-div.awesomplete mark {
-  background: hsl(65, 100%, 50%);
-  color: $secondary-color-dark;
-}
-
-div.awesomplete li:hover mark {
-  background: hsl(68, 101%, 41%);
-  color: $secondary-color-dark;
-}
-
+div.awesomplete mark,
+div.awesomplete li:hover mark,
 div.awesomplete li[aria-selected="true"] mark {
-  background-color: $secondary-color;
-  color: color('yellow', 'base');
+  background-color: inherit;
+  color: $accent-blue-color;
+  font-weight: 600;
 }
