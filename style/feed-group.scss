@@ -24,17 +24,14 @@
       @include feed-group-theme($background-dark-highlight-color);
     }
 
-    .title,
     .item-count {
       font-family: $font-headers;
     }
 
     .title {
-      @include ellipsis();
+      @include item-title($font-weight: 600, $font-size: 1em, $font-family: $font-headers);
 
       cursor: pointer;
-      flex: 1;
-      text-transform: capitalize;
       transition: color $delay-short ease;
     }
 

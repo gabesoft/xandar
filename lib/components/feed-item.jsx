@@ -37,6 +37,11 @@ module.exports = class Feed extends React.Component {
       return;
     }
 
+    // TODO: extract duplication for the logic below in
+    // - feed-item
+    // - feed-group
+    // - post-query-item
+
     const feed = this.props.feed;
     const subscription = feed.subscription;
     const data = Object.assign({}, { title: feed.title }, subscription);
@@ -44,6 +49,7 @@ module.exports = class Feed extends React.Component {
     const query = parse(`@${titleId}`);
 
     query.title = data.title;
+    query.lastUsed = new Date();
     searchActions.selectPostQuery({ data: query });
     searchActions.savePostQuery({ query });
     postActions.loadPosts(query);

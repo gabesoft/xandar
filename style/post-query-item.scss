@@ -19,13 +19,6 @@
       }
     }
 
-    &.highlight {
-      .text,
-      .title {
-        color: $accent-magenta-color;
-      }
-    }
-
     .actions {
       @include item-actions();
       width: 60px;

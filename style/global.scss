@@ -73,6 +73,7 @@ p, h1, h2, h3, h4, h5, h6 {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: $font-headers;
+  font-weight: 600;
 }
 
 nav {
@@ -84,6 +85,44 @@ nav {
 i {
   @each $size, $size-value in $icon-sizes {
     &.#{$size} { @include icon($size); }
+  }
+}
+
+input:not([type]),
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=url],
+input[type=time],
+input[type=date],
+input[type=datetime-local],
+input[type=tel],
+input[type=number],
+input[type=search],
+textarea.materialize-textarea {
+  border: none;
+  margin: 0;
+  padding: 0;
+
+  &:disabled, &[readonly="readonly"] {
+    border-bottom: none;
+  }
+
+  &:focus:not([readonly]) {
+    border-bottom: none;
+    box-shadow: none;
+  }
+
+  &.valid,
+  &:focus.valid {
+    border-bottom: none;
+    box-shadow: none;
+  }
+
+  &.invalid,
+  &:focus.invalid {
+    border-bottom: none;
+    box-shadow: none;
   }
 }
 

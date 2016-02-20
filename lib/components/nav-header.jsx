@@ -45,12 +45,15 @@ module.exports = class NavHeader extends React.Component {
       switch (action.type) {
         case constants.search.SELECT_POST_QUERY:
           this.setState({
-            searchValue: action.data.text || action.data.toString(),
+            searchValue: action.data.userText || action.data.text || action.data.toString(),
             queryTitle: action.data.title
           });
           break;
         case constants.search.SAVE_POST_QUERY_DONE:
-          this.setState({ queryTitle: action.data.title });
+          const text = action.data.text || action.data.toString();
+          if (text === this.state.searchValue) {
+            this.setState({ queryTitle: action.data.title });
+          }
           break;
         case constants.feeds.SUBSCRIBE_DONE:
           actions.loadFeeds();
@@ -106,6 +109,7 @@ module.exports = class NavHeader extends React.Component {
 
       const value = (this.state.searchValue || '').trim();
       const queryObj = query.parse(value);
+      queryObj.lastUsed = new Date();
 
       actions.updateQuerySearch({ query: queryObj });
 

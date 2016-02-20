@@ -12,6 +12,36 @@ module.exports = class PostQueryList extends React.Component {
     super(props);
     this.state = { queries: [] };
     this.onStoreChange = this.onStoreChange.bind(this);
+    this.onPin = this.onPin.bind(this);
+    this.onUnpin = this.onUnpin.bind(this);
+    this.onSelect = this.onSelect.bind(this);
+    this.onTitleUpdate = this.onTitleUpdate.bind(this);
+  }
+
+  onTitleUpdate(query, title) {
+    query.title = title;
+    this.setState({ queries: this.state.queries });
+    actions.savePostQuery({ query });
+  }
+
+  onSelect(query) {
+    query.lastUsed = new Date();
+    actions.savePostQuery({ query });
+  }
+
+  onPinUpdate(query, value) {
+    query.pin = value;
+    this.setState({ queries: this.state.queries });
+    actions.savePostQuery({ query });
+    /* timeout(saveDelay).then(() => actions.savePostQuery({ query })); */
+  }
+
+  onPin(query) {
+    this.onPinUpdate(query, 1);
+  }
+
+  onUnpin(query) {
+    this.onPinUpdate(query, 0);
   }
 
   onStoreChange(data) {
@@ -45,7 +75,14 @@ module.exports = class PostQueryList extends React.Component {
   render() {
     const queries = this.state.queries.map(query => {
       return (
-        <Item key={query.id} query={query}/>
+        <Item
+          key={query.id}
+          query={query}
+          onPin={this.onPin}
+          onUnpin={this.onUnpin}
+          onSelect={this.onSelect}
+          onTitleUpdate={this.onTitleUpdate}
+        />
       );
     });
 
