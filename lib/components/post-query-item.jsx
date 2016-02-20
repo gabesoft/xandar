@@ -78,9 +78,10 @@ module.exports = class PostQueryItem extends React.Component {
   }
 
   onClick() {
-    this.highlight('magenta');
     const query = this.props.query;
-    searchActions.selectPostQuery({ data: query });
+
+    this.highlight('magenta');
+    searchActions.selectPostQuery({ query });
     postActions.loadPosts(query);
     this.props.onSelect(query);
   }

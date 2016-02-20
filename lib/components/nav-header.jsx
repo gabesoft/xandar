@@ -44,9 +44,10 @@ module.exports = class NavHeader extends React.Component {
     this.tokenId = dispatcher.register(action => {
       switch (action.type) {
         case constants.search.SELECT_POST_QUERY:
+          const selected = action.query;
           this.setState({
-            searchValue: action.data.userText || action.data.text || action.data.toString(),
-            queryTitle: action.data.title
+            searchValue: selected.userText || selected.text || selected.toString(),
+            queryTitle: selected.title
           });
           break;
         case constants.search.SAVE_POST_QUERY_DONE:

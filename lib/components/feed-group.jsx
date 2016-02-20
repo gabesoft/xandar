@@ -26,7 +26,8 @@ module.exports = class FeedGroup extends React.Component {
 
     query.title = `${tag.replace(/-/g, ' ')} Posts`;
     query.lastUsed = new Date();
-    searchActions.selectPostQuery({ data: query });
+
+    searchActions.selectPostQuery({ query });
     searchActions.savePostQuery({ query });
     postActions.loadPosts(query);
   }

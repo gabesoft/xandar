@@ -18,22 +18,24 @@ module.exports = class PostQueryList extends React.Component {
     this.onTitleUpdate = this.onTitleUpdate.bind(this);
   }
 
-  onTitleUpdate(query, title) {
-    query.title = title;
+  saveQuery(query) {
     this.setState({ queries: this.state.queries });
     actions.savePostQuery({ query });
+  }
+
+  onTitleUpdate(query, title) {
+    query.title = title;
+    this.saveQuery(query);
   }
 
   onSelect(query) {
     query.lastUsed = new Date();
-    actions.savePostQuery({ query });
+    this.saveQuery(query);
   }
 
   onPinUpdate(query, value) {
     query.pin = value;
-    this.setState({ queries: this.state.queries });
-    actions.savePostQuery({ query });
-    /* timeout(saveDelay).then(() => actions.savePostQuery({ query })); */
+    this.saveQuery(query);
   }
 
   onPin(query) {

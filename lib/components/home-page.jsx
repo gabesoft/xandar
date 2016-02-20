@@ -53,7 +53,7 @@ module.exports = class HomePage extends React.Component {
           this.scrollPostsToTop();
           break;
         case constants.search.SELECT_POST_QUERY:
-          this.postQuery = action.data;
+          this.postQuery = action.query;
           break;
         default:
           break;
