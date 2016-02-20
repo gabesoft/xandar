@@ -5,6 +5,7 @@
     .text,
     .title {
       @include item-title();
+      transition: color $delay-short linear;
     }
 
     .text {
@@ -15,6 +16,13 @@
       .text,
       .title {
         font-weight: 400;
+      }
+    }
+
+    &.highlight {
+      .text,
+      .title {
+        color: $accent-magenta-color;
       }
     }
 

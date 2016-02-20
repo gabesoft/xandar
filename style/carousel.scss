@@ -93,8 +93,11 @@ $sidepanel-height: 400px;
       cursor: pointer;
       opacity: 0.5;
 
-      &:hover {
+      &:hover:not([disabled]) {
         box-shadow: 0 0 0 1px currentColor;
+      }
+
+      &:hover {
         opacity: 1;
       }
     }

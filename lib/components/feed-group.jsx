@@ -30,7 +30,8 @@ module.exports = class FeedGroup extends React.Component {
     postActions.loadPosts(query);
   }
 
-  toggleGroupOpen(open) {
+  toggleGroupOpen(event, open) {
+    event.stopPropagation();
     this.props.onToggleGroupOpen(this.props.group, open);
   }
 
@@ -41,14 +42,14 @@ module.exports = class FeedGroup extends React.Component {
       <Button
         icon="chevron-right"
         scale="medium"
-        onClick={() => this.toggleGroupOpen(true)}
+        onClick={event => this.toggleGroupOpen(event, true)}
       />
     );
     const collapse = (
       <Button
         icon="chevron-down"
         scale="medium"
-        onClick={() => this.toggleGroupOpen(false)}
+        onClick={event => this.toggleGroupOpen(event, false)}
       />
     );
     const className = cls('feed-group', open ? 'open' : 'closed');

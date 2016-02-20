@@ -2,7 +2,6 @@
   $left-side-width: 25%;
   $right-side-width: 25%;
   $side-width-max: 400px;
-  $input-padding: 40px;
 
   @include flex(flex-start);
 
@@ -39,7 +38,7 @@
   }
 
   .nav-right {
-    justify-leftcontent: flex-end;
+    justify-content: flex-end;
     width: $right-side-width;
   }
 
@@ -51,85 +50,6 @@
     &.title {
       text-transform: capitalize;
     }
-  }
-
-  .awesomplete {
-    $border-radius: 3px;
-
-    height: auto;
-    width: 100%;
-
-    @mixin cell-border($first, $last) {
-      span:first-child { border-radius: $first; }
-      span:last-child { border-radius: $last; }
-    }
-
-    ul {
-      display: table;
-
-      li {
-        display: table-row;
-
-        span {
-          display: table-cell;
-          padding: .2em .5em;
-        }
-
-        &:first-child {
-          @include cell-border($border-radius 0 0 0, 0 $border-radius 0 0);
-        }
-
-        &:last-child {
-          @include cell-border(0 0 0 $border-radius, 0 0 $border-radius 0);
-        }
-
-        &:only-child {
-          @include cell-border(
-            $border-radius 0 0 $border-radius,
-            0 $border-radius $border-radius 0);
-        }
-
-        .id {
-          @include ellipsis();
-
-          text-align: left;
-        }
-
-        .title {
-          font-size: 1em;
-          text-align: left;
-          text-transform: lowercase;
-          width: 50px;
-
-          &:first-letter {
-            text-transform: capitalize;
-          }
-
-          &.feed {
-            color: $accent-green-color;
-          }
-
-          &.tag {
-            color: $accent-orange-color;
-          }
-
-          &.status {
-            color: $accent-cyan-color;
-          }
-        }
-
-        .name {
-          font-size: 1.2em;
-          font-family: $font-headers;
-          text-align: left;
-          text-transform: capitalize;
-        }
-      }
-    }
-  }
-
-  div.awesomplete > ul {
-    left: $input-padding / 2;
   }
 
   .search-bar {
@@ -161,7 +81,7 @@
       border-bottom: 1px solid transparent;
       margin: 0;
       opacity: 0.5;
-      padding: 0 0 0 $input-padding;
+      padding: 0 0 0 $nav-header-input-padding;
       transition: opacity $delay-long ease, border-bottom $delay-long ease;
       width: 100%;
 

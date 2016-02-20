@@ -84,7 +84,7 @@ module.exports = class HomePage extends React.Component {
   }
 
   loadMorePosts() {
-    if (this.state.loading) {
+    if (this.state.loading || this.state.loadingMore) {
       return;
     }
 
@@ -145,7 +145,7 @@ module.exports = class HomePage extends React.Component {
 
     this.lastScrollTop = el.scrollTop;
 
-    if (scrolled > 0.70 && scrollUp) {
+    if (scrolled > constants.posts.LOAD_THRESHOLD && scrollUp) {
       this.loadMorePosts();
     }
   }

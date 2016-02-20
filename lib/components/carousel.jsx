@@ -7,6 +7,7 @@ const Date = require('./date.jsx');
 const Button = require('./icon-button.jsx');
 const Description = require('./post-description.jsx');
 const Scrolled = require('./scrolled.jsx');
+const store = require('../flux/post-store');
 
 module.exports = class Carousel extends React.Component {
   constructor(props) {
@@ -64,8 +65,6 @@ module.exports = class Carousel extends React.Component {
     const post = data._source.post;
     const feedTitle = data._source.title;
 
-    // TODO: set disabled sidepanels at edges
-
     return (
       <div className="carousel">
         <div className="header" onClick={() => this.props.onClose(data)}>
@@ -88,10 +87,20 @@ module.exports = class Carousel extends React.Component {
           <Description post={data}/>
         </Scrolled>
         <div className="sidepanel right">
-          <Button onClick={this.moveRight} icon="chevron-right" size="xlarge"/>
+          <Button
+            onClick={this.moveRight}
+            icon="chevron-right"
+            size="xlarge"
+            disabled={this.props.index === store.getPostCount() - 1}
+          />
         </div>
         <div className="sidepanel left">
-          <Button onClick={this.moveLeft} icon="chevron-left" size="xlarge"/>
+          <Button
+            onClick={this.moveLeft}
+            icon="chevron-left"
+            size="xlarge"
+            disabled={this.props.index === 0}
+          />
         </div>
       </div>
     );

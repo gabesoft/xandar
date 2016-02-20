@@ -18,6 +18,9 @@ $icon-sizes: (
   "xlarge": 48px
 );
 
-$item-transition: $delay-short cubic-bezier(.14, .79, .62, 1);
-$header-item-height: 30px;
+$awesomplete-border-radius: .3em;
+$awesomplete-item-padding: .2em .5em;
 $feed-info-width: 20%;
+$header-item-height: 30px;
+$item-transition: $delay-short cubic-bezier(.14, .79, .62, 1);
+$nav-header-input-padding: 40px;
