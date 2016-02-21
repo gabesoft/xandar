@@ -1,12 +1,13 @@
-@mixin item-actions($opacity: 0) {
+@mixin item-actions($opacity: 0, $position: absolute, $padding: 0 5px 0 20px) {
   @include flex(center, space-around);
-  @include absolute(0px, 0px, 0px, 0);
 
-  /* background-color: transparent; */
   background: none;
+  bottom: 0px;
   opacity: $opacity;
-  padding: 0 5px 0 20px;
-  /* transition: opacity $item-transition, background $item-transition; */
+  padding: $padding;
+  position: $position;
+  right: 0px;
+  top: 0px;
   transition: all $item-transition;
 }
 
@@ -28,32 +29,51 @@
   }
 
   .light-theme & {
-    @include header-item-theme($background-light-highlight-color, $highlight-background);
+    @include header-item-theme(
+      $background-light-color,
+      $background-light-highlight-color,
+      $highlight-background);
   }
 
   .dark-theme & {
-    @include header-item-theme($background-dark-highlight-color, $highlight-background);
+    @include header-item-theme(
+      $background-dark-color,
+      $background-dark-highlight-color,
+      $highlight-background);
   }
 }
 
-@mixin header-item-theme($color, $highlight-background) {
-  $actions-background: linear-gradient(left, transparent 0%, $color 10%);
+@mixin header-item-theme($background-color, $background-color-highlight, $highlight-persist) {
+  $actions-background: linear-gradient(
+                           left,
+                           transparent 0%,
+                           $background-color-highlight 10%);
 
-  &:hover .actions {
-    background: $actions-background;
-  }
-
-  &:hover,
-  .avatar {
-    background-color: $color;
-  }
-
-  @if $highlight-background {
+  &:hover {
     .actions {
       background: $actions-background;
     }
 
-    background-color: $color;
+    .avatar {
+      background-color: $background-color;
+    }
+  }
+
+  &:hover,
+  .avatar {
+    background-color: $background-color-highlight;
+  }
+
+  @if $highlight-persist {
+    .actions {
+      background: $actions-background;
+    }
+
+    .avatar {
+      background-color: $background-color;
+    }
+
+    background-color: $background-color-highlight;
   }
 }
 

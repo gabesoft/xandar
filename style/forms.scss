@@ -1,15 +1,32 @@
-
 input,
-input[type=search] {
+input:not([type]),
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=url],
+input[type=time],
+input[type=date],
+input[type=datetime-local],
+input[type=tel],
+input[type=number],
+input[type=search],
+textarea.materialize-textarea {
   border: none;
+  box-shadow: none;
+  margin: 0;
   outline: none;
+  padding: 0;
 
-  &:active,
+  &.invalid,
   &.valid,
+  &:active,
+  &:disabled,
   &:focus,
+  &:focus.invalid,
   &:focus.valid,
-  &:focus:not([readonly]) {
-    border: none;
+  &:focus:not([readonly]),
+  &[readonly="readonly"] {
+    border-bottom: none;
     box-shadow: none;
   }
 }

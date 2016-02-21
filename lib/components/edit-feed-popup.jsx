@@ -7,6 +7,7 @@ const actions = require('../flux/feed-actions');
 const dispatcher = require('../flux/dispatcher');
 const Button = require('./icon-button.jsx');
 const Avatar = require('./text-avatar.jsx');
+const Counts = require('./post-counts.jsx');
 
 module.exports = class AddFeedPopup extends React.Component {
   constructor(props) {
@@ -55,14 +56,20 @@ module.exports = class AddFeedPopup extends React.Component {
 
     return (
       <Popup
+        className="edit-feed-popup"
         active={this.state.active}
         top={this.state.top}
         left={this.state.left}
         onClose={this.close}>
-        <Avatar text={title} className={subscribed ? '' : 'invisible'}/>
-        <div className="title">{title.toLowerCase()}</div>
-        <div className="actions">
-          <Button icon="close" color="red" onClick={this.close}/>
+        <div className="header">
+          <Avatar text={title} className={subscribed ? '' : 'invisible'}/>
+          <div className="title">{title.toLowerCase()}</div>
+          <div className="actions">
+            <Button icon="close" color="red" onClick={this.close}/>
+          </div>
+        </div>
+        <div className="content">
+          
         </div>
       </Popup>
     );

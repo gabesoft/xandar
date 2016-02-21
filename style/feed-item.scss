@@ -47,11 +47,11 @@
       }
 
       .light-theme & {
-        @include header-item-theme($background-light-highlight-color, true);
+        @include header-item-theme($background-light-color, $background-light-highlight-color, true);
       }
 
       .dark-theme & {
-        @include header-item-theme($background-dark-highlight-color, true);
+        @include header-item-theme($background-dark-color, $background-dark-highlight-color, true);
       }
     }
   }

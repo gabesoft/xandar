@@ -1,12 +1,15 @@
 .popup {
+  $height: 200px;
+  $width: $height * 1.618;
+
   @include popup();
 
-  height: 200px;
+  min-height: $height;
+  min-width: $width;
   position: absolute;
   transform-origin: 1.4em -.4em;
   transform: scale(0);
   transition: $delay-short transform ease;
-  width: 320px;
 
   &.active {
     transform: scale(1);

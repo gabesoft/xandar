@@ -11,7 +11,7 @@ const Item = require('./nav-post-search-item.jsx');
 const itemFactory = React.createFactory(Item);
 const Awesomplete = require('awesomplete');
 const constants = require('../constants');
-const query = require('../post-query');
+const parse = require('../post-query').parse;
 const searchStore = require('../flux/search-store');
 const tagStore = require('../flux/tag-store');
 const actions = require('../flux/search-actions');
@@ -37,6 +37,10 @@ module.exports = class NavHeader extends React.Component {
     };
   }
 
+  getQueryValue(query) {
+    return query.userText || query.text || query.toString();
+  }
+
   componentDidMount() {
     actions.loadFeeds();
     tagStore.addListener(constants.tags.STORE_CHANGE, this.onTagsDataChange);
@@ -44,14 +48,14 @@ module.exports = class NavHeader extends React.Component {
     this.tokenId = dispatcher.register(action => {
       switch (action.type) {
         case constants.search.SELECT_POST_QUERY:
-          const selected = action.query;
+          const query = action.query;
           this.setState({
-            searchValue: selected.userText || selected.text || selected.toString(),
-            queryTitle: selected.title
+            searchValue: this.getQueryValue(query),
+            queryTitle: query.title
           });
           break;
         case constants.search.SAVE_POST_QUERY_DONE:
-          const text = action.data.text || action.data.toString();
+          const text = this.getQueryValue(action.data);
           if (text === this.state.searchValue) {
             this.setState({ queryTitle: action.data.title });
           }
@@ -109,7 +113,7 @@ module.exports = class NavHeader extends React.Component {
       this.setState({ queryError: false, queryTitle: null });
 
       const value = (this.state.searchValue || '').trim();
-      const queryObj = query.parse(value);
+      const queryObj = parse(value);
       queryObj.lastUsed = new Date();
 
       actions.updateQuerySearch({ query: queryObj });

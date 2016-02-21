@@ -21,16 +21,21 @@
 @import 'mixins';
 @import 'animations';
 
+@import 'forms';
 @import 'item-mixins';
 @import 'icon-button';
 @import 'loader';
 
 @import 'global';
+@import 'awesomplete';
+
+@import 'popup';
+@import 'edit-feed-popup';
+@import 'add-feed-popup';
+
 @import 'login-page';
 @import 'home-page';
 
-@import 'popup';
-@import 'awesomplete';
 @import 'hljs-solarized-light';
 @import 'react-modal';
 @import 'react-tagsinput';
@@ -38,12 +43,11 @@
 @import 'collapsible-panel';
 @import 'nav-header';
 @import 'nav-header-awesomplete';
-@import 'forms';
 
+@import 'carousel';
 @import 'post-list';
 @import 'post-item';
 @import 'post-item-detail';
-@import 'carousel';
 
 @import 'post-query-list';
 @import 'post-query-item';

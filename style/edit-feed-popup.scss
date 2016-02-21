@@ -1,0 +1,15 @@
+.edit-feed-popup {
+  .header {
+    @include header-item(true);
+    @include feed-info-item();
+
+    border-radius: $popup-border-radius $popup-border-radius 0 0;
+    width: 100%;
+
+    .actions {
+      @include item-actions(1, block, 0 0 0 5px);
+
+      border-radius: 0 $popup-border-radius 0 0;
+    }
+  }
+}
