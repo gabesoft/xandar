@@ -12,6 +12,7 @@ const FeedGroup = require('./feed-group.jsx');
 const Header = require('./feed-list-header.jsx');
 const trans = require('trans');
 const Scrolled = require('./scrolled.jsx');
+const dispatcher = require('../flux/dispatcher');
 
 module.exports = class FeedList extends React.Component {
   constructor(props) {
@@ -36,10 +37,21 @@ module.exports = class FeedList extends React.Component {
     this.onFilterChange = debounce(this.onFilterChange.bind(this), 150);
     this.onAddFeedStart = this.onAddFeedStart.bind(this);
     this.onFeedMarkAsRead = this.onFeedMarkAsRead.bind(this);
+    this.onFeedEditClick = this.onFeedEditClick.bind(this);
+    this.onListScroll = this.onListScroll.bind(this);
   }
 
   onAddFeedStart() {
     console.log('TODO: open add feed dialog');
+  }
+
+  onListScroll() {
+    actions.hideEditFeedPopup();
+    this.setState({ editOpenFeedId: null });
+  }
+
+  onFeedEditClick(feed) {
+    this.setState({ editOpenFeedId: feed.id });
   }
 
   onFeedMarkAsRead(feed) {
@@ -86,7 +98,7 @@ module.exports = class FeedList extends React.Component {
     const filter = event.target.value.toLowerCase();
     this.setState({ filter });
     this.applyFilter(filter);
-}
+  }
 
   getAllGroups(groupedFeeds) {
     return trans(groupedFeeds || this.state.groupedFeeds || [])
@@ -166,10 +178,20 @@ module.exports = class FeedList extends React.Component {
   componentDidMount() {
     store.addListener(feedConstants.STORE_CHANGE, this.onStoreChange);
     actions.loadFeeds();
+    this.tokenId = dispatcher.register(action => {
+      switch (action.type) {
+        case constants.feeds.EDIT_FEED_POPUP_CLOSED:
+          this.setState({ editOpenFeedId: null });
+          break;
+        default:
+          break;
+      }
+    });
   }
 
   componentWillUnmount() {
     store.removeListener(feedConstants.STORE_CHANGE, this.onStoreChange);
+    dispatcher.unregister(this.tokenId);
   }
 
   renderGroups() {
@@ -202,13 +224,20 @@ module.exports = class FeedList extends React.Component {
 
   renderItems(feeds, className) {
     feeds = feeds || this.state.feeds;
+
     return feeds.map((feed, index) => {
+      const itemClass = cls(
+        className,
+        this.state.editOpenFeedId === feed.id ? 'edit-open' : null
+      );
+
       return (
         <FeedItem
           key={`${feed.id}-${index}`}
           feed={feed}
-          className={className}
+          className={itemClass}
           onMarkAsRead={this.onFeedMarkAsRead}
+          onEditClick={this.onFeedEditClick}
         />
       );
     });
@@ -234,7 +263,7 @@ module.exports = class FeedList extends React.Component {
           onAddFeed={this.onAddFeedStart}
           grouped={this.state.grouped}
         />
-        <Scrolled className="feed-list-items">
+        <Scrolled className="feed-list-items" onScroll={this.onListScroll}>
           <ul>
             {this.state.grouped ? this.renderGroups() : this.renderItems()}
           </ul>

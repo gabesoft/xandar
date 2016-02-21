@@ -8,6 +8,8 @@
   .feed-group {
     @include flex();
 
+    margin-bottom: 2px;
+
     &:not(:first-child) {
       padding-top: 10px;
     }
@@ -29,9 +31,10 @@
     }
 
     .title {
-      @include item-title($font-weight: 600, $font-size: 1em, $font-family: $font-headers);
+      @include item-title($font-weight: 600, $font-size: 1rem, $font-family: $font-headers);
 
       cursor: pointer;
+      line-height: 1.2em;
       transition: color $delay-short ease;
     }
 

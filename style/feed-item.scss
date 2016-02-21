@@ -40,5 +40,19 @@
     .title {
       @include item-title();
     }
+
+    &.edit-open {
+      .actions {
+        opacity: 1;
+      }
+
+      .light-theme & {
+        @include header-item-theme($background-light-highlight-color, true);
+      }
+
+      .dark-theme & {
+        @include header-item-theme($background-dark-highlight-color, true);
+      }
+    }
   }
 }

@@ -2,16 +2,24 @@
 
 const React = require('react');
 const Button = require('./icon-button.jsx');
+const actions = require('../flux/feed-actions');
 
 module.exports = class FeedListHeader extends React.Component {
   constructor(props) {
     super(props);
     this.onFilterChange = this.onFilterChange.bind(this);
+    this.onAddFeedClick = this.onAddFeedClick.bind(this);
   }
 
   onFilterChange(event) {
     event.persist();
     this.props.onFilterChange(event);
+  }
+
+  onAddFeedClick(event) {
+    actions.showAddFeedPopup({
+      rect: event.target.getBoundingClientRect()
+    });
   }
 
   render() {
@@ -66,7 +74,7 @@ module.exports = class FeedListHeader extends React.Component {
           icon="library-plus"
           color="green"
           title="Add a new feed"
-          onClick={this.props.onAddFeed}
+          onClick={this.onAddFeedClick}
         />
       </div>
     );

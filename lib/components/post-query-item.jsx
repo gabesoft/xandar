@@ -35,6 +35,10 @@ module.exports = class PostQueryItem extends React.Component {
     }, highlightDelay);
   }
 
+  componentWillUnmount() {
+    clearTimeout(this.timeoutId);
+  }
+
   cancelEdit() {
     this.setState({ title: this.props.query.title, edit: false });
   }
@@ -44,8 +48,7 @@ module.exports = class PostQueryItem extends React.Component {
     this.props.onTitleUpdate(this.props.query, this.state.title);
   }
 
-  onEditStart(event) {
-    event.stopPropagation();
+  onEditStart() {
     this.setState({ edit: true });
   }
 
@@ -65,14 +68,12 @@ module.exports = class PostQueryItem extends React.Component {
     }
   }
 
-  onPin(event) {
-    event.stopPropagation();
+  onPin() {
     this.highlight('blue');
     this.props.onPin(this.props.query);
   }
 
-  onUnpin(event) {
-    event.stopPropagation();
+  onUnpin() {
     this.highlight('blue');
     this.props.onUnpin(this.props.query);
   }
@@ -118,7 +119,7 @@ module.exports = class PostQueryItem extends React.Component {
     );
 
     const actions = (
-      <div className="actions">
+      <div className="actions" onClick={event => event.stopPropagation()}>
         {pinned ? unpin : pin}
         <Button icon="pencil" onClick={this.onEditStart} title="Edit query title" />
       </div>

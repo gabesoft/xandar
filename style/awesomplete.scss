@@ -20,28 +20,17 @@ div.awesomplete > input {
 }
 
 div.awesomplete > ul {
-  position: absolute;
-  left: 0;
-  z-index: 1;
-  min-width: 100%;
+  @include popup();
+
   box-sizing: border-box;
+  left: 0;
   list-style: none;
-  padding: 0;
-  border-radius: $awesomplete-border-radius;
   margin: .2em 0 0;
+  min-width: 100%;
+  padding: 0;
+  position: absolute;
   text-shadow: none;
-
-  border: 1px solid currentColor;
-
-  .dark-theme & {
-    background-color: rgba($background-dark-color, .8);
-    box-shadow: .05em .2em .6em rgba(0, 0, 0, .8);
-  }
-
-  .light-theme & {
-    background-color: rgba($background-light-color, .8);
-    box-shadow: .05em .2em .6em rgba(0, 0, 0, .2);
-  }
+  z-index: 1;
 }
 
 div.awesomplete > ul[hidden],
@@ -60,22 +49,6 @@ div.awesomplete > ul:empty {
   opacity: 0;
   transform: scale(0);
   transition-timing-function: ease;
-}
-
-/* Pointer */
-div.awesomplete > ul:before {
-  background: inherit;
-  border: none;
-  border-left: inherit;
-  border-top: inherit;
-  content: "";
-  left: 1em;
-  padding: .4em;
-  position: absolute;
-  top: -.43em;
-  transform: rotate(45deg);
-  width: 0; height: 0;
-  z-index: -1;
 }
 
 div.awesomplete > ul > li {
@@ -106,7 +79,7 @@ div.awesomplete > ul > li:hover {
 }
 
 div.awesomplete > ul > li[aria-selected="true"] {
-  $border-radius: $awesomplete-border-radius;
+  $border-radius: $popup-border-radius;
 
   &:first-child {
     border-radius: $border-radius $border-radius 0 0;

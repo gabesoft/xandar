@@ -1,20 +1,13 @@
 @mixin item-actions($opacity: 0) {
-  $box-shadow: -20px 0 11px -4px;
-
   @include flex(center, space-around);
   @include absolute(0px, 0px, 0px, 0);
 
+  /* background-color: transparent; */
+  background: none;
   opacity: $opacity;
-  padding: 0 10px;
-  transition: opacity $item-transition;
-
-  .light-theme & {
-    box-shadow: $box-shadow $background-light-highlight-color;
-  }
-
-  .dark-theme & {
-    box-shadow: $box-shadow $background-dark-highlight-color;
-  }
+  padding: 0 5px 0 20px;
+  /* transition: opacity $item-transition, background $item-transition; */
+  transition: all $item-transition;
 }
 
 @mixin header-item($highlight-background: false) {
@@ -35,24 +28,31 @@
   }
 
   .light-theme & {
-    @include header-item-theme($background-light-highlight-color);
-    @if $highlight-background {
-      background-color: $background-light-highlight-color;
-    }
+    @include header-item-theme($background-light-highlight-color, $highlight-background);
   }
 
   .dark-theme & {
-    @include header-item-theme($background-dark-highlight-color);
-    @if $highlight-background {
-      background-color: $background-dark-highlight-color;
-    }
+    @include header-item-theme($background-dark-highlight-color, $highlight-background);
   }
 }
 
-@mixin header-item-theme($color) {
+@mixin header-item-theme($color, $highlight-background) {
+  $actions-background: linear-gradient(left, transparent 0%, $color 10%);
+
+  &:hover .actions {
+    background: $actions-background;
+  }
+
   &:hover,
-  .actions,
   .avatar {
+    background-color: $color;
+  }
+
+  @if $highlight-background {
+    .actions {
+      background: $actions-background;
+    }
+
     background-color: $color;
   }
 }

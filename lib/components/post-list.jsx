@@ -58,7 +58,6 @@ module.exports = class PostList extends React.Component {
   }
 
   onOpenInCarousel(event, post, index) {
-    event.stopPropagation();
     this.props.onOpenInCarousel(post, index);
   }
 

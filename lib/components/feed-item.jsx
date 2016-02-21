@@ -60,13 +60,11 @@ module.exports = class Feed extends React.Component {
     return (
       <li className={className} onClick={this.onClick}>
         <Avatar text={title} className={subscribed ? '' : 'invisible'}/>
-        <div className="title">
-          {title.toLowerCase()}
-        </div>
+        <div className="title">{title.toLowerCase()}</div>
         <Counts feed={feed}/>
         <Actions
           feed={feed}
-          onEdit={this.onEdit}
+          onEdit={this.props.onEditClick}
           onSubscribe={this.onSubscribe}
           onUnsubscribe={this.onUnsubscribe}
           onMarkAsRead={() => this.props.onMarkAsRead(feed)}

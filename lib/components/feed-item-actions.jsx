@@ -2,6 +2,7 @@
 
 const React = require('react');
 const Button = require('./icon-button.jsx');
+const actions = require('../flux/feed-actions');
 
 module.exports = class FeedActions extends React.Component {
   constructor(props) {
@@ -13,23 +14,23 @@ module.exports = class FeedActions extends React.Component {
     this.onMarkAsRead = this.onMarkAsRead.bind(this);
   }
 
-  onSubscribe(event) {
-    event.stopPropagation();
+  onSubscribe() {
     this.props.onSubscribe();
   }
 
-  onUnsubscribe(event) {
-    event.stopPropagation();
+  onUnsubscribe() {
     this.props.onUnsubscribe();
   }
 
   onEdit(event) {
-    event.stopPropagation();
-    this.props.onEdit();
+    this.props.onEdit(this.props.feed);
+    actions.showEditFeedPopup({
+      rect: event.target.getBoundingClientRect(),
+      feed: this.props.feed
+    });
   }
 
-  onMarkAsRead(event) {
-    event.stopPropagation();
+  onMarkAsRead() {
     this.props.onMarkAsRead();
   }
 
@@ -71,7 +72,7 @@ module.exports = class FeedActions extends React.Component {
     );
 
     return (
-      <div className="actions">
+      <div className="actions" onClick={event => event.stopPropagation()}>
         {hasUnread ? markAsRead : null}
         {subscribed ? edit : null}
         {subscribed ? minus : plus}

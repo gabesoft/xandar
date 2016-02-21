@@ -16,6 +16,8 @@ const timeout = require('../util').timeout;
 const dispatcher = require('../flux/dispatcher');
 const constants = require('../constants');
 const cls = require('../util').cls;
+const AddFeedPopup = require('./add-feed-popup.jsx');
+const EditFeedPopup = require('./edit-feed-popup.jsx');
 
 module.exports = class HomePage extends React.Component {
   constructor(props) {
@@ -212,6 +214,8 @@ module.exports = class HomePage extends React.Component {
         </div>
 
         <div className="app-footer"></div>
+        <AddFeedPopup/>
+        <EditFeedPopup/>
       </div>
     );
   }

@@ -31,3 +31,53 @@
 @mixin icon($size) {
   font-size: map-get($icon-sizes, $size);
 }
+
+@mixin popup() {
+  border-radius: $popup-border-radius;
+  border: 1px solid currentColor;
+  z-index: 2;
+
+  &:before {
+    background-color: currentColor;
+    border-left: inherit;
+    border-top: inherit;
+    border: none;
+    content: "";
+    height: 0;
+    left: 1em;
+    padding: .4em;
+    position: absolute;
+    top: -.43em;
+    transform: rotate(45deg);
+    width: 0;
+    z-index: -2;
+  }
+
+  &:after {
+    content: "";
+    height: .5em;
+    left: .7em;
+    position: absolute;
+    top: 0;
+    width: 1.5em;
+    z-index: -1;
+  }
+
+  .dark-theme & {
+    background-color: rgba($background-dark-color, .8);
+    box-shadow: .05em .2em .6em rgba(0, 0, 0, .8);
+
+    &:after {
+      background-color: $background-dark-color;
+    }
+  }
+
+  .light-theme & {
+    background-color: rgba($background-light-color, .8);
+    box-shadow: .05em .2em .6em rgba(0, 0, 0, .2);
+
+    &:after {
+      background-color: $background-light-color;
+    }
+  }
+}

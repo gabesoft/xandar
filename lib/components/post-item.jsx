@@ -38,7 +38,7 @@ module.exports = class PostItemClosed extends React.Component {
           <div className="title">{feedTitle}</div>
         </div>
         <div className="title">{post.title}</div>
-        <div className="actions">
+        <div className="actions" onClick={event => event.stopPropagation()}>
           <Button icon="open-in-new" href={post.link} target="_blank" title="Open in new window"/>
           <Button
             icon="view-carousel"
