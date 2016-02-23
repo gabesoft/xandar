@@ -5,7 +5,10 @@ const cls = require('../util').cls;
 
 module.exports = class Item extends React.Component {
   render() {
-    const titleClass = cls('title', this.props.title.toLowerCase());
+    const titleClass = cls(
+      'title',
+      `${this.props.title.toLowerCase()}-category`
+    );
 
     return (
       <li ariaSelected="false">

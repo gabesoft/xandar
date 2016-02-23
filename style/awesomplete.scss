@@ -107,5 +107,5 @@ div.awesomplete li:hover mark,
 div.awesomplete li[aria-selected="true"] mark {
   background-color: inherit;
   color: $accent-blue-color;
-  font-weight: 600;
+  font-weight: $font-weight-bold;
 }

@@ -7,6 +7,8 @@ const store = require('../flux/tag-store');
 const tc = require('../constants').tags;
 const Item = require('./tag-item.jsx');
 const itemFactory = React.createFactory(Item);
+const Button = require('./icon-button.jsx');
+const cls = require('../util').cls;
 
 module.exports = class AutocompleteTagsInput extends React.Component {
   constructor(props) {
@@ -15,6 +17,23 @@ module.exports = class AutocompleteTagsInput extends React.Component {
     this.onTagsChange = this.onTagsChange.bind(this);
     this.initAwesomplete = this.initAwesomplete.bind(this);
     this.onStoreChange = this.onStoreChange.bind(this);
+    this.onFocus = this.onFocus.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
+  }
+
+  onFocus(event) {
+    this.setState({ focused: true });
+    if (this.props.onFocus) {
+      this.props.onFocus(event);
+    }
+  }
+
+  onBlur(event) {
+    this.setState({ focused: false });
+    if (this.props.onBlur) {
+      this.props.onBlur(event);
+    }
   }
 
   onTagsChange(tags) {
@@ -32,6 +51,10 @@ module.exports = class AutocompleteTagsInput extends React.Component {
     }
   }
 
+  componentWillReceiveProps(props) {
+    this.setState({ value: props.tags });
+  }
+
   componentDidMount() {
     store.addListener(tc.STORE_CHANGE, this.onStoreChange);
   }
@@ -42,14 +65,22 @@ module.exports = class AutocompleteTagsInput extends React.Component {
     this.awesomplete = null;
   }
 
+  // TODO extract tag into a component
+  // TODO: make selection with the mouse in awesomplete work
   renderTag(props) {
     const { tag, key, onRemove } = props;
     return (
-      <div key={key} className="react-tagsinput-tag" props>
-        {tag}
-        <i onClick={() => onRemove(key)} className="material-icons">
-          close
-        </i>
+      <div key={key} className="tag-item" props>
+        <div className="content">
+          <span className="tag-name">{tag}</span>
+          <Button
+            icon="delete"
+            color="red"
+            title="Delete tag"
+            size="xsmall"
+            onClick={() => onRemove(key)}
+          />
+        </div>
       </div>
     );
   }
@@ -84,16 +115,32 @@ module.exports = class AutocompleteTagsInput extends React.Component {
         if (target.tagName === 'I') {
           actions.deleteTag(value);
         } else {
-          input.value = value;
           el.setState({ tag: value });
+          input.value = value;
+          input.focus();
         }
+      });
+
+      input.addEventListener('awesomplete-selectcomplete', () => {
+        el.setState({ tag: input.value });
+        setTimeout(input.focus.bind(input), 0);
       });
 
       this.awesomplete = awesomplete;
     }
   }
 
+  onKeyDown(event) {
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(event);
+    }
+  }
+
   render() {
+    const className = cls(
+      this.props.className,
+      this.state.focused ? 'focused' : null);
+
     return (
       <TagsInput
         ref={this.initAwesomplete}
@@ -101,9 +148,11 @@ module.exports = class AutocompleteTagsInput extends React.Component {
         value={this.state.value}
         renderTag={this.renderTag}
         addKeys={[9, 13, 32]}
-        onFocus={this.props.onFocus}
-        onBlur={this.props.onBlur}
+        onFocus={this.onFocus}
+        onBlur={this.onBlur}
         onChange={this.onTagsChange}
+        onKeyDown={this.onKeyDown}
+        className={className}
       />
     );
   }

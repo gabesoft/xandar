@@ -43,7 +43,7 @@
       height: $header-height;
 
       .title {
-        @include item-title($font-weight: 400, $font-family: $font-headers, $font-size: 1.1em);
+        @include item-title($font-weight: $font-weight-normal, $font-family: $font-family-headers, $font-size: 1.1em);
       }
 
       .date {

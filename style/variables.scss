@@ -2,8 +2,18 @@ $delay-short: .3s;
 $delay-medium: .5s;
 $delay-long: .7s;
 
-$font-content: "Open Sans", sans-serif;
-$font-headers: "Alegreya", serif;
+$font-family-content: "Open Sans", sans-serif;
+$font-family-headers: "Alegreya", serif;
+
+$font-weight-normal: 400;
+$font-weight-bold: 600;
+$font-weight-thin: 300;
+
+$font-size-xsmall: .8rem;
+$font-size-small: .9rem;
+$font-size-normal: 1rem;
+$font-size-large: 1.1rem;
+$font-size-xlarge: 1.2rem;
 
 $icon-scale-factors: (
   "small": 1.5,
@@ -12,6 +22,7 @@ $icon-scale-factors: (
 );
 
 $icon-sizes: (
+  "xsmall": 16px,
   "small": 18px,
   "medium": 24px,
   "large": 32px,

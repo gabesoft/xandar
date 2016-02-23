@@ -1,11 +1,13 @@
 .popup {
-  $height: 200px;
-  $width: $height * 1.618;
+  $min-height: 100px;
+  $min-width: $min-height * 1.618;
+  $max-width: 600px;
 
   @include popup();
 
-  min-height: $height;
-  min-width: $width;
+  min-height: $min-height;
+  max-width: $max-width;
+  min-width: $min-width;
   position: absolute;
   transform-origin: 1.4em -.4em;
   transform: scale(0);

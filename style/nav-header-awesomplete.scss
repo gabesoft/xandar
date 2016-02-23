@@ -48,22 +48,22 @@
           text-align: left;
           text-transform: lowercase;
 
-          &.feed {
+          &.feed-category {
             color: $accent-green-color;
           }
 
-          &.tag {
+          &.tag-category {
             color: $accent-orange-color;
           }
 
-          &.status {
+          &.status-category {
             color: $accent-cyan-color;
           }
         }
 
         .name {
           font-size: 1.2em;
-          font-family: $font-headers;
+          font-family: $font-family-headers;
           text-align: left;
           text-transform: capitalize;
         }

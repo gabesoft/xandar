@@ -5,7 +5,6 @@ const ReactDOM = require('react-dom');
 const Post = require('./post-item.jsx');
 const PostDetail = require('./post-item-detail.jsx');
 const constants = require('../constants');
-const timeout = require('../util').timeout;
 const store = require('../flux/post-store');
 
 module.exports = class PostList extends React.Component {
@@ -39,10 +38,13 @@ module.exports = class PostList extends React.Component {
       scrollPost: scroll ? this.state.openPost : null
     });
 
-    timeout(2000).then(() => this.setState({
-      highlightPost: null,
-      scrollPost: null
-    }));
+    clearTimeout(this.timeoutId);
+    this.timeoutId = setTimeout(() => {
+      this.setState({
+        highlightPost: null,
+        scrollPost: null
+      });
+    }, 2000); // TODO: make this a constant
   }
 
   onStoreChange() {
@@ -55,6 +57,7 @@ module.exports = class PostList extends React.Component {
 
   componentWillUnmount() {
     store.removeListener(constants.posts.STORE_CHANGE, this.onStoreChange);
+    clearTimeout(this.timeoutId);
   }
 
   onOpenInCarousel(event, post, index) {

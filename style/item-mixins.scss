@@ -84,7 +84,7 @@
 
   border-radius: 50%;
   font-size: 0.8rem;
-  font-weight: 400;
+  font-weight: $font-weight-normal;
   height: $avatar-size;
   margin: 0 5px 0 1px;
   min-width: $avatar-size;
@@ -92,7 +92,7 @@
   width: $avatar-size;
 }
 
-@mixin item-title($font-weight: 300, $font-size: .9rem, $text-transform: capitalize, $font-style: normal, $font-family: $font-content) {
+@mixin item-title($font-weight: $font-weight-thin, $font-size: .9rem, $text-transform: capitalize, $font-style: normal, $font-family: $font-family-content) {
   @include ellipsis();
 
   flex: 1;
@@ -108,7 +108,7 @@
 
   min-width: 85px;
   text-align: right;
-  font-weight: 300;
+  font-weight: $font-weight-thin;
   font-size: 0.9rem;
   padding: 0 5px;
 }

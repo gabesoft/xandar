@@ -49,7 +49,16 @@ module.exports = class AddFeedPopup extends React.Component {
         left={this.state.left}
         onClose={this.close}>
         <Button icon="close" color="red" onClick={this.close}/>
-        <span>Add feed popup</span>
+        <div className="header">
+          <span>Add a new feed</span>
+        </div>
+        <div className="content">
+          <label htmlFor="href">RSS feed url or youtube channel id</label>
+          <input name="" type="text" value=""/>
+        </div>
+        <div className="actions">
+
+        </div>
       </Popup>
     );
   }

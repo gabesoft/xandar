@@ -12,4 +12,107 @@
       border-radius: 0 $popup-border-radius 0 0;
     }
   }
+
+  @mixin content-theme($color) {
+    .tags-input {
+      border: 1em solid transparent;
+    }
+
+    .tags-input.focused {
+      border: 1em solid $color;
+    }
+
+    .title-input:focus,
+    .tags-input.focused {
+      background-color: $color;
+    }
+  }
+
+  .content {
+    .title,
+    .tags {
+      @include flex();
+
+      padding: 15px;
+    }
+
+    label {
+      min-width: 30px;
+    }
+
+    .tags {
+      padding-top: 0;
+    }
+
+    .title-input {
+      height: 3em;
+      padding: 0 1em;
+      font-family: $font-family-headers;
+      font-weight: $font-weight-bold;
+      font-size: 1.1em;
+    }
+
+    .tags-input {
+      transition: all $delay-short;
+    }
+
+    .title-input,
+    .tags-input {
+      flex: 1;
+      margin-left: 15px;
+      border-radius: .3em;
+    }
+
+    .light-theme & {
+      @include content-theme($background-light-highlight-color);
+    }
+
+    .dark-theme & {
+      @include content-theme($background-dark-highlight-color);
+    }
+  }
+}
+
+@mixin tag-item($color-bg, $color-fg, $color-fg-highlight) {
+  background-color: $color-bg;
+  color: $color-fg;
+
+  .tag-name {
+    border-right: 1px solid $color-fg;
+  }
+
+  .icon-button {
+    color: $color-fg-highlight;
+  }
+}
+
+.tag-item {
+  display: inline-block;
+  padding: 0 .2em 0 .5em;
+  margin: .2em;
+  font-family: $font-family-headers;
+  font-weight: $font-weight-bold;
+  font-size: 1.1rem;
+
+  .tag-name {
+    padding-right: .5em;
+  }
+
+  .icon-button {
+    margin-left: .3em;
+  }
+
+  .light-theme & {
+    @include tag-item($content-dark-color, $background-light-color, $background-light-highlight-color);
+  }
+
+  .dark-theme & {
+    @include tag-item($content-light-color, $background-dark-color, $background-dark-highlight-color);
+  }
+
+  .content {
+    @include flex();
+
+    height: 100%;
+  }
 }

@@ -27,11 +27,11 @@
     }
 
     .item-count {
-      font-family: $font-headers;
+      font-family: $font-family-headers;
     }
 
     .title {
-      @include item-title($font-weight: 600, $font-size: 1rem, $font-family: $font-headers);
+      @include item-title($font-weight: $font-weight-bold, $font-size: 1rem, $font-family: $font-family-headers);
 
       cursor: pointer;
       line-height: 1.2em;

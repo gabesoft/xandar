@@ -22,7 +22,7 @@ $sidepanel-height: 400px;
     @include header-item();
 
     .title {
-      @include item-title($font-weight: 600, $font-family: $font-headers, $font-size: 1.2em);
+      @include item-title($font-weight: $font-weight-bold, $font-family: $font-family-headers, $font-size: 1.2em);
 
       text-align: center;
     }

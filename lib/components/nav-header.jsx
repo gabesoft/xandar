@@ -61,9 +61,8 @@ module.exports = class NavHeader extends React.Component {
           }
           break;
         case constants.feeds.SUBSCRIBE_DONE:
-          actions.loadFeeds();
-          break;
         case constants.feeds.UNSUBSCRIBE_DONE:
+        case constants.feeds.SAVE_SUBSCRIPTION_DONE:
           actions.loadFeeds();
           break;
         default:
@@ -219,7 +218,7 @@ module.exports = class NavHeader extends React.Component {
 
       input.addEventListener('awesomplete-selectcomplete', () => {
         this.setState({ searchValue: input.value });
-        input.focus();
+        setTimeout(input.focus.bind(input), 0);
       });
 
       this.awesompleteInitialized = true;
