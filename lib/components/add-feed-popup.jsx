@@ -15,6 +15,11 @@ module.exports = class AddFeedPopup extends React.Component {
       left: 0
     };
     this.close = this.close.bind(this);
+    this.submit = this.submit.bind(this);
+  }
+
+  submit() {
+    // TODO: implement
   }
 
   close() {
@@ -44,20 +49,21 @@ module.exports = class AddFeedPopup extends React.Component {
   render() {
     return (
       <Popup
+        className="add-feed-popup"
         active={this.state.active}
         top={this.state.top}
         left={this.state.left}
         onClose={this.close}>
-        <Button icon="close" color="red" onClick={this.close}/>
         <div className="header">
-          <span>Add a new feed</span>
+          <div className="title">Add a new feed</div>
         </div>
         <div className="content">
-          <label htmlFor="href">RSS feed url or youtube channel id</label>
+          <label htmlFor="href">Rss feed url or youtube channel id</label>
           <input name="" type="text" value=""/>
         </div>
         <div className="actions">
-
+          <Button icon="check" size="large" title="Do it!" color="green" onClick={this.submit}/>
+          <Button icon="close" size="large" title="Forget about it" color="red" onClick={this.close}/>
         </div>
       </Popup>
     );

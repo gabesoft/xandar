@@ -1,3 +1,26 @@
 .add-feed-popup {
+  .header {
+    @include header-item(true);
 
+    border-radius: $popup-border-radius $popup-border-radius 0 0;
+    width: 100%;
+
+    .title {
+      @include item-title(
+        $font-weight: $font-weight-bold,
+        $font-size: $font-size-large,
+        $font-family: $font-family-headers
+      );
+
+      text-align: left;
+    }
+  }
+
+  .content {
+    padding: 5px;
+  }
+
+  .actions {
+    float: right;
+  }
 }
