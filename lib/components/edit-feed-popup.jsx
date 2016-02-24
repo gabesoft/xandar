@@ -39,15 +39,19 @@ module.exports = class AddFeedPopup extends React.Component {
   }
 
   onTagsChange(tags) {
-    const subscription = this.state.feed.subscription;
-    subscription.tags = tags;
-    this.setState({ feed: this.state.feed });
+    if (this.state.feed) {
+      const subscription = this.state.feed.subscription;
+      subscription.tags = tags;
+      this.setState({ feed: this.state.feed });
+    }
   }
 
   onTitleChange(event) {
-    const subscription = this.state.feed.subscription;
-    subscription.title = event.target.value;
-    this.setState({ feed: this.state.feed });
+    if (this.state.feed) {
+      const subscription = this.state.feed.subscription;
+      subscription.title = event.target.value;
+      this.setState({ feed: this.state.feed });
+    }
   }
 
   onTagsKeyDown(event) {

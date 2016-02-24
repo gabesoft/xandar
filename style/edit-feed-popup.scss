@@ -1,4 +1,6 @@
 .edit-feed-popup {
+  min-width: 350px;
+
   .header {
     @include header-item(true);
     @include feed-info-item();

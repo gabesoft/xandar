@@ -42,10 +42,10 @@
       transition: all $delay-medium ease;
     }
 
+    /* TODO make a generic highlight class */
     &.highlight {
       .title {
         color: $accent-magenta-color;
-        text-shadow: 0 0 3px currentColor;
       }
     }
 

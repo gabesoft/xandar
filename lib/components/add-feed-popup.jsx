@@ -21,12 +21,25 @@ module.exports = class AddFeedPopup extends React.Component {
     this.close = this.close.bind(this);
     this.submit = this.submit.bind(this);
     this.onUriChange = this.onUriChange.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
+  }
+
+  isYoutubeId(text) {
+    text = (text || '').trim();
+    const pattern = /^[A-Za-z0-9-_]{24}$/;
+    return text.match(pattern);
   }
 
   submit() {
-    if (this.state.uri) {
-      // TODO: allow youtube channels
-      this.setState({ loading: true });
+    if (!this.state.uri) {
+      return;
+    }
+
+    this.setState({ loading: true });
+
+    if (this.isYoutubeId(this.state.uri)) {
+      actions.findFeed(`https://www.youtube.com/feeds/videos.xml?channel_id=${this.state.uri}`);
+    } else {
       actions.findFeed(this.state.uri);
     }
   }
@@ -35,14 +48,20 @@ module.exports = class AddFeedPopup extends React.Component {
     this.setState({ active: false });
   }
 
-  onUriChange(event) {
-    this.setState({ uri: event.target.value });
-  }
-
   focusInput() {
     if (this.inputEl) {
       ReactDOM.findDOMNode(this.inputEl).focus();
     }
+  }
+
+  onKeyDown(event) {
+    if (event.key === 'Enter') {
+      this.submit();
+    }
+  }
+
+  onUriChange(event) {
+    this.setState({ uri: event.target.value });
   }
 
   componentDidMount() {
@@ -79,9 +98,10 @@ module.exports = class AddFeedPopup extends React.Component {
         autoFocus
         className="uri-input"
         type="text"
-        placeholder="Enter a feed url or youtube channel id"
+        placeholder="Enter a feed url or youtube channel-external-id"
         ref={el => this.inputEl = el}
         onChange={this.onUriChange}
+        onKeyDown={this.onKeyDown}
         value={this.state.uri}
       />
     );
@@ -96,7 +116,7 @@ module.exports = class AddFeedPopup extends React.Component {
         top={this.state.top}
         left={this.state.left}
         onClose={this.close}>
-        <div className="header">
+        <div className="header" onClick={this.close}>
           <div className="title">Add a new feed</div>
         </div>
         <div className="content">
