@@ -1,6 +1,7 @@
 'use strict';
 
 const React = require('react');
+const ReactDOM = require('react-dom');
 const store = require('../flux/feed-store');
 const actions = require('../flux/feed-actions');
 const debounce = require('../util').debounce;
@@ -39,6 +40,7 @@ module.exports = class FeedList extends React.Component {
     this.onFeedMarkAsRead = this.onFeedMarkAsRead.bind(this);
     this.onFeedEditClick = this.onFeedEditClick.bind(this);
     this.onListScroll = this.onListScroll.bind(this);
+    this.onScrollIntoView = this.onScrollIntoView.bind(this);
   }
 
   onAddFeedStart() {
@@ -48,6 +50,11 @@ module.exports = class FeedList extends React.Component {
   onListScroll() {
     actions.hideEditFeedPopup();
     this.setState({ editOpenFeedId: null });
+  }
+
+  onScrollIntoView(node) {
+    const el = ReactDOM.findDOMNode(node);
+    el.scrollIntoView({ block: 'end', behavior: 'smooth' });
   }
 
   onFeedEditClick(feed) {
@@ -132,8 +139,8 @@ module.exports = class FeedList extends React.Component {
     this.setState({ grouped: value });
   }
 
-  toggleGroupOpen(group, open) {
-    this.state.closedGroups[group.key] = !open;
+  toggleGroupOpen(groupKey, open) {
+    this.state.closedGroups[groupKey] = !open;
     this.setState({ closedGroups: this.state.closedGroups });
   }
 
@@ -183,6 +190,18 @@ module.exports = class FeedList extends React.Component {
         case constants.feeds.EDIT_FEED_POPUP_CLOSED:
           this.setState({ editOpenFeedId: null });
           break;
+        case constants.feeds.FIND_FEED_DONE:
+          const feed = action.data.feed;
+          const subscription = action.data.subscription;
+          const groupKey = (subscription.tags[0] || 'uncategorized').toLowerCase();
+          this.setState({ highlightFeedId: feed.id });
+          this.toggleGroupOpen(groupKey, true);
+
+          clearTimeout(this.highlightId);
+          this.highlightId = setTimeout(() => {
+            this.setState({ highlightFeedId: null });
+          }, 2000);
+          break;
         default:
           break;
       }
@@ -192,6 +211,7 @@ module.exports = class FeedList extends React.Component {
   componentWillUnmount() {
     store.removeListener(feedConstants.STORE_CHANGE, this.onStoreChange);
     dispatcher.unregister(this.tokenId);
+    clearTimeout(this.highlightId);
   }
 
   renderGroups() {
@@ -206,7 +226,7 @@ module.exports = class FeedList extends React.Component {
           group={group}
           count={group.value.length}
           closed={this.state.closedGroups[group.key]}
-          onToggleGroupOpen={this.toggleGroupOpen}
+          onToggleGroupOpen={(groupItem, open) => this.toggleGroupOpen(groupItem.key, open)}
         />
       );
       const children = (
@@ -238,6 +258,8 @@ module.exports = class FeedList extends React.Component {
           className={itemClass}
           onMarkAsRead={this.onFeedMarkAsRead}
           onEditClick={this.onFeedEditClick}
+          highlight={feed.id === this.state.highlightFeedId}
+          onScrollIntoView={this.onScrollIntoView}
         />
       );
     });

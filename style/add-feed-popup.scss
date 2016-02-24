@@ -1,4 +1,9 @@
 .add-feed-popup {
+  @include flex($flex-direction: column);
+
+  height: 200px;
+  width: 400px;
+
   .header {
     @include header-item(true);
 
@@ -17,10 +22,41 @@
   }
 
   .content {
-    padding: 5px;
+    @include flex($flex-direction: column, $align-items: stretch);
+
+    flex: 1;
+    padding: 15px;
+    position: relative;
+    width: 100%;
+
+    label {
+      margin-bottom: 5px;
+    }
+
+    .loader {
+      background-color: transparent;
+    }
+
+    .uri-input {
+      padding: 0 1em;
+      width: auto;
+    }
+
+    .light-theme & {
+      .uri-input:focus {
+        background-color: $background-light-highlight-color;
+      }
+    }
+
+    .dark-theme & {
+      .uri-input:focus {
+        background-color: $background-dark-highlight-color;
+      }
+    }
   }
 
   .actions {
-    float: right;
+    text-align: right;
+    width: 100%;
   }
 }

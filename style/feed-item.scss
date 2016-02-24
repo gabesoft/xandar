@@ -39,6 +39,14 @@
 
     .title {
       @include item-title();
+      transition: all $delay-medium ease;
+    }
+
+    &.highlight {
+      .title {
+        color: $accent-magenta-color;
+        text-shadow: 0 0 3px currentColor;
+      }
     }
 
     &.edit-open {

@@ -28,28 +28,26 @@ module.exports = class AddFeedPopup extends React.Component {
 
   close() {
     this.setState({ active: false });
-    actions.editFeedPopupClosed({ feed: this.state.feed });
-  }
 
-  saveSubscriptionAsync() {
-    clearTimeout(this.saveTimeoutId);
-    this.saveTimeoutId = setTimeout(() => {
-      actions.saveSubscription(this.state.feed.subscription);
-    }, 500);
+    const feed = this.state.feed;
+
+    if (feed && feed.subscription) {
+      actions.saveSubscription(feed.subscription);
+    }
+
+    actions.editFeedPopupClosed({ feed });
   }
 
   onTagsChange(tags) {
     const subscription = this.state.feed.subscription;
     subscription.tags = tags;
     this.setState({ feed: this.state.feed });
-    actions.saveSubscription(subscription);
   }
 
   onTitleChange(event) {
     const subscription = this.state.feed.subscription;
     subscription.title = event.target.value;
     this.setState({ feed: this.state.feed });
-    this.saveSubscriptionAsync();
   }
 
   onTagsKeyDown(event) {

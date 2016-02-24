@@ -23,7 +23,7 @@ module.exports = class PostList extends React.Component {
 
   onScrollIntoView(node) {
     const el = ReactDOM.findDOMNode(node);
-    el.scrollIntoView({ block: 'end', behavior: 'auto' });
+    el.scrollIntoView({ block: 'end', behavior: 'smooth' });
   }
 
   onOpenPost(data) {

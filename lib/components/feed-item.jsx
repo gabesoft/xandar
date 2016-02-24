@@ -1,6 +1,7 @@
 'use strict';
 
 const React = require('react');
+const ReactDOM = require('react-dom');
 const Actions = require('./feed-item-actions.jsx');
 const Counts = require('./post-counts.jsx');
 const Avatar = require('./text-avatar.jsx');
@@ -9,6 +10,7 @@ const postActions = require('../flux/post-actions');
 const searchActions = require('../flux/search-actions');
 const parse = require('../post-query').parse;
 const searchStore = require('../flux/search-store');
+const cls = require('../util').cls;
 
 
 module.exports = class Feed extends React.Component {
@@ -51,11 +53,26 @@ module.exports = class Feed extends React.Component {
     postActions.loadPosts(query);
   }
 
+  componentDidMount() {
+    if (this.props.highlight) {
+      this.props.onScrollIntoView(ReactDOM.findDOMNode(this));
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.highlight) {
+      this.props.onScrollIntoView(ReactDOM.findDOMNode(this));
+    }
+  }
+
   render() {
     const feed = this.props.feed;
     const title = (feed.subscription || {}).title || feed.title;
     const subscribed = Boolean(feed.subscription);
-    const className = `feed-item ${this.props.className || ''}`;
+    const className = cls('feed-item',
+      this.props.className,
+      this.props.highlight ? 'highlight' : null
+    );
 
     return (
       <li className={className} onClick={this.onClick}>
