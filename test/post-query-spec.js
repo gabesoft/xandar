@@ -20,10 +20,10 @@ describe('post query', () => {
   before(() => {
     store.setFeeds({
       subscriptions: [
-        { feedId: 123, title: 'Tech News' },
-        { feedId: 999, title: 'Javascript Tendencies' },
-        { feedId: 732, title: 'CSS Ninja' },
-        { feedId: 597, title: 'Hacker News' },
+        { id: 'abcd', feedId: 123, title: 'Tech News' },
+        { id: '8bcd', feedId: 999, title: 'Javascript Tendencies' },
+        { id: '13cd', feedId: 732, title: 'CSS Ninja' },
+        { id: '87c3', feedId: 597, title: 'Hacker News' },
       ]
     });
     tagStore.setTags(['javascript', 'css', 'web', 'a-tag', 'b-tag']);

@@ -20,6 +20,7 @@ module.exports = class Feed extends React.Component {
     this.onUnsubscribe = this.onUnsubscribe.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
 
   onSubscribe() {
@@ -85,6 +86,7 @@ module.exports = class Feed extends React.Component {
           onSubscribe={this.onSubscribe}
           onUnsubscribe={this.onUnsubscribe}
           onMarkAsRead={() => this.props.onMarkAsRead(feed)}
+          onDelete={this.onDelete}
         />
       </li>
     );

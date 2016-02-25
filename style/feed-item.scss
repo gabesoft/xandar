@@ -42,13 +42,6 @@
       transition: all $delay-medium ease;
     }
 
-    /* TODO make a generic highlight class */
-    &.highlight {
-      .title {
-        color: $accent-magenta-color;
-      }
-    }
-
     &.edit-open {
       .actions {
         opacity: 1;

@@ -93,6 +93,7 @@ module.exports = class FeedActions extends React.Component {
           icon="delete"
           color="red"
           title="Delete feed"
+          onClick={this.props.onDelete}
         />
       </div>
     );

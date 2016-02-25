@@ -5,10 +5,6 @@
     animation: fade-in $delay-medium;
     opacity: 1;
 
-    &.highlight {
-      color: $accent-magenta-color;
-    }
-
     .actions {
       @include item-actions();
     }

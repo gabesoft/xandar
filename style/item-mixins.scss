@@ -28,6 +28,19 @@
     }
   }
 
+  &.highlight,
+  &.highlight-magenta {
+    > .title {
+      color: $accent-magenta-color;
+    }
+  }
+
+  &.highlight-blue {
+    > .title {
+      color: $accent-blue-color;
+    }
+  }
+
   .light-theme & {
     @include header-item-theme(
       $background-light-color,
@@ -92,7 +105,7 @@
   width: $avatar-size;
 }
 
-@mixin item-title($font-weight: $font-weight-thin, $font-size: .9rem, $text-transform: capitalize, $font-style: normal, $font-family: $font-family-content) {
+@mixin item-title($font-weight: $font-weight-normal, $font-size: .9rem, $text-transform: capitalize, $font-style: normal, $font-family: $font-family-content) {
   @include ellipsis();
 
   flex: 1;

@@ -97,7 +97,7 @@ module.exports = class PostQueryItem extends React.Component {
     const className = cls(
       'post-query-item',
       pinned ? 'pinned-item' : 'unpinned-item',
-      this.state.highlight ? `highlight ${this.state.highlight}-fg` : null
+      this.state.highlight ? `highlight-${this.state.highlight}` : null
     );
     const titleInput = (
       <input
