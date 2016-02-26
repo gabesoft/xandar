@@ -5,9 +5,11 @@ const ReactDOM = require('react-dom');
 const Avatar = require('./text-avatar.jsx');
 const Date = require('./date.jsx');
 const Button = require('./icon-button.jsx');
+const Actions = require('./post-item-actions.jsx');
 const Description = require('./post-description.jsx');
 const Scrolled = require('./scrolled.jsx');
 const store = require('../flux/post-store');
+const actions = require('../flux/post-actions');
 
 module.exports = class Carousel extends React.Component {
   constructor(props) {
@@ -17,6 +19,7 @@ module.exports = class Carousel extends React.Component {
     this.moveLeft = this.moveLeft.bind(this);
     this.moveRight = this.moveRight.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
+    this.onTagsEdit = this.onTagsEdit.bind(this);
   }
 
   scrollElement(parent, selector) {
@@ -44,6 +47,15 @@ module.exports = class Carousel extends React.Component {
     this.scrollToTop();
   }
 
+  onTagsEdit() {
+    const el = ReactDOM.findDOMNode(this.refs.avatar);
+    const rect = el.getBoundingClientRect();
+    actions.showEditPostPopup({
+      rect: { top: rect.top, left: rect.left },
+      post: this.props.post
+    });
+  }
+
   onKeyDown(event) {
     if (event.which === 37) {
       this.moveLeft();
@@ -69,18 +81,16 @@ module.exports = class Carousel extends React.Component {
       <div className="carousel">
         <div className="header" onClick={() => this.props.onClose(data)}>
           <div className="feed-info">
-            <Avatar text={feedTitle}/>
+            <Avatar text={feedTitle} ref="avatar"/>
             <div className="title">{feedTitle}</div>
           </div>
           <div className="title">{post.title}</div>
-          <div className="actions">
-            <Button
-              icon="view-list"
-              title="List view"
-              onClick={() => this.props.onClose(data)}
-            />
-            <Button icon="open-in-new" href={post.link} target="_blank" title="Open in new window"/>
-          </div>
+          <Actions
+            showViewList
+            post={data}
+            onTagsEdit={this.onTagsEdit}
+            onViewListClick={() => this.props.onClose(data)}
+          />
           <Date value={post.date}/>
         </div>
         <Scrolled className="content">

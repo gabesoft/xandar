@@ -37,6 +37,7 @@ module.exports = class PostItemOpen extends React.Component {
     return (
       <Actions
         showClose
+        showViewCarousel
         post={this.props.post}
         className={className}
         onClose={() => this.props.onClose(this.props.post, scroll)}

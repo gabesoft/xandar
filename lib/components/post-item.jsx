@@ -18,7 +18,7 @@ module.exports = class PostItemClosed extends React.Component {
   onTagsEdit() {
     this.props.onTagsEdit(this.props.post);
 
-    const el = ReactDOM.findDOMNode(this.avatarEl);
+    const el = ReactDOM.findDOMNode(this.refs.avatar);
     const rect = el.getBoundingClientRect();
     actions.showEditPostPopup({
       rect: { top: rect.top, left: rect.left },
@@ -47,11 +47,12 @@ module.exports = class PostItemClosed extends React.Component {
     return (
       <li onClick={() => this.props.onOpen(data)} className={className}>
         <div className="feed-info">
-          <Avatar ref={el => this.avatarEl = el} text={feedTitle}/>
+          <Avatar ref="avatar" text={feedTitle}/>
           <div className="title">{feedTitle}</div>
         </div>
         <div className="title">{post.title}</div>
         <Actions
+          showViewCarousel
           post={data}
           onOpenInCarousel={this.props.onOpenInCarousel}
           onTagsEdit={this.onTagsEdit}

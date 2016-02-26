@@ -2,7 +2,7 @@
 
 const React = require('react');
 const ReactDOM = require('react-dom');
-const Actions = require('./post-actions.jsx');
+const Actions = require('./post-actions-old.jsx');
 const actions = require('../flux/post-actions');
 const PostDescription = require('./post-description.jsx');
 const pc = require('../constants').posts;

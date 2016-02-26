@@ -32,6 +32,7 @@ module.exports = class PostList extends React.Component {
     this.props.markAsRead(post);
   }
 
+  // TODO: make this work or remove
   onPostEditClick(post) {
     this.setState({ editOpenPostId: post._id });
   }
