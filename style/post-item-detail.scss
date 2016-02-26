@@ -37,7 +37,8 @@
       cursor: pointer;
     }
 
-    .header {
+    .header,
+    .footer {
       @include header-item(true);
 
       height: $header-height;
@@ -63,18 +64,6 @@
     .content {
       flex: 1;
       padding: 15px 0;
-    }
-
-    .footer {
-      @include flex(center, flex-end);
-
-      height: $footer-height;
-      position: relative;
-
-      .actions {
-        @include item-actions(1);
-
-      }
     }
   }
 }

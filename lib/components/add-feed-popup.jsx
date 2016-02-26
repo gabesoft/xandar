@@ -70,8 +70,8 @@ module.exports = class AddFeedPopup extends React.Component {
         case constants.feeds.SHOW_ADD_FEED_POPUP:
           this.setState({
             active: true,
-            top: action.rect.top + 30,
-            left: action.rect.left - 10,
+            top: action.rect.top,
+            left: action.rect.left,
             loading: false
           });
           this.focusInput();

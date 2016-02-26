@@ -11,14 +11,10 @@ const Avatar = require('./text-avatar.jsx');
 const Tags = require('./tags-input.jsx');
 const genId = require('../util').genId;
 
-module.exports = class AddFeedPopup extends React.Component {
+module.exports = class EditFeedPopup extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      active: false,
-      top: 0,
-      left: 0
-    };
+    this.state = { active: false, top: 0, left: 0 };
     this.close = this.close.bind(this);
     this.onTagsChange = this.onTagsChange.bind(this);
     this.onTitleChange = this.onTitleChange.bind(this);
@@ -74,8 +70,8 @@ module.exports = class AddFeedPopup extends React.Component {
           this.setState({
             active: true,
             feed: action.feed,
-            top: action.rect.top + 30,
-            left: action.rect.left - 10
+            top: action.rect.top,
+            left: action.rect.left
           });
           this.focusTitleInput();
           break;

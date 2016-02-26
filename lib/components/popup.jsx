@@ -31,8 +31,8 @@ module.exports = class Popup extends React.Component {
 
   render() {
     const style = {
-      top: this.props.top,
-      left: this.props.left
+      top: this.props.top + 30,
+      left: this.props.left - 10
     };
     const className = cls(
       'popup',

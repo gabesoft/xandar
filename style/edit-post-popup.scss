@@ -1,0 +1,64 @@
+.edit-post-popup {
+  min-width: 350px;
+
+  @mixin content-theme($color) {
+    .tags-input {
+      border: 1em solid transparent;
+    }
+
+    .tags-input.focused {
+      border: 1em solid $color;
+    }
+
+    .tags-input.focused {
+      background-color: $color;
+    }
+  }
+
+  .header {
+    @include header-item(true);
+
+    border-radius: $popup-border-radius $popup-border-radius 0 0;
+    width: 100%;
+
+    .title {
+      @include item-title($font-weight: $font-weight-normal, $font-family: $font-family-headers, $font-size: 1.1em);
+    }
+
+    .actions {
+      @include item-actions(1, block, 0 0 0 5px);
+
+      border-radius: 0 $popup-border-radius 0 0;
+    }
+
+    .feed-info {
+      @include feed-info-item();
+    }
+  }
+
+  .content {
+    .tags {
+      @include flex();
+      padding: 15px;
+    }
+
+    .tags-input {
+      transition: all $delay-short;
+    }
+
+    .title-input,
+    .tags-input {
+      flex: 1;
+      margin-left: 15px;
+      border-radius: .3em;
+    }
+
+    .light-theme & {
+      @include content-theme($background-light-highlight-color);
+    }
+
+    .dark-theme & {
+      @include content-theme($background-dark-highlight-color);
+    }
+  }
+}

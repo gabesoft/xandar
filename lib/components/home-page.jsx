@@ -18,6 +18,7 @@ const constants = require('../constants');
 const cls = require('../util').cls;
 const AddFeedPopup = require('./add-feed-popup.jsx');
 const EditFeedPopup = require('./edit-feed-popup.jsx');
+const EditPostPopup = require('./edit-post-popup.jsx');
 
 module.exports = class HomePage extends React.Component {
   constructor(props) {
@@ -141,6 +142,8 @@ module.exports = class HomePage extends React.Component {
       return;
     }
 
+    actions.hideEditPostPopup();
+
     const el = event.target;
     const scrolled = el.scrollTop / (el.scrollHeight - el.clientHeight);
     const scrollUp = el.scrollTop > this.lastScrollTop;
@@ -216,6 +219,7 @@ module.exports = class HomePage extends React.Component {
         <div className="app-footer"></div>
         <AddFeedPopup/>
         <EditFeedPopup/>
+        <EditPostPopup/>
       </div>
     );
   }

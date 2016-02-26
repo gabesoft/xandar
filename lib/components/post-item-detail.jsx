@@ -2,71 +2,88 @@
 
 const React = require('react');
 const ReactDOM = require('react-dom');
-const cls = require('../util').cls;
 const Avatar = require('./text-avatar.jsx');
 const Date = require('./date.jsx');
-const Button = require('./icon-button.jsx');
 const Description = require('./post-description.jsx');
+const Actions = require('./post-item-actions.jsx');
+const actions = require('../flux/post-actions');
 
 module.exports = class PostItemOpen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.onTagsEdit = this.onTagsEdit.bind(this);
+  }
+
+  onTagsEdit(top) {
+    this.props.onTagsEdit(this.props.post);
+
+    const el = top ?
+               ReactDOM.findDOMNode(this.refs.avatarTop) :
+               ReactDOM.findDOMNode(this.refs.avatarBottom);
+
+    const rect = el.getBoundingClientRect();
+    actions.showEditPostPopup({
+      rect: { top: rect.top, left: rect.left },
+      post: this.props.post
+    });
   }
 
   componentDidMount() {
     this.props.onScrollIntoView(ReactDOM.findDOMNode(this));
   }
 
-  renderActions(className, scroll) {
+  renderActions(className, scroll, top) {
+    return (
+      <Actions
+        showClose
+        post={this.props.post}
+        className={className}
+        onClose={() => this.props.onClose(this.props.post, scroll)}
+        onOpenInCarousel={this.props.onOpenInCarousel}
+        onTagsEdit={() => this.onTagsEdit(top)}
+      />
+    );
+  }
+
+  renderFeedInfo(avatarRef) {
     const data = this.props.post;
-    const post = data._source.post;
+    const feedTitle = data._source.title;
 
     return (
-      <div className={cls('actions', className)}>
-        <Button
-          icon="close"
-          color="red"
-          onClick={() => this.props.onClose(data, scroll)}
-          title="Close post"
-        />
-        <Button
-          icon="open-in-new"
-          href={post.link}
-          target="_blank"
-          title="Open in new window"
-        />
-        <Button
-          icon="view-carousel"
-          onClick={this.props.onOpenInCarousel}
-          title="Open in carousel view"
-        />
+      <div className="feed-info">
+        <Avatar text={feedTitle} ref={avatarRef}/>
+        <div className="title">{feedTitle}</div>
+      </div>
+    );
+  }
+
+  renderNav(position) {
+    const data = this.props.post;
+    const post = data._source.post;
+    const scroll = position !== 'top';
+    const top = position === 'top';
+    const className = top ? 'header' : 'footer';
+    const avatarRef = top ? 'avatarTop' : 'avatarBottom';
+
+    return (
+      <div onClick={() => this.props.onClose(data, scroll)} className={className}>
+        {this.renderFeedInfo(avatarRef)}
+        <div className="title">{post.title}</div>
+        {this.renderActions(position, scroll, top)}
+        <Date value={post.date}/>
       </div>
     );
   }
 
   render() {
-    const data = this.props.post;
-    const post = data._source.post;
-    const feedTitle = data._source.title;
-
     return (
       <li className="post-item-detail">
-        <div onClick={() => this.props.onClose(data)} className="header">
-          <div className="feed-info">
-            <Avatar text={feedTitle}/>
-            <div className="title">{feedTitle}</div>
-          </div>
-          <div className="title">{post.title}</div>
-          {this.renderActions('top')}
-          <Date value={post.date}/>
-        </div>
+        {this.renderNav('top')}
         <div className="content">
-          <Description post={data}/>
+          <Description post={this.props.post}/>
         </div>
-        <div onClick={() => this.props.onClose(data, true)} className="footer">
-          {this.renderActions('bottom', true)}
-        </div>
+        {this.renderNav('bottom')}
       </li>
     );
   }

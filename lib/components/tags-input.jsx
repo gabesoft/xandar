@@ -1,13 +1,13 @@
 const React = require('react');
 const ReactServer = require('react-dom/server');
 const TagsInput = require('react-tagsinput');
+const TagItem = require('./tag-item.jsx');
 const Awesomplete = require('awesomplete');
 const actions = require('../flux/tag-actions');
 const store = require('../flux/tag-store');
 const tc = require('../constants').tags;
-const Item = require('./tag-item.jsx');
+const Item = require('./tag-list-item.jsx');
 const itemFactory = React.createFactory(Item);
-const Button = require('./icon-button.jsx');
 const cls = require('../util').cls;
 
 module.exports = class AutocompleteTagsInput extends React.Component {
@@ -65,24 +65,9 @@ module.exports = class AutocompleteTagsInput extends React.Component {
     this.awesomplete = null;
   }
 
-  // TODO extract tag into a component
-  // TODO: make selection with the mouse in awesomplete work
   renderTag(props) {
     const { tag, key, onRemove } = props;
-    return (
-      <div key={key} className="tag-item" props>
-        <div className="content">
-          <span className="tag-name">{tag}</span>
-          <Button
-            icon="delete"
-            color="red"
-            title="Delete tag"
-            size="xsmall"
-            onClick={() => onRemove(key)}
-          />
-        </div>
-      </div>
-    );
+    return (<TagItem key={key} tag={tag} onRemove={onRemove}/>);
   }
 
   initAwesomplete(el) {

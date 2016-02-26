@@ -28,17 +28,20 @@
     }
   }
 
-  &.highlight,
-  &.highlight-magenta {
+  @mixin highlight($color) {
+    > .text,
     > .title {
-      color: $accent-magenta-color;
+      color: $color;
     }
   }
 
+  &.highlight,
+  &.highlight-magenta {
+    @include highlight($accent-magenta-color);
+  }
+
   &.highlight-blue {
-    > .title {
-      color: $accent-blue-color;
-    }
+    @include highlight($accent-magenta-color);
   }
 
   .light-theme & {

@@ -2,15 +2,28 @@
 
 const React = require('react');
 const ReactDOM = require('react-dom');
-const Button = require('./icon-button.jsx');
 const Avatar = require('./text-avatar.jsx');
 const Date = require('./date.jsx');
 const cls = require('../util').cls;
+const actions = require('../flux/post-actions');
+const Actions = require('./post-item-actions.jsx');
 
 module.exports = class PostItemClosed extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.onTagsEdit = this.onTagsEdit.bind(this);
+  }
+
+  onTagsEdit() {
+    this.props.onTagsEdit(this.props.post);
+
+    const el = ReactDOM.findDOMNode(this.avatarEl);
+    const rect = el.getBoundingClientRect();
+    actions.showEditPostPopup({
+      rect: { top: rect.top, left: rect.left },
+      post: this.props.post
+    });
   }
 
   componentDidMount() {
@@ -34,18 +47,15 @@ module.exports = class PostItemClosed extends React.Component {
     return (
       <li onClick={() => this.props.onOpen(data)} className={className}>
         <div className="feed-info">
-          <Avatar text={feedTitle}/>
+          <Avatar ref={el => this.avatarEl = el} text={feedTitle}/>
           <div className="title">{feedTitle}</div>
         </div>
         <div className="title">{post.title}</div>
-        <div className="actions" onClick={event => event.stopPropagation()}>
-          <Button icon="open-in-new" href={post.link} target="_blank" title="Open in new window"/>
-          <Button
-            icon="view-carousel"
-            onClick={this.props.onOpenInCarousel}
-            title="Open in carousel view"
-          />
-        </div>
+        <Actions
+          post={data}
+          onOpenInCarousel={this.props.onOpenInCarousel}
+          onTagsEdit={this.onTagsEdit}
+        />
         {read ? null : newIcon}
         <Date value={post.date}/>
       </li>

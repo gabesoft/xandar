@@ -22,6 +22,14 @@ module.exports = class FeedListHeader extends React.Component {
     });
   }
 
+  inputPlaceholder() {
+    if (this.props.feedCount === 0) {
+      return 'loading feeds...';
+    } else {
+      return `${this.props.subscriptionCount} feeds (type to filter)`;
+    }
+  }
+
   render() {
     const grouped = this.props.grouped;
 
@@ -55,8 +63,6 @@ module.exports = class FeedListHeader extends React.Component {
         onClick={this.props.collapseAllGroups}
       />
     );
-    const count = this.props.feedCount;
-    const placeholder = count > 0 ? `${count} feeds` : 'loading feeds ...';
 
     return (
       <div className="feed-list-header">
@@ -64,7 +70,7 @@ module.exports = class FeedListHeader extends React.Component {
           className="filter-input"
           type="search"
           title="Type to filter feeds"
-          placeholder={placeholder}
+          placeholder={this.inputPlaceholder()}
           onChange={this.onFilterChange}
         />
         {grouped ? expand : null}

@@ -271,6 +271,10 @@ module.exports = class FeedList extends React.Component {
       this.props.className || '',
       this.state.grouped ? 'grouped' : 'ungrouped'
     );
+    const subscriptionCount = this.state.feeds
+      .map(feed => feed.subscription)
+      .filter(Boolean)
+      .length;
 
     return (
       <div className={className}>
@@ -281,6 +285,7 @@ module.exports = class FeedList extends React.Component {
           allGroupsExpanded={this.allGroupsExpanded()}
           allGroupsCollapsed={this.allGroupsCollapsed()}
           feedCount={this.state.feeds.length}
+          subscriptionCount={subscriptionCount}
           onFilterChange={this.onFilterChange}
           onAddFeed={this.onAddFeedStart}
           grouped={this.state.grouped}
