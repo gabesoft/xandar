@@ -16,8 +16,6 @@ module.exports = class PostItemOpen extends React.Component {
   }
 
   onTagsEdit(top) {
-    this.props.onTagsEdit(this.props.post);
-
     const el = top ?
                ReactDOM.findDOMNode(this.refs.avatarTop) :
                ReactDOM.findDOMNode(this.refs.avatarBottom);

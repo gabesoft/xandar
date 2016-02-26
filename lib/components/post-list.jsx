@@ -19,7 +19,6 @@ module.exports = class PostList extends React.Component {
     this.onOpenInCarousel = this.onOpenInCarousel.bind(this);
     this.onClosePost = this.onClosePost.bind(this);
     this.onScrollIntoView = this.onScrollIntoView.bind(this);
-    this.onPostEditClick = this.onPostEditClick.bind(this);
   }
 
   onScrollIntoView(node) {
@@ -30,11 +29,6 @@ module.exports = class PostList extends React.Component {
   onOpenPost(post) {
     this.setState({ openPost: post._id });
     this.props.markAsRead(post);
-  }
-
-  // TODO: make this work or remove
-  onPostEditClick(post) {
-    this.setState({ editOpenPostId: post._id });
   }
 
   onClosePost(post, scroll) {
@@ -84,7 +78,6 @@ module.exports = class PostList extends React.Component {
           key={post._id}
           onOpen={this.onOpenPost}
           onOpenInCarousel={event => this.onOpenInCarousel(event, post, index)}
-          onTagsEdit={this.onPostEditClick}
           onScrollIntoView={this.onScrollIntoView}
           post={post}
           scroll={scroll}
@@ -96,7 +89,6 @@ module.exports = class PostList extends React.Component {
           post={post}
           onClose={this.onClosePost}
           onOpenInCarousel={event => this.onOpenInCarousel(event, post, index)}
-          onTagsEdit={this.onPostEditClick}
           onScrollIntoView={this.onScrollIntoView}
         />
       );

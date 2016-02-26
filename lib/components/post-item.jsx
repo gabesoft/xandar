@@ -16,8 +16,6 @@ module.exports = class PostItemClosed extends React.Component {
   }
 
   onTagsEdit() {
-    this.props.onTagsEdit(this.props.post);
-
     const el = ReactDOM.findDOMNode(this.refs.avatar);
     const rect = el.getBoundingClientRect();
     actions.showEditPostPopup({

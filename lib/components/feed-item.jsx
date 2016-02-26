@@ -11,6 +11,7 @@ const searchActions = require('../flux/search-actions');
 const parse = require('../post-query').parse;
 const searchStore = require('../flux/search-store');
 const cls = require('../util').cls;
+const actions = require('../flux/feed-actions');
 
 
 module.exports = class Feed extends React.Component {
@@ -21,6 +22,15 @@ module.exports = class Feed extends React.Component {
     this.onDelete = this.onDelete.bind(this);
     this.onClick = this.onClick.bind(this);
     this.onDelete = this.onDelete.bind(this);
+    this.onEdit = this.onEdit.bind(this);
+  }
+
+  onEdit() {
+    const el = ReactDOM.findDOMNode(this.refs.avatar);
+    actions.showEditFeedPopup({
+      rect: el.getBoundingClientRect(),
+      feed: this.props.feed
+    });
   }
 
   onSubscribe() {
@@ -77,12 +87,12 @@ module.exports = class Feed extends React.Component {
 
     return (
       <li className={className} onClick={this.onClick}>
-        <Avatar text={title} className={subscribed ? '' : 'invisible'}/>
+        <Avatar text={title} ref="avatar" className={subscribed ? '' : 'invisible'}/>
         <div className="title">{title.toLowerCase()}</div>
         <Counts feed={feed}/>
         <Actions
           feed={feed}
-          onEdit={this.props.onEditClick}
+          onEdit={this.onEdit}
           onSubscribe={this.onSubscribe}
           onUnsubscribe={this.onUnsubscribe}
           onMarkAsRead={() => this.props.onMarkAsRead(feed)}
