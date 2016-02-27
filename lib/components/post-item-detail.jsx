@@ -64,13 +64,14 @@ module.exports = class PostItemOpen extends React.Component {
     const top = position === 'top';
     const className = top ? 'header' : 'footer';
     const avatarRef = top ? 'avatarTop' : 'avatarBottom';
+    const date = <Date value={post.date}/>;
 
     return (
       <div onClick={() => this.props.onClose(data, scroll)} className={className}>
         {this.renderFeedInfo(avatarRef)}
         <div className="title">{post.title}</div>
         {this.renderActions(position, scroll, top)}
-        <Date value={post.date}/>
+        {top ? date : 'End'}
       </div>
     );
   }

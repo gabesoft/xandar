@@ -4,6 +4,15 @@ const React = require('react');
 const Button = require('./icon-button.jsx');
 
 module.exports = class TagItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onRemove = this.onRemove.bind(this);
+  }
+
+  onRemove() {
+    this.props.onRemove(this.props.keyValue);
+  }
+
   render() {
     return (
       <div key={this.props.key} className="tag-item" props>
@@ -14,7 +23,7 @@ module.exports = class TagItem extends React.Component {
             color="red"
             title="Delete tag"
             size="xsmall"
-            onClick={() => this.props.onRemove(this.props.key)}
+            onClick={this.onRemove}
           />
         </div>
       </div>

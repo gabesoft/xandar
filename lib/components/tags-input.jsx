@@ -68,7 +68,7 @@ module.exports = class AutocompleteTagsInput extends React.Component {
 
   renderTag(props) {
     const { tag, key, onRemove } = props;
-    return (<TagItem key={key} tag={tag} onRemove={onRemove}/>);
+    return (<TagItem key={key} keyValue={key} tag={tag} onRemove={onRemove}/>);
   }
 
   initAwesomplete() {

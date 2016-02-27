@@ -8,7 +8,11 @@ module.exports = class TagListItem extends React.Component {
     return (
       <li ariaSelected="false">
         <span className="value" dangerouslySetInnerHTML={{ __html: this.props.value }}></span>
-        <Button icon="delete" color="red" title="Remove tag from typeahead"/>
+        <Button
+          icon="delete"
+          color="red"
+          title="Remove tag from typeahead"
+        />
       </li>
     );
   }
