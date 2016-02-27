@@ -15,7 +15,7 @@ module.exports = class AutocompleteTagsInput extends React.Component {
     super(props);
     this.state = { tags: store.getTags(), value: props.tags };
     this.onTagsChange = this.onTagsChange.bind(this);
-    this.initAwesomplete = this.initAwesomplete.bind(this);
+    /* this.initAwesomplete = this.initAwesomplete.bind(this); */
     this.onStoreChange = this.onStoreChange.bind(this);
     this.onFocus = this.onFocus.bind(this);
     this.onBlur = this.onBlur.bind(this);
@@ -56,6 +56,7 @@ module.exports = class AutocompleteTagsInput extends React.Component {
   }
 
   componentDidMount() {
+    this.initAwesomplete();
     store.addListener(tc.STORE_CHANGE, this.onStoreChange);
   }
 
@@ -70,7 +71,8 @@ module.exports = class AutocompleteTagsInput extends React.Component {
     return (<TagItem key={key} tag={tag} onRemove={onRemove}/>);
   }
 
-  initAwesomplete(el) {
+  initAwesomplete() {
+    const el = this.refs.tagsInput;
     if (el !== null && !this.awesompleteInitialized) {
       const input = el.refs.input;
       const awesomplete = new Awesomplete(input);
@@ -128,7 +130,7 @@ module.exports = class AutocompleteTagsInput extends React.Component {
 
     return (
       <TagsInput
-        ref={this.initAwesomplete}
+        ref="tagsInput"
         id={this.props.id}
         value={this.state.value}
         renderTag={this.renderTag}

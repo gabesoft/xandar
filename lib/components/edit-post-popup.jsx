@@ -42,7 +42,7 @@ module.exports = class EditPostPopup extends React.Component {
             post: action.post,
             top: action.rect.top,
             left: action.rect.left
-          });
+          }, () => this.focusTagsInput());
           break;
         case constants.posts.HIDE_EDIT_POST_POPUP:
           this.setState({ active: false });
@@ -51,6 +51,10 @@ module.exports = class EditPostPopup extends React.Component {
           break;
       }
     });
+  }
+
+  focusTagsInput() {
+    this.refs.tags.refs.tagsInput.refs.input.focus();
   }
 
   componentWillUnmount() {
@@ -85,6 +89,7 @@ module.exports = class EditPostPopup extends React.Component {
           <div className="tags">
             <label htmlFor={tagsId}>Tags</label>
             <Tags
+              ref="tags"
               className="tags-input"
               id={tagsId}
               tags={tags}
