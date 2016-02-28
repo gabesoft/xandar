@@ -9,11 +9,6 @@
     height: auto;
     width: 100%;
 
-    @mixin cell-border($first, $last) {
-      span:first-child { border-radius: $first; }
-      span:last-child { border-radius: $last; }
-    }
-
     ul {
       display: table;
 
@@ -26,15 +21,15 @@
         }
 
         &:first-child {
-          @include cell-border($border-radius 0 0 0, 0 $border-radius 0 0);
+          @include edge-border-radius($border-radius 0 0 0, 0 $border-radius 0 0);
         }
 
         &:last-child {
-          @include cell-border(0 0 0 $border-radius, 0 0 $border-radius 0);
+          @include edge-border-radius(0 0 0 $border-radius, 0 0 $border-radius 0);
         }
 
         &:only-child {
-          @include cell-border($border-radius 0 0 $border-radius, 0 $border-radius $border-radius 0);
+          @include edge-border-radius($border-radius 0 0 $border-radius, 0 $border-radius $border-radius 0);
         }
 
         .id {

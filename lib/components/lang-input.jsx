@@ -7,7 +7,7 @@ module.exports = class LangInput extends React.Component {
     return (
       <input
         className={this.props.className}
-        placeholder="type a new language or ESC"
+        placeholder="type a new language"
         type="text"
         value=""
       />

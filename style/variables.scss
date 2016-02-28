@@ -4,6 +4,7 @@ $delay-long: .7s;
 
 $font-family-content: "Open Sans", sans-serif;
 $font-family-headers: "Alegreya", serif;
+$font-family-code: "monaco", monospace;
 
 $font-weight-normal: 400;
 $font-weight-bold: 600;
@@ -30,6 +31,10 @@ $icon-sizes: (
 );
 
 $popup-border-radius: .3em;
+$popup-box-shadow: .05em .2em .6em;
+$popup-box-shadow-light: $popup-box-shadow rgba(0, 0, 0, .2);
+$popup-box-shadow-dark: $popup-box-shadow rgba(0, 0, 0, .8);
+
 $awesomplete-item-padding: .2em .5em;
 $feed-info-width: 20%;
 $header-item-height: 30px;

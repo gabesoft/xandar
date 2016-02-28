@@ -1,0 +1,68 @@
+.post-description {
+  .awesomplete {
+    $border-radius: $popup-border-radius;
+    $border-shadow: 0 0 0 1px currentColor;
+
+    @include absolute(3px, 3px, 0, 3px);
+
+    background: inherit;
+    display: block;
+    font-family: $font-family-content;
+    font-size: $font-size-small;
+    height: 2rem;
+    padding: 0 .3em;
+    width: 220px;
+
+    input {
+      border: 0;
+      height: 2rem;
+    }
+
+    input:focus {
+      border: 0;
+    }
+
+    ul {
+      border: none;
+      display: table;
+
+      .light-theme & {
+        box-shadow: $popup-box-shadow-light, $border-shadow;
+      }
+
+      .dark-theme & {
+        box-shadow: $popup-box-shadow-dark, $border-shadow;
+      }
+    }
+
+    li {
+      display: table-row;
+
+      &:first-child {
+        @include edge-border-radius($border-radius 0 0 0, 0 $border-radius 0 0);
+      }
+
+      &:last-child {
+        @include edge-border-radius(0 0 0 $border-radius, 0 0 $border-radius 0);
+      }
+
+      &:only-child {
+        @include edge-border-radius($border-radius 0 0 $border-radius, 0 $border-radius $border-radius 0);
+      }
+
+      span {
+        display: table-cell;
+        padding: $awesomplete-item-padding;
+      }
+    }
+
+    .separator {
+      display: none;
+    }
+
+    .name {
+      text-align: left;
+      text-transform: capitalize;
+    }
+  }
+}

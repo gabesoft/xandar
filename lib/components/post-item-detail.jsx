@@ -5,6 +5,7 @@ const ReactDOM = require('react-dom');
 const Avatar = require('./text-avatar.jsx');
 const Date = require('./date.jsx');
 const Description = require('./post-description.jsx');
+const Icon = require('./icon.jsx');
 const Actions = require('./post-item-actions.jsx');
 const actions = require('../flux/post-actions');
 
@@ -65,13 +66,14 @@ module.exports = class PostItemOpen extends React.Component {
     const className = top ? 'header' : 'footer';
     const avatarRef = top ? 'avatarTop' : 'avatarBottom';
     const date = <Date value={post.date}/>;
+    const end = <Icon name="minus"/>;
 
     return (
       <div onClick={() => this.props.onClose(data, scroll)} className={className}>
         {this.renderFeedInfo(avatarRef)}
         <div className="title">{post.title}</div>
         {this.renderActions(position, scroll, top)}
-        {top ? date : 'End'}
+        {top ? date : end}
       </div>
     );
   }

@@ -38,7 +38,9 @@
 @import 'login-page';
 @import 'home-page';
 
-@import 'hljs-solarized-light';
+@import 'lang-button';
+@import 'lang-input';
+
 @import 'react-modal';
 @import 'react-tagsinput';
 @import 'toast';
@@ -69,6 +71,14 @@
 @import 'feed-list-old';
 @import 'post-list-old';
 @import 'post-query-list-old';
+
+.light-theme {
+  @import 'hljs-solarized-light';
+}
+
+.dark-theme {
+  @import 'hljs-solarized-dark';
+}
 
 .app-mount,
 .app-main {

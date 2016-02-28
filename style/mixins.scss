@@ -24,6 +24,11 @@
   @if ($left != 0) { left: $left; }
 }
 
+@mixin edge-border-radius($first, $last) {
+  span:first-child { border-radius: $first; }
+  span:last-child { border-radius: $last; }
+}
+
 @mixin absolute($args...) { @include position(absolute, $args...); }
 @mixin relative($args...) { @include position(relative, $args...); }
 @mixin fixed($args...) { @include position(fixed, $args...); }
@@ -32,7 +37,18 @@
   font-size: map-get($icon-sizes, $size);
 }
 
+@mixin popup-theme($box-shadow, $color-bg) {
+  box-shadow: $box-shadow;
+  background-color: rgba($color-bg, .8);
+
+  &:after {
+    background-color: $color-bg;
+  }
+}
+
 @mixin popup() {
+  $border-shadow: 0 0 0 1px currentColor;
+
   border-radius: $popup-border-radius;
   border: 1px solid currentColor;
   z-index: 2;
@@ -64,20 +80,10 @@
   }
 
   .dark-theme & {
-    background-color: rgba($background-dark-color, .8);
-    box-shadow: .05em .2em .6em rgba(0, 0, 0, .8);
-
-    &:after {
-      background-color: $background-dark-color;
-    }
+    @include popup-theme($popup-box-shadow-dark, $background-dark-color);
   }
 
   .light-theme & {
-    background-color: rgba($background-light-color, .8);
-    box-shadow: .05em .2em .6em rgba(0, 0, 0, .2);
-
-    &:after {
-      background-color: $background-light-color;
-    }
+    @include popup-theme($popup-box-shadow-light, $background-light-color);
   }
 }

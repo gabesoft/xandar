@@ -1,8 +1,8 @@
 'use strict';
 
 const classes = {
-  button: 'btn-highlight',
-  input: 'input-highlight',
+  button: 'lang-button',
+  input: 'lang-input',
   langEdit: 'lang-edit-mode',
   description: 'post-description'
 };
@@ -28,7 +28,10 @@ const LangButton = require('./lang-button.jsx');
 const buttonFactory = React.createFactory(LangButton);
 const LangInput = require('./lang-input.jsx');
 const inputFactory = React.createFactory(LangInput);
-
+const langMap = langs.reduce((acc, ln) => {
+  acc[ln[1]] = true;
+  return acc;
+}, {});
 
 module.exports = class PostDescription extends React.Component {
   constructor(props) {
@@ -64,14 +67,15 @@ module.exports = class PostDescription extends React.Component {
 
   renderDefault() {
     const post = this.props.post._source.post;
-    const html = { __html: post.description };
+    const data = post.description;
+    const html = { __html: data };
     return (
       <div className={this.getClassName()}>
-        <div
+        <ul
           className="post-description-content"
           ref={el => this.dataEl = el}
           dangerouslySetInnerHTML={html}>
-        </div>
+        </ul>
       </div>
     );
   }
@@ -167,10 +171,20 @@ module.exports = class PostDescription extends React.Component {
     return awesomplete;
   }
 
+  getLangFromTags() {
+    const tags = this.props.post._source.tags || [];
+    const pattern = /^([^-]+)-lang/;
+    const lang = tags.find(tag => {
+      const match = tag.match(pattern);
+      return match && langMap[match[1]];
+    });
+    return lang ? lang.replace(/-lang$/, '') : null;
+  }
+
   highlightBlock(index) {
     const block = this.blocks[index];
     const $block = $(block.el);
-    const lang = block.lang;
+    const lang = block.lang || this.getLangFromTags();
     const text = block.text;
 
     $block.removeAttr('style');
@@ -224,6 +238,7 @@ module.exports = class PostDescription extends React.Component {
       this.savePostBlocks();
     });
 
+    $input.on('blur', reset);
     $input.on('keydown', event => {
       if (event.which === 27) {
         reset();

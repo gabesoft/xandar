@@ -1,0 +1,42 @@
+.post-description {
+
+  code:hover {
+    .lang-button {
+      opacity: .3;
+    }
+
+    .lang-button:hover {
+      opacity: 1;
+    }
+  }
+
+  .lang-button {
+    @include absolute(3px, 3px, 0, 0);
+
+    font-family: $font-family-content;
+    font-size: $font-size-small;
+
+    background-color: inherit;
+    color: currentColor;
+    cursor: pointer;
+    opacity: 0;
+    padding: .2em .5em;
+    transition: opacity $delay-short ease;
+
+    &:hover {
+      color: currentColor;
+    }
+
+    .light-theme & {
+      &:hover {
+        background-color: $background-light-highlight-color;
+      }
+    }
+
+    .dark-theme & {
+      &:hover {
+        background-color: $background-dark-highlight-color;
+      }
+    }
+  }
+}

@@ -1,10 +1,24 @@
 .post-description {
   $font-size: 1.1rem;
 
+  margin: 0 auto;
   overflow: scroll;
   padding: 0;
-  margin: 0 auto;
   position: relative;
+  text-rendering: optimizeLegibility;
+  transform: translate3d(0, 0, 0);
+
+  .light-theme & {
+    .hljs {
+      border: 1px solid $background-light-highlight-color;
+    }
+  }
+
+  .dark-theme & {
+    .hljs {
+      border: 1px solid $background-dark-highlight-color;
+    }
+  }
 
   .post-description-content {
     color: currentColor !important;
@@ -14,14 +28,24 @@
   }
 
   span {
-    font-size: $font-size !important;
-    font-family: $font-family-content !important;
-    color: currentColor !important;
+    /* font-size: $font-size !important; */
+    /* font-family: $font-family-content !important; */
+    /* color: currentColor !important; */
+  }
+
+  table {
+    border: none !important;
+    display: block;
+    overflow-x: scroll;
+  }
+
+  hr {
+    display: none;
   }
 
   code, kbd, pre, samp {
-    font-family: monaco, Consolas, 'Lucida Console', monospace;
-    font-size: 0.9rem;
+    font-family: $font-family-code;
+    font-size: 1rem;
     position: relative;
   }
 
@@ -33,37 +57,12 @@
     }
   }
 
-  .btn-highlight {
-    background: rgba(238, 232, 213, 0.9);
-    border: 1px solid #fdf6e3;
-    color: $secondary-color;
-    display: inline-block;
-    font-size: 0.8rem;
-    height: 1.8em;
-    left: 8px;
-    line-height: 0.8em;
-    opacity: 0;
-    padding: 6px;
-    position: absolute;
-    text-transform: lowercase;
-    top: 5px;
-    transition: opacity 0.7s;
-
-    &:hover {
-      background: #fdf6e3;
-    }
-  }
-
   .wp-video {
     max-width: 100% !important;
   }
 
   .container {
     width: 100%;
-  }
-
-  code:hover .btn-highlight {
-    opacity: 1;
   }
 
   video,
@@ -75,41 +74,6 @@
     min-height: 400px;
     padding: 0 1px;
     width: 100%;
-  }
-
-  .awesomplete {
-    height: 2rem;
-    position: relative;
-    left: 0;
-    top: 0;
-    display: block;
-    width: 220px;
-
-    input {
-      border: 0;
-      font-size: 0.9rem;
-      height: 2rem;
-      padding-left: 8px;
-    }
-
-    input:focus {
-      border: 0;
-    }
-
-    li .value {
-      width: 105px;
-    }
-
-    li .separator {
-      display: none;
-    }
-
-    li .name {
-      @include ellipsis;
-      text-align: left;
-      text-transform: capitalize;
-      width: 200px;
-    }
   }
 
   h1 {

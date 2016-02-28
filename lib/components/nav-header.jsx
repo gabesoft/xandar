@@ -109,7 +109,11 @@ module.exports = class NavHeader extends React.Component {
 
   updateQuery() {
     try {
-      this.setState({ queryError: false, queryTitle: null });
+      this.setState({
+        queryError: false,
+        queryErrorMessage: null,
+        queryTitle: null
+      });
 
       const value = (this.state.searchValue || '').trim();
       const queryObj = parse(value);
@@ -123,7 +127,10 @@ module.exports = class NavHeader extends React.Component {
 
       postActions.loadPosts(queryObj);
     } catch (e) {
-      this.setState({ queryError: true });
+      this.setState({
+        queryError: true,
+        queryErrorMessage: e.message || e
+      });
     }
   }
 
@@ -246,6 +253,7 @@ module.exports = class NavHeader extends React.Component {
             <input
               className="search-input"
               type="search"
+              title={this.state.queryErrorMessage}
               onChange={this.onSearchChange}
               onFocus={this.onSearchFocus}
               onBlur={this.onSearchBlur}

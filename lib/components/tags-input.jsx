@@ -1,6 +1,6 @@
 const React = require('react');
 const ReactServer = require('react-dom/server');
-const TagsInput = require('react-tagsinput');
+const ReactTagsInput = require('react-tagsinput');
 const TagItem = require('./tag-item.jsx');
 const Awesomplete = require('awesomplete');
 const actions = require('../flux/tag-actions');
@@ -10,12 +10,15 @@ const Item = require('./tag-list-item.jsx');
 const itemFactory = React.createFactory(Item);
 const cls = require('../util').cls;
 
-module.exports = class AutocompleteTagsInput extends React.Component {
+// The validationRegex propType causes a warning due
+// to React.PropTypes.regexp being undefined
+delete ReactTagsInput.propTypes.validationRegex;
+
+module.exports = class TagsInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = { tags: store.getTags(), value: props.tags };
     this.onTagsChange = this.onTagsChange.bind(this);
-    /* this.initAwesomplete = this.initAwesomplete.bind(this); */
     this.onStoreChange = this.onStoreChange.bind(this);
     this.onFocus = this.onFocus.bind(this);
     this.onBlur = this.onBlur.bind(this);
@@ -129,7 +132,7 @@ module.exports = class AutocompleteTagsInput extends React.Component {
       this.state.focused ? 'focused' : null);
 
     return (
-      <TagsInput
+      <ReactTagsInput
         ref="tagsInput"
         id={this.props.id}
         value={this.state.value}

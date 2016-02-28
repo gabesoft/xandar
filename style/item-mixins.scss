@@ -61,7 +61,7 @@
 
 @mixin header-item-theme($background-color, $background-color-highlight, $highlight-persist) {
   $actions-background: linear-gradient(
-                           left,
+                           to right,
                            transparent 0%,
                            $background-color-highlight 10%);
 
