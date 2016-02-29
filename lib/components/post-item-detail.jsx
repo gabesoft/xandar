@@ -66,7 +66,7 @@ module.exports = class PostItemOpen extends React.Component {
     const className = top ? 'header' : 'footer';
     const avatarRef = top ? 'avatarTop' : 'avatarBottom';
     const date = <Date value={post.date}/>;
-    const end = <Icon name="minus"/>;
+    const end = <Icon name="minus" className="end-icon"/>;
 
     return (
       <div onClick={() => this.props.onClose(data, scroll)} className={className}>

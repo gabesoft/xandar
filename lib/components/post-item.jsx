@@ -34,10 +34,12 @@ module.exports = class PostItemClosed extends React.Component {
     const data = this.props.post;
     const post = data._source.post;
     const read = data._source.read;
+    const tags = data._source.tags || [];
     const feedTitle = data._source.title;
     const newIcon = <span className="new-icon">NEW</span>;
     const className = cls(
       'post-item',
+      tags.map(tag => `${tag}-tagged`).join(' '),
       this.props.highlight ? 'highlight' : null,
       read ? null : 'unread'
     );

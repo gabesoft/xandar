@@ -28,6 +28,7 @@
   }
 
   span {
+    /* TODO cant set these as they interfere with code highlight */
     /* font-size: $font-size !important; */
     /* font-family: $font-family-content !important; */
     /* color: currentColor !important; */
@@ -47,6 +48,11 @@
     font-family: $font-family-code;
     font-size: 1rem;
     position: relative;
+  }
+
+  code {
+    display: block;
+    min-height: 2rem;
   }
 
   .lang-edit-mode {
@@ -98,10 +104,6 @@
 
   p {
     color: currentColor;
-  }
-
-  a:not(.btn-icon) {
-    background-color: transparent !important;
   }
 
   img[height="1"] {

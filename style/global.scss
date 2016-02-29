@@ -98,35 +98,6 @@ blockquote {
   }
 }
 
-@mixin scrolled-shadows($top-shadow, $bottom-shadow) {
-  &.top-scrolled,
-  .top-scrolled {
-    box-shadow: $top-shadow;
-  }
-
-  &.bottom-scrolled,
-  .bottom-scrolled {
-    box-shadow: $bottom-shadow;
-  }
-
-  &.top-scrolled.bottom-scrolled,
-  .top-scrolled.bottom-scrolled {
-    box-shadow: $top-shadow, $bottom-shadow;
-  }
-}
-
-.light-theme {
-  $top-shadow: inset 0 2px 2px -3px #000;
-  $bottom-shadow: inset 0 -2px 2px -3px #000;
-  @include scrolled-shadows($top-shadow, $bottom-shadow);
-}
-
-.dark-theme {
-  $top-shadow: inset 0 3px 2px -3px #000;
-  $bottom-shadow: inset 0 -3px 2px -3px #000;
-  @include scrolled-shadows($top-shadow, $bottom-shadow);
-}
-
 .noselect {
   user-select: none;
 }

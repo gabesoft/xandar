@@ -59,6 +59,10 @@
       .feed-info {
         @include feed-info-item();
       }
+
+      .end-icon {
+        margin-right: 5px;
+      }
     }
 
     .content {

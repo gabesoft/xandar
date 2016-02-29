@@ -13,6 +13,24 @@
     padding: 0 .3em;
     width: 220px;
 
+    @mixin theme($color-bg, $box-shadow) {
+      input {
+        background-color: $color-bg;
+      }
+
+      ul {
+        box-shadow: $box-shadow, $border-shadow;
+      }
+    }
+
+    .light-theme & {
+      @include theme($background-light-color, $popup-box-shadow-light);
+    }
+
+    .dark-theme & {
+      @include theme($background-dark-color, $popup-box-shadow-dark);
+    }
+
     input {
       border: 0;
       height: 2rem;

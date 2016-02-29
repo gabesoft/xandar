@@ -1,4 +1,16 @@
 .post-list {
   padding: 5px;
   margin: 0 10px;
+
+  .important-tagged {
+    @extend .blue-fg;
+  }
+
+  .must-read-tagged {
+    @extend .green-fg;
+  }
+
+  .interesting-tagged {
+    @extend .cyan-fg;
+  }
 }

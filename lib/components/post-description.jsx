@@ -39,7 +39,6 @@ module.exports = class PostDescription extends React.Component {
 
     this.blocks = this.props.post._source.codeBlocks || [];
     this.state = { loading: true };
-
     this.onIframeLoaded = this.onIframeLoaded.bind(this);
   }
 
@@ -49,7 +48,14 @@ module.exports = class PostDescription extends React.Component {
 
   savePostBlocks() {
     const post = this.props.post;
-    post._source.codeBlocks = this.blocks.map(block => ({ lang: block.lang }));
+    post._source.codeBlocks = this.blocks
+      .map(block => {
+        return {
+          lang: block.userEdited ? block.lang : null,
+          userEdited: block.userEdited,
+          index: block.index
+        };
+      });
     actions.savePost(post);
   }
 
@@ -234,6 +240,7 @@ module.exports = class PostDescription extends React.Component {
     $input.focus();
     $input.one('awesomplete-select', event => {
       block.lang = awesomplete.replace(event.originalEvent.text);
+      block.userEdited = true;
       reset();
       this.savePostBlocks();
     });
@@ -265,6 +272,7 @@ module.exports = class PostDescription extends React.Component {
         block.el = codeEl;
         block.text = $codeEl.text();
         block.html = $codeEl.html();
+        block.index = i;
 
         this.blocks[i] = block;
       });
