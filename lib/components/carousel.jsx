@@ -19,6 +19,7 @@ module.exports = class Carousel extends React.Component {
     this.moveLeft = this.moveLeft.bind(this);
     this.moveRight = this.moveRight.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
     this.onTagsEdit = this.onTagsEdit.bind(this);
   }
 
@@ -57,19 +58,29 @@ module.exports = class Carousel extends React.Component {
   }
 
   onKeyDown(event) {
-    if (event.which === 37) {
+    if (!this.altOn && event.code === 'ArrowLeft') {
       this.moveLeft();
-    } else if (event.which === 39) {
+    } else if (!this.altOn && event.code === 'ArrowRight') {
       this.moveRight();
+    } else if (event.code === 'AltLeft' || event.code === 'AltRight') {
+      this.altOn = true;
+    }
+  }
+
+  onKeyUp(event) {
+    if (event.code === 'AltLeft' || event.code === 'AltRight') {
+      this.altOn = false;
     }
   }
 
   componentDidMount() {
     document.addEventListener('keydown', this.onKeyDown);
+    document.addEventListener('keyup', this.onKeyUp);
   }
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.onKeyDown);
+    document.removeEventListener('keyup', this.onKeyUp);
   }
 
   render() {

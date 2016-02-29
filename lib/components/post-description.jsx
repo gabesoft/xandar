@@ -293,6 +293,7 @@ module.exports = class PostDescription extends React.Component {
     const el = ReactDOM.findDOMNode(this.dataEl);
     if (el) {
       $('a[title="Like on Facebook"]').parent().remove();
+      $('a[href="http://dwf.tw/fluent2016"]').remove();
     }
   }
 
