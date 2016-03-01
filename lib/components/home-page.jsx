@@ -11,7 +11,9 @@ const PostList = require('./post-list.jsx');
 const Carousel = require('./carousel.jsx');
 const Scrolled = require('./scrolled.jsx');
 const actions = require('../flux/post-actions');
+const searchActions = require('../flux/search-actions');
 const store = require('../flux/post-store');
+const searchStore = require('../flux/search-store');
 const timeout = require('../util').timeout;
 const dispatcher = require('../flux/dispatcher');
 const constants = require('../constants');
@@ -33,7 +35,45 @@ module.exports = class HomePage extends React.Component {
     this.markAsRead = this.markAsRead.bind(this);
   }
 
+  updateUrlQuery(postQuery) {
+    /* console.log(postQuery); */
+    const search = window.location.search.replace('?', '');
+    const query = {};
+
+    search.split('&').forEach(param => {
+      const parts = param.split('=');
+      query[parts[0]] = parts[1];
+    });
+
+    query.qid = postQuery.id;
+
+    const queryStr = Object
+      .keys(query)
+      .map(key => `${key}=${query[key]}`)
+      .join('&');
+
+    /* window.location.search = `?${queryStr}`; */
+    /* document.location.search = `?${queryStr}`;
+     */
+    if (window.history.pushState) {
+      const newurl = window.location.protocol + '//' +
+        window.location.host +
+        window.location.pathname +
+        `?${queryStr}`;
+      window.history.pushState({ path: newurl }, '', newurl);
+    }
+  }
+
   componentDidMount() {
+    /* console.log(this.props.location); */
+    /* const query = this.props.location.query.query;
+     */
+    const { qid } = this.props.location.query;
+    const postQuery = searchStore.getPostQueryById(qid);
+    /* console.log(qid, postQuery); */
+    searchActions.findPostQuery(qid);
+
+    /* console.log(this.context.router); */
     this.tokenId = dispatcher.register(action => {
       switch (action.type) {
         case constants.posts.ADD_POSTS_DONE:
@@ -57,13 +97,20 @@ module.exports = class HomePage extends React.Component {
           break;
         case constants.search.SELECT_POST_QUERY:
           this.postQuery = action.query;
+          this.updateUrlQuery(this.postQuery);
+          break;
+        case constants.search.FIND_POST_QUERY_DONE:
+          this.postQuery = action.data;
+          timeout(500).then(() => this.loadMorePosts(true));
           break;
         default:
           break;
       }
     });
-    this.loadMorePosts();
-    timeout(500).then(() => this.loadMorePosts());
+    if (!qid) {
+      this.loadMorePosts();
+    }
+    /* timeout(500).then(() => this.loadMorePosts()); */
   }
 
   componentWillUnmount() {
@@ -86,7 +133,7 @@ module.exports = class HomePage extends React.Component {
     }
   }
 
-  loadMorePosts() {
+  loadMorePosts(forceLoad) {
     if (this.state.loading || this.state.loadingMore) {
       return;
     }
@@ -94,8 +141,8 @@ module.exports = class HomePage extends React.Component {
     const total = store.getTotalPostCount();
     const count = store.getPostCount();
 
-    if (total === 0) {
-      actions.loadPosts();
+    if (total === 0 || forceLoad) {
+      actions.loadPosts(this.postQuery);
     } else if (count < total) {
       actions.addPosts(this.postQuery, count);
     }

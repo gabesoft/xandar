@@ -54,6 +54,14 @@ module.exports = class NavHeader extends React.Component {
             queryTitle: query.title
           });
           break;
+        case constants.search.FIND_POST_QUERY_DONE:
+          if (action.data) {
+            this.setState({
+              searchValue: this.getQueryValue(action.data),
+              queryTitle: action.data.title
+            });
+          }
+          break;
         case constants.search.SAVE_POST_QUERY_DONE:
           const text = this.getQueryValue(action.data);
           if (text === this.state.searchValue) {

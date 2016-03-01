@@ -12,6 +12,14 @@ module.exports = class AppRouter extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    /* router.merge(this.props.query, { a: 1 }); */
+    /* router.push({a: 1 }); */
+    /* console.log(router);
+       console.log(Router);
+       console.log(this.context.router); */
+  }
+
   render() {
     return (
       <Router history={history}>

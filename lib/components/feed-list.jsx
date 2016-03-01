@@ -25,7 +25,7 @@ module.exports = class FeedList extends React.Component {
       filter: null,
       grouped: true,
       groupedFeeds: this.groupFeeds(feeds),
-      closedGroups: { unsubscribed: true }
+      closedGroups: { unsubscribed: true, uncategorized: true }
     };
 
     this.onStoreChange = this.onStoreChange.bind(this);
@@ -36,15 +36,10 @@ module.exports = class FeedList extends React.Component {
     this.allGroupsCollapsed = this.allGroupsCollapsed.bind(this);
     this.allGroupsExpanded = this.allGroupsExpanded.bind(this);
     this.onFilterChange = debounce(this.onFilterChange.bind(this), 150);
-    this.onAddFeedStart = this.onAddFeedStart.bind(this);
     this.onFeedMarkAsRead = this.onFeedMarkAsRead.bind(this);
     this.onFeedEditClick = this.onFeedEditClick.bind(this);
     this.onListScroll = this.onListScroll.bind(this);
     this.onScrollIntoView = this.onScrollIntoView.bind(this);
-  }
-
-  onAddFeedStart() {
-    console.log('TODO: open add feed dialog');
   }
 
   onListScroll() {
@@ -287,7 +282,6 @@ module.exports = class FeedList extends React.Component {
           feedCount={this.state.feeds.length}
           subscriptionCount={subscriptionCount}
           onFilterChange={this.onFilterChange}
-          onAddFeed={this.onAddFeedStart}
           grouped={this.state.grouped}
         />
         <Scrolled className="feed-list-items" onScroll={this.onListScroll}>
