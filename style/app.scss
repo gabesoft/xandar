@@ -4,13 +4,8 @@
 @import "materialize/components/normalize";
 @import "materialize/components/global";
 @import "materialize/components/grid";
-@import "materialize/components/navbar";
 @import "materialize/components/typography";
 @import "materialize/components/toast";
-@import "materialize/components/tooltip";
-@import "materialize/components/waves";
-@import "materialize/components/modal";
-@import "materialize/components/collapsible";
 @import "materialize/components/form";
 @import "materialize/components/preloader";
 
@@ -63,16 +58,7 @@
 @import 'feed-item';
 @import 'feed-group';
 
-/* to be fixed */
 @import 'post-description';
-
-/* obsolete */
-@import 'btn-icon';
-@import 'nav-post-search';
-@import 'post-carousel-old';
-@import 'feed-list-old';
-@import 'post-list-old';
-@import 'post-query-list-old';
 
 .light-theme {
   @import 'hljs-solarized-light';
@@ -87,29 +73,6 @@
   height: 100vh;
 }
 
-/* overrides, remove when cleaning up materialize */
-.dropdown-button {
-  outline: none;
-}
-
 .container {
   flex: 1;
-}
-
-.center-align-block {
-  margin: 0 auto;
-}
-
-.search-form {
-  float: left;
-  width: calc(100% - 150px);
-}
-
-.collapsible-header {
-  line-height: 24px;
-  user-select: none;
-}
-
-.modal {
-  display: block;
 }

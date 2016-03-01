@@ -5,7 +5,7 @@ const ReactDOM = require('react-dom');
 const IconBtn = require('./btn-icon.jsx');
 const Description = require('./post-description.jsx');
 
-module.exports = class PostContent extends React.Component {
+module.exports = class FullscreenCarousel extends React.Component {
   constructor(props) {
     super(props);
     this.onKeyDown = this.onKeyDown.bind(this);

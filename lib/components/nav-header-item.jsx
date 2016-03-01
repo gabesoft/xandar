@@ -3,7 +3,7 @@
 const React = require('react');
 const cls = require('../util').cls;
 
-module.exports = class Item extends React.Component {
+module.exports = class NavHeaderItem extends React.Component {
   render() {
     const titleClass = cls(
       'title',
