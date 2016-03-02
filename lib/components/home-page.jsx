@@ -197,7 +197,7 @@ module.exports = class HomePage extends React.Component {
         <Header className="app-header" user={user}/>
 
         <div className="app-content">
-          <SidePanel className="app-content-left left" direction="1">
+          <SidePanel id="side-left-panel" className="app-content-left left" direction="1">
             <FeedList/>
           </SidePanel>
 
@@ -208,13 +208,13 @@ module.exports = class HomePage extends React.Component {
             className={centerClass}
             type={this.state.carouselIndex === null ? 'list' : 'carousel'}>
             {this.state.carouselIndex === null ? postList : this.renderCarousel()}
+            {this.state.loading ? loader : null}
           </Scrolled>
 
-          <SidePanel className="app-content-right right" direction="-1">
+          <SidePanel id="side-right-panel" className="app-content-right right" direction="-1">
             <PostQueryList/>
           </SidePanel>
 
-          {this.state.loading ? loader : null}
         </div>
 
         <div className="app-footer"></div>
