@@ -28,8 +28,8 @@ module.exports = class Feed extends React.Component {
   onEdit() {
     const el = ReactDOM.findDOMNode(this.refs.avatar);
     actions.showEditFeedPopup({
-      rect: el.getBoundingClientRect(),
-      feed: this.props.feed
+      feed: this.props.feed,
+      rect: el.getBoundingClientRect()
     });
   }
 
@@ -42,7 +42,11 @@ module.exports = class Feed extends React.Component {
   }
 
   onDelete() {
-    feedActions.deleteFeed(this.props.feed);
+    const el = ReactDOM.findDOMNode(this.refs.avatar);
+    feedActions.showDeleteFeedPopup({
+      feed: this.props.feed,
+      rect: el.getBoundingClientRect()
+    });
   }
 
   onClick() {

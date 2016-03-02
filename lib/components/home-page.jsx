@@ -18,6 +18,7 @@ const constants = require('../constants');
 const cls = require('../util').cls;
 const AddFeedPopup = require('./add-feed-popup.jsx');
 const EditFeedPopup = require('./edit-feed-popup.jsx');
+const DeleteFeedPopup = require('./delete-feed-popup.jsx');
 const EditPostPopup = require('./edit-post-popup.jsx');
 
 module.exports = class HomePage extends React.Component {
@@ -219,6 +220,7 @@ module.exports = class HomePage extends React.Component {
         <div className="app-footer"></div>
         <AddFeedPopup/>
         <EditFeedPopup/>
+        <DeleteFeedPopup/>
         <EditPostPopup/>
       </div>
     );
