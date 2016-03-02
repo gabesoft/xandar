@@ -14,8 +14,8 @@
                                             }
                                         },
                                         {
-                                            "match": {
-                                                "post.description": "design"
+                                            "match_phrase": {
+                                                "post.description": { "query": "design", "boost": 2 }
                                             }
                                         }
                                     ]
@@ -159,8 +159,8 @@
                                             }
                                         },
                                         {
-                                            "match": {
-                                                "post.description": "breaking news"
+                                            "match_phrase": {
+                                                "post.description": { "query": "breaking news", "boost": 2 }
                                             }
                                         }
                                     ]
@@ -181,8 +181,8 @@
                     }
                 },
                 {
-                    "match": {
-                        "post.description": "es6 promise"
+                    "match_phrase": {
+                        "post.description": { "query": "es6 promise", "boost": 2 }
                     }
                 }
             ]
@@ -276,8 +276,8 @@
                                             }
                                         },
                                         {
-                                            "match": {
-                                                "post.description": "web design"
+                                            "match_phrase": {
+                                                "post.description": { "query": "web design", "boost": 2 }
                                             }
                                         }
                                     ]
@@ -340,8 +340,8 @@
                                 }
                             },
                             {
-                                "match": {
-                                    "post.description": "breaking news"
+                                "match_phrase": {
+                                    "post.description": { "query": "breaking news", "boost": 2 }
                                 }
                             }
                         ]
@@ -362,8 +362,8 @@
                                 }
                             },
                             {
-                                "match": {
-                                    "post.description": "design"
+                                "match_phrase": {
+                                    "post.description": { "query": "design", "boost": 2 }
                                 }
                             }
                         ]
@@ -447,8 +447,8 @@
                             }
                         },
                         {
-                            "match": {
-                                "post.description": "skip"
+                            "match_phrase": {
+                                "post.description": { "query": "skip", "boost": 2 }
                             }
                         }
                     ]
