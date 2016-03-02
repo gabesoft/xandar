@@ -20,8 +20,9 @@ module.exports = class EditPostPopup extends React.Component {
   }
 
   close() {
-    this.setState({ active: false });
-    actions.editPostPopupClosed({ post: this.state.post });
+    const post = this.state.post;
+    actions.editPostPopupClosed({ post });
+    this.setState({ active: false, post: null });
   }
 
   onTagsChange(tags) {

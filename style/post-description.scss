@@ -20,6 +20,15 @@
     }
   }
 
+  .ocaml {
+    li,
+    div,
+    span {
+      color: inherit !important;
+      font-family: $font-family-code !important;
+    }
+  }
+
   .post-description-content {
     color: currentColor !important;
     font-size: $font-size !important;

@@ -19,12 +19,11 @@ module.exports = class EditFeedPopup extends React.Component {
     this.onTagsChange = this.onTagsChange.bind(this);
     this.onTitleChange = this.onTitleChange.bind(this);
     this.onTagsKeyDown = this.onTagsKeyDown.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
     this.id = genId();
   }
 
   close() {
-    this.setState({ active: false });
-
     const feed = this.state.feed;
 
     if (feed && feed.subscription) {
@@ -32,6 +31,7 @@ module.exports = class EditFeedPopup extends React.Component {
     }
 
     actions.editFeedPopupClosed({ feed });
+    this.setState({ active: false, feed: null });
   }
 
   onTagsChange(tags) {
@@ -53,6 +53,12 @@ module.exports = class EditFeedPopup extends React.Component {
   onTagsKeyDown(event) {
     if (event.key === 'Tab') {
       this.focusTitleInput();
+    }
+  }
+
+  onKeyDown(event) {
+    if (event.key === 'Enter') {
+      this.close();
     }
   }
 
@@ -121,6 +127,7 @@ module.exports = class EditFeedPopup extends React.Component {
               id={titleId}
               value={subscription.title}
               onChange={this.onTitleChange}
+              onKeyDown={this.onKeyDown}
             />
           </div>
           <div className="tags">

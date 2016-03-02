@@ -19,7 +19,7 @@ module.exports = class Popup extends React.Component {
       const isSelf = $(parent).is(event.target);
       const isInside = $.contains(parent, event.target);
 
-      if (parent && !isSelf && !isInside) {
+      if (parent && !isSelf && !isInside && this.props.active) {
         this.props.onClose();
       }
     });
