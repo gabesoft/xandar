@@ -3,9 +3,8 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 const Button = require('./icon-button.jsx');
-const genId = require('../util').genId;
 const $ = require('jquery');
-const store = require('../store').store;
+const Store = require('../store').Store;
 
 module.exports = class CollapsiblePanel extends React.Component {
   constructor(props) {
@@ -15,35 +14,21 @@ module.exports = class CollapsiblePanel extends React.Component {
     this.onToggleCollapse = this.onToggleCollapse.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
-  }
-
-  setValue(name, value) {
-    store.set(`${this.props.id}-${name}`, value);
-  }
-
-  getValue(name) {
-    return store.get(`${this.props.id}-${name}`);
-  }
-
-  removeValue(name) {
-    store.remove(`${this.props.id}-${name}`);
+    this.store = new Store({ prefix: this.props.id });
   }
 
   resize(width, pageX, pageY) {
-    const el = ReactDOM.findDOMNode(this.el);
-    const $el = $(el);
-    $el.width(width);
+    $(ReactDOM.findDOMNode(this)).width(width);
 
-    this.setValue('width', width);
-    this.setValue('collapsed', false);
+    this.store.set('width', width);
+    this.store.set('collapsed', false);
 
     this.setState({ collapsed: false, pageX, pageY, width });
   }
 
   onResize(event) {
-    if (this.state.drag && this.el) {
-      const el = ReactDOM.findDOMNode(this.el);
-      const $el = $(el);
+    if (this.state.drag) {
+      const $el = $(ReactDOM.findDOMNode(this));
       const dist = event.pageX - this.state.pageX;
       const width = $el.width() + ((this.props.direction || 1) * dist);
       this.resize(width, event.pageX, event.pageY);
@@ -63,21 +48,21 @@ module.exports = class CollapsiblePanel extends React.Component {
   }
 
   onToggleCollapse() {
-    this.setValue('collapsed', !this.state.collapsed);
-    this.removeValue('width');
+    this.store.set('collapsed', !this.state.collapsed);
+    this.store.remove('width');
     this.setState({ collapsed: !this.state.collapsed });
   }
 
   componentWillMount() {
     this.setState({
-      collapsed: this.getValue('collapsed') === 'true'
+      collapsed: this.store.get('collapsed')
     });
   }
 
   componentDidMount() {
     $(document).on(`mouseup.${this.props.id}`, this.onMouseUp);
 
-    const width = this.getValue('width');
+    const width = this.store.get('width');
     if (typeof width !== 'undefined' && !this.state.collapsed) {
       this.resize(width);
     }
@@ -99,7 +84,7 @@ module.exports = class CollapsiblePanel extends React.Component {
     ].join(' ');
 
     return (
-      <div ref={el => this.el = el} className={className}>
+      <div className={className}>
         <Button
           onMouseDown={this.onMouseDown}
           onDoubleClick={this.onToggleCollapse}

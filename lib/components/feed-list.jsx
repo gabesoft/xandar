@@ -14,6 +14,7 @@ const Header = require('./feed-list-header.jsx');
 const trans = require('trans');
 const Scrolled = require('./scrolled.jsx');
 const dispatcher = require('../flux/dispatcher');
+const Store = require('../store').Store;
 
 module.exports = class FeedList extends React.Component {
   constructor(props) {
@@ -28,6 +29,7 @@ module.exports = class FeedList extends React.Component {
       closedGroups: { unsubscribed: true }
     };
 
+    this.store = new Store('side-feed-list');
     this.onStoreChange = this.onStoreChange.bind(this);
     this.collapseAllGroups = this.collapseAllGroups.bind(this);
     this.expandAllGroups = this.expandAllGroups.bind(this);
@@ -36,15 +38,10 @@ module.exports = class FeedList extends React.Component {
     this.allGroupsCollapsed = this.allGroupsCollapsed.bind(this);
     this.allGroupsExpanded = this.allGroupsExpanded.bind(this);
     this.onFilterChange = debounce(this.onFilterChange.bind(this), 150);
-    this.onAddFeedStart = this.onAddFeedStart.bind(this);
     this.onFeedMarkAsRead = this.onFeedMarkAsRead.bind(this);
     this.onFeedEditClick = this.onFeedEditClick.bind(this);
     this.onListScroll = this.onListScroll.bind(this);
     this.onScrollIntoView = this.onScrollIntoView.bind(this);
-  }
-
-  onAddFeedStart() {
-    console.log('TODO: open add feed dialog');
   }
 
   onListScroll() {
@@ -103,7 +100,10 @@ module.exports = class FeedList extends React.Component {
 
   onFilterChange(event) {
     const filter = event.target.value.toLowerCase();
-    this.setState({ filter });
+    this.setState({
+      filter,
+      closedGroups: filter.length === 0 ? this.store.get('closedGroups') : {}
+    });
     this.applyFilter(filter);
   }
 
@@ -115,10 +115,12 @@ module.exports = class FeedList extends React.Component {
 
   collapseAllGroups() {
     this.setState({ closedGroups: this.getAllGroups() });
+    this.store.set('closedGroups', this.getAllGroups());
   }
 
   expandAllGroups() {
     this.setState({ closedGroups: {} });
+    this.store.remove('closedGroups');
   }
 
   closedGroupsCount() {
@@ -137,11 +139,13 @@ module.exports = class FeedList extends React.Component {
 
   toggleGroupFeeds(value) {
     this.setState({ grouped: value });
+    this.store.set('grouped', value);
   }
 
   toggleGroupOpen(groupKey, open) {
     this.state.closedGroups[groupKey] = !open;
     this.setState({ closedGroups: this.state.closedGroups });
+    this.store.set('closedGroups', this.state.closedGroups);
   }
 
   groupFeeds(feeds) {
@@ -205,6 +209,13 @@ module.exports = class FeedList extends React.Component {
         default:
           break;
       }
+    });
+  }
+
+  componentWillMount() {
+    this.setState({
+      grouped: this.store.get('grouped') !== false,
+      closedGroups: this.store.get('closedGroups') || { unsubscribed: true }
     });
   }
 
@@ -278,23 +289,22 @@ module.exports = class FeedList extends React.Component {
 
     return (
       <div className={className}>
-        <Header
-          toggleGroupFeeds={this.toggleGroupFeeds}
-          collapseAllGroups={this.collapseAllGroups}
-          expandAllGroups={this.expandAllGroups}
-          allGroupsExpanded={this.allGroupsExpanded()}
-          allGroupsCollapsed={this.allGroupsCollapsed()}
-          feedCount={this.state.feeds.length}
-          subscriptionCount={subscriptionCount}
-          onFilterChange={this.onFilterChange}
-          onAddFeed={this.onAddFeedStart}
-          grouped={this.state.grouped}
-        />
-        <Scrolled className="feed-list-items" onScroll={this.onListScroll}>
-          <ul>
-            {this.state.grouped ? this.renderGroups() : this.renderItems()}
-          </ul>
-        </Scrolled>
+      <Header
+      toggleGroupFeeds={this.toggleGroupFeeds}
+      collapseAllGroups={this.collapseAllGroups}
+      expandAllGroups={this.expandAllGroups}
+      allGroupsExpanded={this.allGroupsExpanded()}
+      allGroupsCollapsed={this.allGroupsCollapsed()}
+      feedCount={this.state.feeds.length}
+      subscriptionCount={subscriptionCount}
+      onFilterChange={this.onFilterChange}
+      grouped={this.state.grouped}
+      />
+      <Scrolled className="feed-list-items" onScroll={this.onListScroll}>
+        <ul>
+          {this.state.grouped ? this.renderGroups() : this.renderItems()}
+        </ul>
+      </Scrolled>
       </div>
     );
   }
