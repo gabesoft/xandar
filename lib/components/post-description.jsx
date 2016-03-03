@@ -37,7 +37,7 @@ module.exports = class PostDescription extends React.Component {
   constructor(props) {
     super(props);
 
-    this.blocks = this.props.post._source.codeBlocks || [];
+    this.readCodeBlocks();
     this.state = { loading: true };
     this.onIframeLoaded = this.onIframeLoaded.bind(this);
   }
@@ -46,14 +46,20 @@ module.exports = class PostDescription extends React.Component {
     this.setState({ loading: false });
   }
 
-  savePostBlocks() {
+  readCodeBlocks() {
+    const blocks = this.props.post._source.codeBlocks || [];
+    this.blocks = blocks.map(block => {
+      return { userEdited: block.userEdited, lang: block.lang };
+    });
+  }
+
+  saveCodeBlocks() {
     const post = this.props.post;
     post._source.codeBlocks = this.blocks
       .map(block => {
         return {
           lang: block.userEdited ? block.lang : null,
-          userEdited: block.userEdited,
-          index: block.index
+          userEdited: block.userEdited
         };
       });
     actions.savePost(post);
@@ -242,7 +248,7 @@ module.exports = class PostDescription extends React.Component {
       block.lang = awesomplete.replace(event.originalEvent.text);
       block.userEdited = true;
       reset();
-      this.savePostBlocks();
+      this.saveCodeBlocks();
     });
 
     $input.on('blur', reset);
@@ -272,7 +278,6 @@ module.exports = class PostDescription extends React.Component {
         block.el = codeEl;
         block.text = $codeEl.text();
         block.html = $codeEl.html();
-        block.index = i;
 
         this.blocks[i] = block;
       });
@@ -311,7 +316,7 @@ module.exports = class PostDescription extends React.Component {
   }
 
   componentDidUpdate() {
-    this.blocks = this.props.post._source.codeBlocks || [];
+    this.readCodeBlocks();
     this.initializeCodeBlocks();
     this.removeSharing();
   }

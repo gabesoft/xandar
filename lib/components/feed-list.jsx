@@ -194,7 +194,7 @@ module.exports = class FeedList extends React.Component {
         case constants.feeds.EDIT_FEED_POPUP_CLOSED:
           this.setState({ editOpenFeedId: null });
           break;
-        case constants.feeds.FIND_FEED_DONE:
+        case constants.feeds.ADD_FEED_DONE:
           const feed = action.data.feed;
           const subscription = action.data.subscription;
           const groupKey = (subscription.tags[0] || 'uncategorized').toLowerCase();

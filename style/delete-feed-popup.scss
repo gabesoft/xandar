@@ -2,8 +2,6 @@
   $height: 160px;
   $width: 450px;
 
-  @include flex($flex-direction: column);
-
   width: $width;
   height: $height;
 

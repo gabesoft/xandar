@@ -12,12 +12,7 @@ const actions = require('../flux/feed-actions');
 module.exports = class AddFeedPopup extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      active: false,
-      top: 0,
-      left: 0,
-      uri: null
-    };
+    this.state = { active: false, top: 0, left: 0 };
     this.close = this.close.bind(this);
     this.submit = this.submit.bind(this);
     this.onUriChange = this.onUriChange.bind(this);
@@ -38,9 +33,9 @@ module.exports = class AddFeedPopup extends React.Component {
     this.setState({ loading: true });
 
     if (this.isYoutubeId(this.state.uri)) {
-      actions.findFeed(`https://www.youtube.com/feeds/videos.xml?channel_id=${this.state.uri}`);
+      actions.addFeed(`https://www.youtube.com/feeds/videos.xml?channel_id=${this.state.uri}`);
     } else {
-      actions.findFeed(this.state.uri);
+      actions.addFeed(this.state.uri);
     }
   }
 
@@ -76,10 +71,10 @@ module.exports = class AddFeedPopup extends React.Component {
           });
           this.focusInput();
           break;
-        case constants.feeds.FIND_FEED_DONE:
+        case constants.feeds.ADD_FEED_DONE:
           this.setState({ loading: false, uri: null });
           break;
-        case constants.feeds.FIND_FEED_FAIL:
+        case constants.feeds.ADD_FEED_FAIL:
           this.setState({ loading: false });
           break;
         default:
