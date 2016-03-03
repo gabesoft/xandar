@@ -55,3 +55,4 @@ setup:
 clean-dep:
 	@rm -rf node_modules
 
+deploy: setup build-prod

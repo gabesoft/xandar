@@ -104,7 +104,7 @@ module.exports = class FeedList extends React.Component {
     const savedGroups = this.store.get('closedGroups') || defaultGroups();
     this.setState({
       filter,
-      closedGroups: filter.length === 0 ? savedGroups : defaultGroups()
+      closedGroups: filter.length === 0 ? savedGroups : {}
     });
     this.applyFilter(filter);
   }
