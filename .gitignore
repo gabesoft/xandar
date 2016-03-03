@@ -20,6 +20,6 @@ pids
 results
 tmp
 dist
-conf/github.json
+config/github.json
 .#*
-conf/production.json
+config/production.json
