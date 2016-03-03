@@ -22,3 +22,4 @@ tmp
 dist
 conf/github.json
 .#*
+conf/production.json
