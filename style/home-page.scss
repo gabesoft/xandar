@@ -59,6 +59,7 @@
     margin: 0 15px;
     overflow-y: scroll;
     position: relative;
+    -webkit-overflow-scrolling: touch;
   }
 
   .app-content-loader {
