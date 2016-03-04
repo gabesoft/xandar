@@ -1,0 +1,11 @@
+.tags-input {
+  div.awesomplete {
+    height: 0;
+  }
+
+  div.awesomplete > input {
+    height: 25px;
+    padding: 0 3px;
+    width: 80px;
+  }
+}

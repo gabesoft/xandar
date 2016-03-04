@@ -4,10 +4,46 @@ $sidepanel-height: 400px;
 .carousel {
   $content-padding: 30px;
 
+  @mixin theme($color-bg) {
+    .read-progress {
+      background-color: $color-bg;
+
+      &::-webkit-progress-bar {
+        background-color: $color-bg;
+      }
+    }
+  }
+
   @include flex($flex-direction: column);
 
   height: 100%;
   position: relative;
+
+  .light-theme & {
+    @include theme($background-light-highlight-color);
+  }
+
+  .dark-theme & {
+    @include theme($background-dark-highlight-color);
+  }
+
+  .read-progress {
+    appearance: none;
+    border: none;
+    color: $accent-blue-color;
+    height: 1px;
+    transition: width $delay-short ease-out;
+    width: 100%;
+
+    &::-webkit-progress-value {
+      background-color: $accent-blue-color;
+      transition: width .2s ease-out;
+    }
+
+    &::-moz-progress-bar {
+      background-color: $accent-blue-color;
+    }
+  }
 
   .post-description {
     height: calc(100% - #{$content-padding});
@@ -55,6 +91,12 @@ $sidepanel-height: 400px;
   .sidepanel {
     $side-position: 15px;
 
+    @mixin theme($color-bg) {
+      .icon-button {
+        background-color: $color-bg;
+      }
+    }
+
     @include flex($flex-direction: column);
     @include absolute(0px, 0, 0px, 0);
 
@@ -65,15 +107,11 @@ $sidepanel-height: 400px;
     margin: auto;
 
     .dark-theme & {
-      .icon-button {
-        background-color: $background-dark-highlight-color;
-      }
+      @include theme($background-dark-highlight-color);
     }
 
     .light-theme & {
-      .icon-button {
-        background-color: $background-light-highlight-color;
-      }
+      @include theme($background-light-highlight-color);
     }
 
     &:hover {

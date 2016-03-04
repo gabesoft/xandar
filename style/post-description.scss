@@ -120,7 +120,7 @@
     height: 1px;
   }
 
-  img {
+  img:not(.ql-img-inline-formula) {
     border: none !important;
     display: block !important;
     float: none !important;

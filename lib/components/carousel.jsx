@@ -14,13 +14,14 @@ const actions = require('../flux/post-actions');
 module.exports = class Carousel extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { scrolled: false };
+    this.state = { scrolled: false, scrollValue: 0 };
 
     this.moveLeft = this.moveLeft.bind(this);
     this.moveRight = this.moveRight.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
     this.onTagsEdit = this.onTagsEdit.bind(this);
+    this.onScroll = this.onScroll.bind(this);
   }
 
   scrollElement(parent, selector) {
@@ -46,6 +47,10 @@ module.exports = class Carousel extends React.Component {
   moveRight() {
     this.props.onMoveRight();
     this.scrollToTop();
+  }
+
+  onScroll(event, value) {
+    this.setState({ scrollValue: value });
   }
 
   onTagsEdit() {
@@ -78,6 +83,10 @@ module.exports = class Carousel extends React.Component {
     document.addEventListener('keyup', this.onKeyUp);
   }
 
+  componentWillReceiveProps() {
+    this.setState({ scrollValue: 0 });
+  }
+
   componentWillUnmount() {
     document.removeEventListener('keydown', this.onKeyDown);
     document.removeEventListener('keyup', this.onKeyUp);
@@ -90,6 +99,7 @@ module.exports = class Carousel extends React.Component {
 
     return (
       <div className="carousel">
+        <progress className="read-progress" max="100" value={this.state.scrollValue}/>
         <div className="header" onClick={() => this.props.onClose(data)}>
           <div className="feed-info">
             <Avatar text={feedTitle} ref="avatar"/>
@@ -104,7 +114,7 @@ module.exports = class Carousel extends React.Component {
           />
           <Date value={post.date}/>
         </div>
-        <Scrolled className="content">
+        <Scrolled className="content" onScroll={this.onScroll}>
           <Description post={data}/>
         </Scrolled>
         <div className="sidepanel right">
