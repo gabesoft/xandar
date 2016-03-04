@@ -242,7 +242,7 @@ module.exports = class FeedList extends React.Component {
       );
       const children = (
         <li key={`${key}-items`} className={className}>
-          <ul>{this.renderItems(group.value)}</ul>
+          <ul>{this.state.closedGroups[group.key] ? null : this.renderItems(group.value)}</ul>
         </li>
       );
 
