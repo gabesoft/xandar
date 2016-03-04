@@ -18,6 +18,7 @@ const actions = require('../flux/search-actions');
 const postActions = require('../flux/post-actions');
 const dispatcher = require('../flux/dispatcher');
 const cls = require('../util').cls;
+const wait = require('../util').wait;
 
 module.exports = class NavHeader extends React.Component {
   constructor(props) {
@@ -225,7 +226,7 @@ module.exports = class NavHeader extends React.Component {
 
       input.addEventListener('awesomplete-selectcomplete', () => {
         this.setState({ searchValue: input.value });
-        setTimeout(input.focus.bind(input), 0);
+        wait().then(input.focus.bind(input));
       });
 
       this.awesompleteInitialized = true;

@@ -9,6 +9,7 @@ const tc = require('../constants').tags;
 const Item = require('./tag-list-item.jsx');
 const itemFactory = React.createFactory(Item);
 const cls = require('../util').cls;
+const wait = require('../util').wait;
 
 // The validationRegex propType causes a warning due
 // to React.PropTypes.regexp being undefined
@@ -113,7 +114,7 @@ module.exports = class TagsInput extends React.Component {
 
       input.addEventListener('awesomplete-selectcomplete', () => {
         el.setState({ tag: input.value });
-        setTimeout(input.focus.bind(input), 0);
+        wait().then(input.focus.bind(input));
       });
 
       this.awesomplete = awesomplete;

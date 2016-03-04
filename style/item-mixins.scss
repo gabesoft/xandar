@@ -42,7 +42,7 @@
   }
 
   &.highlight-blue {
-    @include highlight($accent-magenta-color);
+    @include highlight($accent-blue-color);
   }
 
   .light-theme & {

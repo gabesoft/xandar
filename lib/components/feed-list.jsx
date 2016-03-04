@@ -16,6 +16,7 @@ const Scrolled = require('./scrolled.jsx');
 const dispatcher = require('../flux/dispatcher');
 const Store = require('../store').Store;
 const defaultGroups = () => ({ unsubscribed: true });
+const DelaySeries = require('../util').DelaySeries;
 
 module.exports = class FeedList extends React.Component {
   constructor(props) {
@@ -30,6 +31,7 @@ module.exports = class FeedList extends React.Component {
       closedGroups: defaultGroups()
     };
 
+    this.delay = new DelaySeries(2000);
     this.store = new Store('side-feed-list');
     this.onStoreChange = this.onStoreChange.bind(this);
     this.collapseAllGroups = this.collapseAllGroups.bind(this);
@@ -202,11 +204,7 @@ module.exports = class FeedList extends React.Component {
           const groupKey = (subscription.tags[0] || 'uncategorized').toLowerCase();
           this.setState({ highlightFeedId: feed.id });
           this.toggleGroupOpen(groupKey, true);
-
-          clearTimeout(this.highlightId);
-          this.highlightId = setTimeout(() => {
-            this.setState({ highlightFeedId: null });
-          }, 2000);
+          this.delay.run(() => this.setState({ highlightFeedId: null }));
           break;
         default:
           break;
@@ -224,7 +222,7 @@ module.exports = class FeedList extends React.Component {
   componentWillUnmount() {
     store.removeListener(feedConstants.STORE_CHANGE, this.onStoreChange);
     dispatcher.unregister(this.tokenId);
-    clearTimeout(this.highlightId);
+    this.delay.clear();
   }
 
   renderGroups() {

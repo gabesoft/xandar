@@ -6,6 +6,7 @@ const Post = require('./post-item.jsx');
 const PostDetail = require('./post-item-detail.jsx');
 const constants = require('../constants');
 const store = require('../flux/post-store');
+const DelaySeries = require('../util').DelaySeries;
 
 module.exports = class PostList extends React.Component {
   constructor(props) {
@@ -14,6 +15,8 @@ module.exports = class PostList extends React.Component {
       posts: store.getPosts(),
       openPost: null
     };
+
+    this.delay = new DelaySeries(2000);
     this.onStoreChange = this.onStoreChange.bind(this);
     this.onOpenPost = this.onOpenPost.bind(this);
     this.onOpenInCarousel = this.onOpenInCarousel.bind(this);
@@ -38,14 +41,10 @@ module.exports = class PostList extends React.Component {
       scrollPost: scroll ? this.state.openPost : null
     });
 
-    clearTimeout(this.timeoutId);
-    this.timeoutId = setTimeout(() => {
-      this.setState({
-        highlightPost: null,
-        scrollPost: null
-      });
-    }, 2000); // TODO: make this a constant
-              // also extract highlight functionality into a helper
+    this.delay.run(() => this.setState({
+      highlightPost: null,
+      scrollPost: null
+    }));
   }
 
   onStoreChange() {
@@ -58,7 +57,7 @@ module.exports = class PostList extends React.Component {
 
   componentWillUnmount() {
     store.removeListener(constants.posts.STORE_CHANGE, this.onStoreChange);
-    clearTimeout(this.timeoutId);
+    this.delay.clear();
   }
 
   onOpenInCarousel(event, post, index) {

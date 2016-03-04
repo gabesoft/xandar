@@ -50,16 +50,8 @@
     width: 25%;
   }
 
-  &.light-theme {
-    .app-content-center.loading-more {
-      border-bottom: 2px solid $background-light-highlight-color;
-    }
-  }
-
-  &.dark-theme {
-    .app-content-center.loading-more {
-      border-bottom: 2px solid $background-dark-highlight-color;
-    }
+  .app-content-center.loading-more {
+    border-bottom: 1px solid $accent-green-color;
   }
 
   .app-content-center {
@@ -67,7 +59,7 @@
     margin: 0 15px;
     overflow-y: scroll;
     position: relative;
-}
+  }
 
   .app-content-loader {
     background-color: transparent;

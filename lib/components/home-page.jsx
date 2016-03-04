@@ -12,7 +12,7 @@ const Carousel = require('./carousel.jsx');
 const Scrolled = require('./scrolled.jsx');
 const actions = require('../flux/post-actions');
 const store = require('../flux/post-store');
-const timeout = require('../util').timeout;
+const wait = require('../util').wait;
 const dispatcher = require('../flux/dispatcher');
 const constants = require('../constants');
 const cls = require('../util').cls;
@@ -64,7 +64,7 @@ module.exports = class HomePage extends React.Component {
       }
     });
     this.loadMorePosts();
-    timeout(500).then(() => this.loadMorePosts());
+    wait(500).then(() => this.loadMorePosts());
   }
 
   componentWillUnmount() {
@@ -112,7 +112,7 @@ module.exports = class HomePage extends React.Component {
       carouselIndex: null,
       carouselPost: store.getPostByIndex(this.state.carouselIndex)
     });
-    timeout(2000).then(() => this.setState({ carouselPost: null }));
+    wait(2000).then(() => this.setState({ carouselPost: null }));
   }
 
   onCarouselMove(dir) {

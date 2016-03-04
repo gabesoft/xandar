@@ -8,6 +8,7 @@ const searchActions = require('../flux/search-actions');
 const postActions = require('../flux/post-actions');
 const constants = require('../constants');
 const highlightDelay = constants.search.POST_QUERY_HIGHLIGHT_DELAY;
+const DelaySeries = require('../util').DelaySeries;
 
 module.exports = class PostQueryItem extends React.Component {
   constructor(props) {
@@ -16,6 +17,8 @@ module.exports = class PostQueryItem extends React.Component {
       edit: false,
       title: this.props.query.title
     };
+
+    this.delay = new DelaySeries(highlightDelay);
     this.onClick = this.onClick.bind(this);
     this.onPin = this.onPin.bind(this);
     this.onUnpin = this.onUnpin.bind(this);
@@ -26,17 +29,12 @@ module.exports = class PostQueryItem extends React.Component {
   }
 
   highlight(color) {
-    clearTimeout(this.timeoutId);
-
     this.setState({ highlight: color });
-
-    this.timeoutId = setTimeout(() => {
-      this.setState({ highlight: false });
-    }, highlightDelay);
+    this.delay.run(() => this.setState({ highlight: false }));
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timeoutId);
+    this.delay.clear();
   }
 
   cancelEdit() {

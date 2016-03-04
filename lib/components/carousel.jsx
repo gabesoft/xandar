@@ -114,7 +114,7 @@ module.exports = class Carousel extends React.Component {
           />
           <Date value={post.date}/>
         </div>
-        <Scrolled className="content" onScroll={this.onScroll}>
+        <Scrolled className="content" onChildScroll={this.onScroll}>
           <Description post={data}/>
         </Scrolled>
         <div className="sidepanel right">

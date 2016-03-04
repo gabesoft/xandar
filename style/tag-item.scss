@@ -1,17 +1,17 @@
-@mixin tag-item($color-bg, $color-fg, $color-fg-highlight) {
-  background-color: $color-bg;
-  color: $color-fg;
-
-  .tag-name {
-    border-right: 1px solid $color-fg;
-  }
-
-  .icon-button {
-    color: $color-fg-highlight;
-  }
-}
-
 .tag-item {
+  @mixin theme($color-bg, $color-fg, $color-fg-highlight) {
+    background-color: $color-bg;
+    color: $color-fg;
+
+    .tag-name {
+      border-right: 1px solid $color-fg;
+    }
+
+    .icon-button {
+      color: $color-fg-highlight;
+    }
+  }
+
   display: inline-block;
   padding: 0 .2em 0 .5em;
   margin: .2em;
@@ -28,11 +28,11 @@
   }
 
   .light-theme & {
-    @include tag-item($content-dark-color, $background-light-color, $background-light-highlight-color);
+    @include theme($content-dark-color, $background-light-color, $background-light-highlight-color);
   }
 
   .dark-theme & {
-    @include tag-item($content-light-color, $background-dark-color, $background-dark-highlight-color);
+    @include theme($content-light-color, $background-dark-color, $background-dark-highlight-color);
   }
 
   .content {

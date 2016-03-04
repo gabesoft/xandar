@@ -1,6 +1,7 @@
 'use strict';
 
 const React = require('react');
+const ReactDOM = require('react-dom');
 const cls = require('../util').cls;
 
 module.exports = class Scrolled extends React.Component {
@@ -15,14 +16,31 @@ module.exports = class Scrolled extends React.Component {
   }
 
   onScroll(event) {
+    const el = ReactDOM.findDOMNode(this);
+    const child = el.children[0];
+    const value = this.calculateScrollValue(event);
+
     this.updateScrolled(event.target);
+
+    if (this.props.onSelfScroll && el === event.target) {
+      this.props.onSelfScroll(event, value);
+    }
+
+    if (this.props.onChildScroll && child === event.target) {
+      this.props.onChildScroll(event, value);
+    }
+
     if (this.props.onScroll) {
+      this.props.onScroll(event, value);
+    }
+}
+
+  calculateScrollValue(event) {
       const top = event.target.scrollTop;
       const sh = event.target.scrollHeight;
       const ch = event.target.clientHeight;
       const value = Math.round(100 * top / (sh - ch));
-      this.props.onScroll(event, isNaN(value) ? 0 : value);
-    }
+      return isNaN(value) ? 0 : value;
   }
 
   componentWillReceiveProps(newProps) {
