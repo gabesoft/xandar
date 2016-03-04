@@ -79,4 +79,15 @@
   .animate-height {
     transition: height 0.7s;
   }
+
+  @media (max-width: 650px) {
+    .app-content {
+      height: none;
+    }
+
+    .app-content-left,
+    .app-content-right {
+      display: none;
+    }
+  }
 }
