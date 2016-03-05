@@ -2,22 +2,28 @@
   $font-size: 1.1rem;
 
   margin: 0 auto;
-  overflow: scroll;
+  overflow: auto;
   padding: 0;
   position: relative;
   text-rendering: optimizeLegibility;
   transform: translate3d(0, 0, 0);
 
-  .light-theme & {
+  @mixin theme($color) {
     .hljs {
-      border: 1px solid $background-light-highlight-color;
+      border: 1px solid $color;
+    }
+
+    img:not(.ql-img-inline-formula) {
+      border: 1px solid $color !important;
     }
   }
 
+  .light-theme & {
+    @include theme($background-light-highlight-color);
+  }
+
   .dark-theme & {
-    .hljs {
-      border: 1px solid $background-dark-highlight-color;
-    }
+    @include theme($background-dark-highlight-color);
   }
 
   .ocaml {
@@ -37,7 +43,7 @@
   }
 
   span {
-    /* TODO cant set these as they interfere with code highlight */
+    /* TODO cant set these as they interfere with code highlighting */
     /* font-size: $font-size !important; */
     /* font-family: $font-family-content !important; */
     /* color: currentColor !important; */
@@ -46,7 +52,7 @@
   table {
     border: none !important;
     display: block;
-    overflow-x: scroll;
+    overflow-x: auto;
   }
 
   hr {
@@ -121,13 +127,12 @@
   }
 
   img:not(.ql-img-inline-formula) {
-    border: none !important;
     display: block !important;
     float: none !important;
     height: auto !important;
-    margin: 0 auto !important;
+    margin: 10px auto !important;
     max-width: 100%;
-    padding: 0 0 30px 0 !important;
+    padding: 0 !important;
   }
 
   p {

@@ -48,20 +48,20 @@ module.exports = class PostDescription extends React.Component {
 
   readCodeBlocks() {
     const blocks = this.props.post._source.codeBlocks || [];
-    this.blocks = blocks.map(block => {
-      return { userEdited: block.userEdited, lang: block.lang };
-    });
+    this.blocks = blocks.map(block => ({
+      userEdited: block.userEdited,
+      lang: block.lang
+    }));
   }
 
   saveCodeBlocks() {
     const post = this.props.post;
     post._source.codeBlocks = this.blocks
-      .map(block => {
-        return {
+      .map(block => ({
           lang: block.userEdited ? block.lang : null,
           userEdited: block.userEdited
-        };
-      });
+        })
+      );
     actions.savePost(post);
   }
 
@@ -74,7 +74,7 @@ module.exports = class PostDescription extends React.Component {
   }
 
   renderLoader() {
-    return (<Loader size="big" className="post-content-loader"/>);
+    return (<Loader size="big" className="post-content-loader" />);
   }
 
   renderDefault() {
@@ -85,7 +85,7 @@ module.exports = class PostDescription extends React.Component {
       <div className={this.getClassName()}>
         <ul
           className="post-description-content"
-          ref={el => this.dataEl = el}
+          ref="content"
           dangerouslySetInnerHTML={html}>
         </ul>
       </div>
@@ -265,8 +265,8 @@ module.exports = class PostDescription extends React.Component {
   }
 
   initializeCodeBlocks() {
-    if (this.dataEl) {
-      const el = ReactDOM.findDOMNode(this.dataEl);
+    if (this.refs.content) {
+      const el = ReactDOM.findDOMNode(this.refs.content);
 
       $(el).find('pre code').each((i, codeEl) => {
         const block = this.blocks[i] || {};
@@ -287,7 +287,7 @@ module.exports = class PostDescription extends React.Component {
   }
 
   clearEventHandlers() {
-    const el = ReactDOM.findDOMNode(this.dataEl);
+    const el = ReactDOM.findDOMNode(this.refs.content);
     if (el) {
       $(el).find(selectors.button).off();
       $(el).find(selectors.input).off();
@@ -295,7 +295,7 @@ module.exports = class PostDescription extends React.Component {
   }
 
   removeSharing() {
-    const el = ReactDOM.findDOMNode(this.dataEl);
+    const el = ReactDOM.findDOMNode(this.refs.content);
     if (el) {
       $('a[title="Like on Facebook"]').parent().remove();
       $('a[href="http://dwf.tw/fluent2016"]').remove();
