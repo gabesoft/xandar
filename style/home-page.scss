@@ -57,7 +57,7 @@
   .app-content-center {
     flex: 1;
     margin: 0 15px;
-    overflow-y: scroll;
+    overflow-y: auto;
     position: relative;
     -webkit-overflow-scrolling: touch;
   }

@@ -19,7 +19,7 @@
         "no-use-before-define": [2, "nofunc"],
         "consistent-return": 0,
         "react/prop-types": 0,
-        "react/jsx-closing-bracket-location": [2, {"nonEmpty": 0, "selfClosing": "tag-aligned"}],
+        "react/jsx-closing-bracket-location": [1, {"selfClosing": "tag-aligned"}],
         "react/jsx-no-bind": 0
     }
 }
