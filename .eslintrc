@@ -20,6 +20,7 @@
         "consistent-return": 0,
         "react/prop-types": 0,
         "react/jsx-closing-bracket-location": 0,
-        "react/jsx-no-bind": 0
+        "react/jsx-no-bind": 0,
+        "arrow-body-style": 0
     }
 }

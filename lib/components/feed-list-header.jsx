@@ -9,11 +9,13 @@ module.exports = class FeedListHeader extends React.Component {
     super(props);
     this.onFilterChange = this.onFilterChange.bind(this);
     this.onAddFeedClick = this.onAddFeedClick.bind(this);
+    this.state = { filter: props.filter };
   }
 
   onFilterChange(event) {
     event.persist();
     this.props.onFilterChange(event);
+    this.setState({ filter: event.target.value });
   }
 
   onAddFeedClick(event) {
@@ -69,7 +71,8 @@ module.exports = class FeedListHeader extends React.Component {
         <input
           className="filter-input"
           type="search"
-          title="Type to filter feeds"
+          title="Type to filter feeds (examples :new, :latest2h, :latest7d, css)"
+          value={this.state.filter}
           placeholder={this.inputPlaceholder()}
           onChange={this.onFilterChange}
         />

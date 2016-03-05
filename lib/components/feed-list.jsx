@@ -1,5 +1,9 @@
 'use strict';
 
+const latestPattern = /:latest(\d+)?(h|d)?/i;
+const unreadPattern = /:unread|:new/;
+const unitFactor = { h: 60 * 60 * 1000, d: 24 * 60 * 60 * 1000 };
+
 const React = require('react');
 const ReactDOM = require('react-dom');
 const store = require('../flux/feed-store');
@@ -85,6 +89,20 @@ module.exports = class FeedList extends React.Component {
       });
   }
 
+  filterByLatest(filter) {
+    const match = filter.match(latestPattern);
+    const value = parseInt(match[1] || 24, 10);
+    const unit = match[2] || 'h';
+    const duration = value * unitFactor[unit];
+
+    return store
+      .getFeeds()
+      .filter(feed => {
+        const diff = Date.now() - new Date(feed.lastPostDate);
+        return feed.subscription && feed.lastPostDate && diff <= duration;
+      });
+  }
+
   filterByUnread() {
     return store
       .getFeeds()
@@ -94,10 +112,17 @@ module.exports = class FeedList extends React.Component {
   applyFilter(filter) {
     filter = filter || this.state.filter;
 
-    const feeds = (filter === ':unread' || filter === ':new')
-      ? this.filterByUnread()
-      : this.filterByQuery(filter);
+    let feeds = null;
 
+    if (filter.match(unreadPattern)) {
+      feeds = this.filterByUnread();
+    } else if (filter.match(latestPattern)) {
+      feeds = this.filterByLatest(filter);
+    } else {
+      feeds = this.filterByQuery(filter);
+    }
+
+    this.store.set('filter', filter);
     this.updateFeeds(feeds);
   }
 
@@ -214,8 +239,9 @@ module.exports = class FeedList extends React.Component {
 
   componentWillMount() {
     this.setState({
-      grouped: this.store.get('grouped') !== false,
-      closedGroups: this.store.get('closedGroups') || defaultGroups()
+      closedGroups: this.store.get('closedGroups') || defaultGroups(),
+      filter: this.store.get('filter'),
+      grouped: this.store.get('grouped') !== false
     });
   }
 
@@ -298,6 +324,7 @@ module.exports = class FeedList extends React.Component {
           feedCount={this.state.feeds.length}
           subscriptionCount={subscriptionCount}
           onFilterChange={this.onFilterChange}
+          filter={this.state.filter}
           grouped={this.state.grouped}
         />
         <Scrolled className="feed-list-items" onScroll={this.onListScroll}>
