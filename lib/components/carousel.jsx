@@ -99,10 +99,10 @@ module.exports = class Carousel extends React.Component {
 
     return (
       <div className="carousel">
-        <progress className="read-progress" max="100" value={this.state.scrollValue}/>
+        <progress className="read-progress" max="100" value={this.state.scrollValue} />
         <div className="header" onClick={() => this.props.onClose(data)}>
           <div className="feed-info">
-            <Avatar text={feedTitle} ref="avatar"/>
+            <Avatar text={feedTitle} ref="avatar" />
             <div className="title">{feedTitle}</div>
           </div>
           <div className="title">{post.title}</div>
@@ -112,10 +112,10 @@ module.exports = class Carousel extends React.Component {
             onTagsEdit={this.onTagsEdit}
             onViewListClick={() => this.props.onClose(data)}
           />
-          <Date value={post.date}/>
+          <Date value={post.date} />
         </div>
         <Scrolled className="content" onChildScroll={this.onScroll}>
-          <Description post={data}/>
+          <Description post={data} />
         </Scrolled>
         <div className="sidepanel right">
           <Button

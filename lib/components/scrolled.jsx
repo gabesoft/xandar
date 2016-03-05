@@ -33,14 +33,14 @@ module.exports = class Scrolled extends React.Component {
     if (this.props.onScroll) {
       this.props.onScroll(event, value);
     }
-}
+  }
 
   calculateScrollValue(event) {
-      const top = event.target.scrollTop;
-      const sh = event.target.scrollHeight;
-      const ch = event.target.clientHeight;
-      const value = Math.round(100 * top / (sh - ch));
-      return isNaN(value) ? 0 : value;
+    const top = event.target.scrollTop;
+    const sh = event.target.scrollHeight;
+    const ch = event.target.clientHeight;
+    const value = Math.round(100 * top / (sh - ch));
+    return isNaN(value) ? 0 : value;
   }
 
   componentWillReceiveProps(newProps) {
