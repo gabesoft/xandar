@@ -19,14 +19,17 @@
   }
 
   .panel-content {
-    @include absolute($content-padding, $content-padding, $content-padding, $content-padding);
+    @include absolute(
+      $content-padding,
+      $content-padding,
+      $content-padding,
+      $content-padding
+    );
 
     animation: fade-in 1s;
     opacity: 1;
-    overflow-y: auto;
     padding-bottom: 30px;
     transition: opacity $delay-long linear;
-    -webkit-overflow-scrolling: touch;
 
     .light-theme & {
       background-color: $background-light-color;
