@@ -19,6 +19,7 @@ const postActions = require('../flux/post-actions');
 const dispatcher = require('../flux/dispatcher');
 const cls = require('../util').cls;
 const wait = require('../util').wait;
+const Store = require('../store').Store;
 
 module.exports = class NavHeader extends React.Component {
   constructor(props) {
@@ -32,6 +33,7 @@ module.exports = class NavHeader extends React.Component {
     this.updateQuery = this.updateQuery.bind(this);
     this.awesomplete = null;
     this.awesompleteInitialized = false;
+    this.store = new Store({ prefix: 'nav-header' });
     this.state = {
       tags: tagStore.getTags(),
       feeds: searchStore.getFeeds()
@@ -49,15 +51,15 @@ module.exports = class NavHeader extends React.Component {
     this.tokenId = dispatcher.register(action => {
       switch (action.type) {
         case constants.search.SELECT_POST_QUERY:
-          const query = action.query;
           this.setState({
-            searchValue: this.getQueryValue(query),
-            queryTitle: query.title
+            searchValue: this.getQueryValue(action.query),
+            queryTitle: action.query.title
+          }, () => {
+            this.store.set('searchValue', this.state.searchValue);
           });
           break;
         case constants.search.SAVE_POST_QUERY_DONE:
-          const text = this.getQueryValue(action.data);
-          if (text === this.state.searchValue) {
+          if (this.getQueryValue(action.data) === this.state.searchValue) {
             this.setState({ queryTitle: action.data.title });
           }
           break;
@@ -65,6 +67,10 @@ module.exports = class NavHeader extends React.Component {
         case constants.feeds.UNSUBSCRIBE_DONE:
         case constants.feeds.SAVE_SUBSCRIPTION_DONE:
           actions.loadFeeds();
+          break;
+        case constants.search.LOAD_FEEDS_DONE:
+          this.setState({ searchValue: this.store.get('searchValue') });
+          wait(1000).then(this.updateQuery);
           break;
         default:
           break;
@@ -127,6 +133,7 @@ module.exports = class NavHeader extends React.Component {
       }
 
       postActions.loadPosts(queryObj);
+      this.store.set('searchValue', value);
     } catch (e) {
       this.setState({
         queryError: true,
@@ -219,7 +226,7 @@ module.exports = class NavHeader extends React.Component {
         const item = this.parseAwesompleteItem(text);
         const not = current.startsWith('!');
 
-        input.value = before + `${not ? '!' : ''}${item.pre}${item.value}`;
+        input.value = `${before}${not ? '!' : ''}${item.pre}${item.value}`;
 
         this.setState({ searchValue: input.value }, this.updateQuery);
       };
@@ -261,7 +268,7 @@ module.exports = class NavHeader extends React.Component {
               value={this.state.searchValue}
               ref={this.initAwesomplete}
             />
-            <Icon name="magnify" className="search-icon"/>
+            <Icon name="magnify" className="search-icon" />
           </div>
         </div>
 
@@ -275,14 +282,14 @@ module.exports = class NavHeader extends React.Component {
 
         <div className="nav-right">
           <div className="user">
-            <img className="user-avatar" alt="" src={user.avatar_url}/>
+            <img className="user-avatar" alt="" src={user.avatar_url} />
             <div className="user-info">
               <a href="/logout" title={info}>
                 {user.login}
               </a>
             </div>
           </div>
-          <Icon name="account-outline" className="user-icon" size="medium"/>
+          <Icon name="account-outline" className="user-icon" size="medium" />
         </div>
       </div>
     );

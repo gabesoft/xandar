@@ -36,7 +36,7 @@ module.exports = class FeedList extends React.Component {
     };
 
     this.delay = new DelaySeries(2000);
-    this.store = new Store('side-feed-list');
+    this.store = new Store({ prefix: 'side-feed-list' });
     this.onStoreChange = this.onStoreChange.bind(this);
     this.collapseAllGroups = this.collapseAllGroups.bind(this);
     this.expandAllGroups = this.expandAllGroups.bind(this);
