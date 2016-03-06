@@ -32,6 +32,7 @@ const langMap = langs.reduce((acc, ln) => {
   acc[ln[1]] = true;
   return acc;
 }, {});
+const marked = require('marked');
 
 module.exports = class PostDescription extends React.Component {
   constructor(props) {
@@ -58,9 +59,9 @@ module.exports = class PostDescription extends React.Component {
     const post = this.props.post;
     post._source.codeBlocks = this.blocks
       .map(block => ({
-          lang: block.userEdited ? block.lang : null,
-          userEdited: block.userEdited
-        })
+        lang: block.userEdited ? block.lang : null,
+        userEdited: block.userEdited
+      })
       );
     actions.savePost(post);
   }
@@ -77,16 +78,21 @@ module.exports = class PostDescription extends React.Component {
     return (<Loader size="big" className="post-content-loader" />);
   }
 
-  renderDefault() {
+  getPostContent() {
     const post = this.props.post._source.post;
     const data = post.description;
-    const html = { __html: data };
+    const tags = this.props.post._source.tags || [];
+    const markdown = tags.find(tag => tag === 'markdown-format');
+    return markdown ? marked(data) : data;
+}
+
+  renderDefault() {
     return (
       <div className={this.getClassName()}>
         <ul
           className="post-description-content"
           ref="content"
-          dangerouslySetInnerHTML={html}>
+          dangerouslySetInnerHTML={{ __html: this.getPostContent() }}>
         </ul>
       </div>
     );

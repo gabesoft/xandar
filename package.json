@@ -29,6 +29,7 @@
     "joi": "^7.3.0",
     "jquery": "^2.2.1",
     "lodash": "^3.10.1",
+    "marked": "^0.3.5",
     "materialize-css": "^0.97.5",
     "nconf": "^0.8.4",
     "node-uuid": "^1.4.7",

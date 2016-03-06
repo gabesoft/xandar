@@ -53,6 +53,7 @@ function buildJs() {
     'materialize-css/js/toasts',
     'materialize-css/js/velocity.min',
     'moment',
+    'marked',
     'react',
     'react-dom',
     'react-router',
