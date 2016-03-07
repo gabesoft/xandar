@@ -8,7 +8,6 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const store = require('../flux/feed-store');
 const actions = require('../flux/feed-actions');
-const debounce = require('../util').debounce;
 const cls = require('../util').cls;
 const constants = require('../constants');
 const feedConstants = constants.feeds;
@@ -44,7 +43,7 @@ module.exports = class FeedList extends React.Component {
     this.toggleGroupFeeds = this.toggleGroupFeeds.bind(this);
     this.allGroupsCollapsed = this.allGroupsCollapsed.bind(this);
     this.allGroupsExpanded = this.allGroupsExpanded.bind(this);
-    this.onFilterChange = debounce(this.onFilterChange.bind(this), 150);
+    this.onFilterChange = this.onFilterChange.bind(this);
     this.onFeedMarkAsRead = this.onFeedMarkAsRead.bind(this);
     this.onFeedEditClick = this.onFeedEditClick.bind(this);
     this.onListScroll = this.onListScroll.bind(this);
@@ -126,8 +125,7 @@ module.exports = class FeedList extends React.Component {
     this.updateFeeds(feeds);
   }
 
-  onFilterChange(event) {
-    const filter = event.target.value.toLowerCase();
+  onFilterChange(filter) {
     const savedGroups = this.store.get('closedGroups') || defaultGroups();
     this.setState({
       filter,

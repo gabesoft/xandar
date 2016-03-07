@@ -1,27 +1,59 @@
 'use strict';
 
 const React = require('react');
+const ReactDOM = require('react-dom');
 const Button = require('./icon-button.jsx');
 const actions = require('../flux/feed-actions');
+const makeMruList = require('../mru-list').make;
+const debounce = require('../util').debounce;
+const Store = require('../store').Store;
 
 module.exports = class FeedListHeader extends React.Component {
   constructor(props) {
     super(props);
+    this.store = new Store({ prefix: 'feed-list-header' });
     this.onFilterChange = this.onFilterChange.bind(this);
+    this.changeFilter = debounce(this.changeFilter.bind(this), 500);
     this.onAddFeedClick = this.onAddFeedClick.bind(this);
+    this.onFilterKeyDown = this.onFilterKeyDown.bind(this);
     this.state = { filter: props.filter };
+  }
+
+  changeFilter() {
+    const filter = this.state.filter;
+    this.props.onFilterChange(filter);
+    if (this.filterList.item !== filter && filter.length > 0) {
+      this.filterList.add(filter);
+      this.store.set('filter-list', this.filterList.data);
+    }
+  }
+
+  updateFilter(filter) {
+    ReactDOM.findDOMNode(this.refs.input).value = filter;
+    this.setState({ filter }, this.changeFilter);
   }
 
   onFilterChange(event) {
     event.persist();
-    this.props.onFilterChange(event);
-    this.setState({ filter: event.target.value });
+    this.setState({ filter: event.target.value.toLowerCase() }, this.changeFilter);
+  }
+
+  onFilterKeyDown(event) {
+    if (event.key === 'ArrowUp') {
+      this.updateFilter(this.filterList.previous());
+    } else if (event.key === 'ArrowDown') {
+      this.updateFilter(this.filterList.next());
+    }
   }
 
   onAddFeedClick(event) {
     actions.showAddFeedPopup({
       rect: event.target.getBoundingClientRect()
     });
+  }
+
+  componentWillMount() {
+    this.filterList = makeMruList(this.store.get('filter-list') || { capacity: 10 });
   }
 
   inputPlaceholder() {
@@ -71,9 +103,11 @@ module.exports = class FeedListHeader extends React.Component {
         <input
           className="filter-input"
           type="search"
+          ref="input"
           title="Type to filter feeds (examples :new, :latest2h, :latest7d, css)"
           value={this.state.filter}
           placeholder={this.inputPlaceholder()}
+          onKeyDown={this.onFilterKeyDown}
           onChange={this.onFilterChange}
         />
         {grouped ? expand : null}
