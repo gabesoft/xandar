@@ -20,7 +20,7 @@ module.exports = class FeedListHeader extends React.Component {
   }
 
   changeFilter() {
-    const filter = this.state.filter;
+    const filter = this.state.filter || '';
     this.props.onFilterChange(filter);
     if (filter.length > 0) {
       this.filterList.add(filter);
