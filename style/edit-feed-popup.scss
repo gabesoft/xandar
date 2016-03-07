@@ -12,6 +12,7 @@
       @include item-actions(1, relative, 0 0 0 5px);
 
       border-radius: 0 $popup-border-radius 0 0;
+      min-width: 24px;
     }
   }
 

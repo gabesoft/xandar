@@ -43,7 +43,6 @@ describe('MruList', () => {
       list.add(7);
       expect(list.values).to.eql([0, 1, 2, 7, 3, 4, 5, 6, 8]);
     });
-
   });
 
   describe('item', () => {

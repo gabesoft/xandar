@@ -63,7 +63,7 @@
 @mixin header-item-theme($background-color, $background-color-highlight, $highlight-persist) {
   $actions-background: linear-gradient(
                            to right,
-                           transparent 0%,
+                           rgba($background-color-highlight, 0.1) 0%,
                            $background-color-highlight 10%);
 
   &:hover {

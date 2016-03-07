@@ -4,6 +4,7 @@
   height: $size-value;
   line-height: $size-value;
   width: $size-value;
+  min-width: $size-value;
 
   &:hover:not([disabled]),
   &:active:not([disabled]) {
