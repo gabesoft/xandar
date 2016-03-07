@@ -33,6 +33,17 @@ describe('MruList', () => {
       list.add('b');
       expect(list.values).to.eql([0, 1, 2, 'b', 'a', 3, 4, 5, 6, 8]);
     });
+
+    it('does not do anything if the value to be added equals the current item', () => {
+      list.add(3);
+      expect(list.values).to.eql([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+    });
+
+    it('ensures values are unique', () => {
+      list.add(7);
+      expect(list.values).to.eql([0, 1, 2, 7, 3, 4, 5, 6, 8]);
+    });
+
   });
 
   describe('item', () => {

@@ -22,7 +22,7 @@ module.exports = class FeedListHeader extends React.Component {
   changeFilter() {
     const filter = this.state.filter;
     this.props.onFilterChange(filter);
-    if (this.filterList.item !== filter && filter.length > 0) {
+    if (filter.length > 0) {
       this.filterList.add(filter);
       this.store.set('filter-list', this.filterList.data);
     }

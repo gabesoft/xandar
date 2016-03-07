@@ -44,14 +44,16 @@ module.exports = class AddFeedPopup extends React.Component {
   }
 
   focusInput() {
-    if (this.inputEl) {
-      ReactDOM.findDOMNode(this.inputEl).focus();
+    if (this.refs.input) {
+      ReactDOM.findDOMNode(this.refs.input).focus();
     }
   }
 
   onKeyDown(event) {
     if (event.key === 'Enter') {
       this.submit();
+    } else if (event.key === 'Escape') {
+      this.close();
     }
   }
 
@@ -94,7 +96,7 @@ module.exports = class AddFeedPopup extends React.Component {
         className="uri-input"
         type="text"
         placeholder="Enter a feed url or youtube channel-external-id"
-        ref={el => this.inputEl = el}
+        ref="input"
         onChange={this.onUriChange}
         onKeyDown={this.onKeyDown}
         value={this.state.uri}
