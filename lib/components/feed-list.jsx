@@ -213,6 +213,15 @@ module.exports = class FeedList extends React.Component {
     }
   }
 
+  onFeedAdded(data) {
+    const feed = data.feed;
+    const subscription = data.subscription;
+    const groupKey = (subscription.tags[0] || 'uncategorized').toLowerCase();
+    this.setState({ highlightFeedId: feed.id });
+    this.toggleGroupOpen(groupKey, true);
+    this.delay.run(() => this.setState({ highlightFeedId: null }));
+  }
+
   componentDidMount() {
     store.addListener(feedConstants.STORE_CHANGE, this.onStoreChange);
     actions.loadFeeds();
@@ -222,12 +231,7 @@ module.exports = class FeedList extends React.Component {
           this.setState({ editOpenFeedId: null });
           break;
         case constants.feeds.ADD_FEED_DONE:
-          const feed = action.data.feed;
-          const subscription = action.data.subscription;
-          const groupKey = (subscription.tags[0] || 'uncategorized').toLowerCase();
-          this.setState({ highlightFeedId: feed.id });
-          this.toggleGroupOpen(groupKey, true);
-          this.delay.run(() => this.setState({ highlightFeedId: null }));
+          this.onFeedAdded(action.data);
           break;
         default:
           break;
