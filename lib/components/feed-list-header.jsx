@@ -24,7 +24,7 @@ module.exports = class FeedListHeader extends React.Component {
     this.props.onFilterChange(filter);
     if (filter.length > 0) {
       this.filterList.add(filter);
-      this.store.set('filter-list', this.filterList.data);
+      this.store.set('filterList', this.filterList.data);
     }
   }
 
@@ -53,7 +53,7 @@ module.exports = class FeedListHeader extends React.Component {
   }
 
   componentWillMount() {
-    this.filterList = makeMruList(this.store.get('filter-list') || { capacity: 10 });
+    this.filterList = makeMruList(this.store.get('filterList') || { capacity: 10 });
   }
 
   inputPlaceholder() {
