@@ -101,6 +101,7 @@ module.exports = class Feed extends React.Component {
           onUnsubscribe={this.onUnsubscribe}
           onMarkAsRead={() => this.props.onMarkAsRead(feed)}
           onDelete={this.onDelete}
+          showDelete={this.props.showDelete}
         />
       </li>
     );

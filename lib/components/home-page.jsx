@@ -157,7 +157,7 @@ module.exports = class HomePage extends React.Component {
   }
 
   scrollPostsToTop() {
-    const el = ReactDOM.findDOMNode(this.centerContentEl);
+    const el = ReactDOM.findDOMNode(this.refs.center);
     if (el) {
       el.scrollTop = 0;
     }
@@ -178,7 +178,7 @@ module.exports = class HomePage extends React.Component {
 
   render() {
     const user = this.props.route.user;
-    const loader = <Loader size="big" className="app-content-loader"/>;
+    const loader = <Loader size="big" className="app-content-loader" />;
     const postList = (
       <PostList
         onOpenInCarousel={this.onOpenInCarousel}
@@ -193,18 +193,18 @@ module.exports = class HomePage extends React.Component {
 
     return (
       <div className="app-main">
-        <input hidden value={user.id} readOnly/>
-        <Header className="app-header" user={user}/>
+        <input hidden value={user.id} readOnly />
+        <Header className="app-header" user={user} />
 
         <div className="app-content">
           <SidePanel id="side-left-panel" className="app-content-left left" direction="1">
-            <FeedList/>
+            <FeedList user={user} />
           </SidePanel>
 
           <Scrolled
             onScroll={this.onScroll}
             disabled={this.state.carouselIndex !== null}
-            ref={el => this.centerContentEl = el}
+            ref="center"
             className={centerClass}
             type={this.state.carouselIndex === null ? 'list' : 'carousel'}>
             {this.state.carouselIndex === null ? postList : this.renderCarousel()}
@@ -212,16 +212,16 @@ module.exports = class HomePage extends React.Component {
           </Scrolled>
 
           <SidePanel id="side-right-panel" className="app-content-right right" direction="-1">
-            <PostQueryList/>
+            <PostQueryList />
           </SidePanel>
 
         </div>
 
         <div className="app-footer"></div>
-        <AddFeedPopup/>
-        <EditFeedPopup/>
-        <DeleteFeedPopup/>
-        <EditPostPopup/>
+        <AddFeedPopup />
+        <EditFeedPopup />
+        <DeleteFeedPopup />
+        <EditPostPopup />
       </div>
     );
   }

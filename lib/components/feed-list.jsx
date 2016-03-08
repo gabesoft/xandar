@@ -299,6 +299,7 @@ module.exports = class FeedList extends React.Component {
           onEditClick={this.onFeedEditClick}
           highlight={feed.id === this.state.highlightFeedId}
           onScrollIntoView={this.onScrollIntoView}
+          showDelete={this.props.user.admin}
         />
       );
     });
