@@ -44,6 +44,7 @@ describe('MruList', () => {
       list.index = 7;
       list.add('x');
       expect(list.values).to.eql([0, 1, 'c', 'b', 'a', 3, 'x', 4, 5, 8]);
+      expect(list.item).to.equal('x');
     });
 
     it('does not do anything if the value to be added equals the current item', () => {
