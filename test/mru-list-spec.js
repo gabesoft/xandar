@@ -34,6 +34,18 @@ describe('MruList', () => {
       expect(list.values).to.eql([0, 1, 2, 'b', 'a', 3, 4, 5, 6, 8]);
     });
 
+    it('inserts the items in the correct order', () => {
+      list.add('a');
+      expect(list.values).to.eql([0, 1, 2, 'a', 3, 4, 5, 6, 7, 8]);
+      list.add('b');
+      expect(list.values).to.eql([0, 1, 2, 'b', 'a', 3, 4, 5, 6, 8]);
+      list.add('c');
+      expect(list.values).to.eql([0, 1, 2, 'c', 'b', 'a', 3, 4, 5, 8]);
+      list.index = 7;
+      list.add('x');
+      expect(list.values).to.eql([0, 1, 'c', 'b', 'a', 3, 'x', 4, 5, 8]);
+    });
+
     it('does not do anything if the value to be added equals the current item', () => {
       list.add(3);
       expect(list.values).to.eql([0, 1, 2, 3, 4, 5, 6, 7, 8]);
