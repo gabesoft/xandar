@@ -40,6 +40,7 @@ module.exports = class FeedListHeader extends React.Component {
 
   onFilterKeyDown(event) {
     if (event.key === 'ArrowUp') {
+      event.preventDefault();
       this.updateFilter(this.filterList.previous());
     } else if (event.key === 'ArrowDown') {
       this.updateFilter(this.filterList.next());
