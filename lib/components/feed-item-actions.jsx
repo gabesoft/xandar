@@ -60,6 +60,14 @@ module.exports = class FeedActions extends React.Component {
         title="Mark all posts as read"
       />
     );
+    const deleteFeed = (
+      <Button
+        icon="delete"
+        color="red"
+        title="Delete feed"
+        onClick={this.props.onDelete}
+      />
+    );
 
     return (
       <div className="actions" onClick={event => event.stopPropagation()}>
@@ -79,12 +87,7 @@ module.exports = class FeedActions extends React.Component {
           title="Open rss in new window"
           color="orange"
         />
-        <Button
-          icon="delete"
-          color="red"
-          title="Delete feed"
-          onClick={this.props.onDelete}
-        />
+        {this.props.showDelete ? deleteFeed : null}
       </div>
     );
   }
