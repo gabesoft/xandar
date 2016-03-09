@@ -71,6 +71,10 @@
     min-height: 2rem;
   }
 
+  ol li {
+    list-style-type: decimal;
+  }
+
   .lang-edit-mode {
     overflow: visible;
 
@@ -165,5 +169,9 @@
 
   .u-ignoreBlock {
     padding: 0 !important;
+  }
+
+  .graf--li {
+    margin-bottom: 14px;
   }
 }

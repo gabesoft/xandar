@@ -98,6 +98,10 @@ blockquote {
   }
 }
 
+strong {
+  font-weight: $font-weight-bold;
+}
+
 .noselect {
   user-select: none;
 }
