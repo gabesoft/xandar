@@ -50,7 +50,7 @@ module.exports = class Carousel extends React.Component {
   }
 
   onScroll(event, value) {
-    this.setState({ scrollValue: value });
+    ReactDOM.findDOMNode(this.refs.progress).value = value;
   }
 
   onTagsEdit() {
@@ -99,7 +99,7 @@ module.exports = class Carousel extends React.Component {
 
     return (
       <div className="carousel">
-        <progress className="read-progress" max="100" value={this.state.scrollValue} />
+        <progress className="read-progress" ref="progress" max="100" value="0" />
         <div className="header" onClick={() => this.props.onClose(data)}>
           <div className="feed-info">
             <Avatar text={feedTitle} ref="avatar" />
