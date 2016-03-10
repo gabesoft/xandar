@@ -305,6 +305,7 @@ module.exports = class PostDescription extends React.Component {
     if (el) {
       $('a[title="Like on Facebook"]').parent().remove();
       $('a[href="http://dwf.tw/fluent2016"]').remove();
+      $('img[src="http://www.virtumundo.com/images/spacer.gif"]').remove();
     }
   }
 
