@@ -1,8 +1,5 @@
 .post-description {
   .highlight {
-    @extend .hljs;
-
-
     .comment,
     .quote {
       @extend .hljs-comment;

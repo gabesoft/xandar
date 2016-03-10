@@ -87,8 +87,8 @@ module.exports = class PostQueryItem extends React.Component {
 
   render() {
     const query = this.props.query;
-    const pin = <Button icon="pin" title="Pin query" onClick={this.onPin}/>;
-    const unpin = <Button icon="pin-off" title="Unpin query" onClick={this.onUnpin}/>;
+    const pin = <Button icon="pin" title="Pin query" onClick={this.onPin} />;
+    const unpin = <Button icon="pin-off" title="Unpin query" onClick={this.onUnpin} />;
     const pinned = query.pin === 1;
     const title = query.title || query.text;
     const titleClass = query.title ? 'title' : 'text';
