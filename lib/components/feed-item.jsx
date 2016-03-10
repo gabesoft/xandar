@@ -86,7 +86,7 @@ module.exports = class Feed extends React.Component {
     const subscribed = Boolean(feed.subscription);
     const className = cls('feed-item',
       this.props.className,
-      this.props.highlight ? 'highlight' : null
+      this.props.highlight ? 'highlight-item' : null
     );
 
     return (

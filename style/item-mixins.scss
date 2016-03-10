@@ -36,7 +36,7 @@
     }
   }
 
-  &.highlight,
+  &.highlight-item,
   &.highlight-magenta {
     @include highlight($accent-magenta-color);
   }

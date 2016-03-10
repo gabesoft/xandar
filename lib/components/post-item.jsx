@@ -40,7 +40,7 @@ module.exports = class PostItemClosed extends React.Component {
     const className = cls(
       'post-item',
       tags.map(tag => `${tag}-tagged`).join(' '),
-      this.props.highlight ? 'highlight' : null,
+      this.props.highlight ? 'highlight-item' : null,
       read ? null : 'unread'
     );
 
