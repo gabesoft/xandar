@@ -7,7 +7,7 @@ const Filter = require('broccoli-persistent-filter'),
 module.exports = class UglifyBuilder extends Filter {
   constructor(inputNode, options) {
     options = options || {};
-    options.extensions = options.extensions || [ 'css' ];
+    options.extensions = options.extensions || ['css'];
     options.targetExtension = options.targetExtension || 'css';
 
     super(inputNode, pick(options, [
