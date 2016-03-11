@@ -5,6 +5,7 @@
   },
   "bin": {},
   "dependencies": {
+    "animate.css": "^3.5.1",
     "async": "^1.5.2",
     "autoprefixer": "^6.3.3",
     "awesomplete": "git+https://github.com/gabesoft/awesomplete.git#gh-pages",
@@ -18,7 +19,6 @@
     "glob": "^6.0.4",
     "good": "^6.6.0",
     "good-console": "^5.3.1",
-    "hammerjs": "^2.0.6",
     "hapi": "^11.1.4",
     "hapi-auth-cookie": "^3.1.0",
     "hapi-react-views": "^5.0.2",
@@ -37,6 +37,7 @@
     "react-dom": "^0.14.7",
     "react-router": "^2.0.0",
     "react-tagsinput": "^3.4.0",
+    "react-toastr": "^2.4.0",
     "request": "^2.69.0",
     "srunner": "^0.1.14",
     "trans": "^0.1.0",

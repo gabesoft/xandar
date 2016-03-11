@@ -3,11 +3,11 @@
 @import "materialize/components/variables";
 @import "materialize/components/normalize";
 @import "materialize/components/global";
-@import "materialize/components/grid";
 @import "materialize/components/typography";
-@import "materialize/components/toast";
 @import "materialize/components/form";
 @import "materialize/components/preloader";
+
+@import 'animate/animatecss';
 
 @import 'variables';
 @import 'site-theme';

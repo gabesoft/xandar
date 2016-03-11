@@ -1,18 +1,195 @@
-#toast-container {
-  pointer-events: none;
-  z-index: 2147483647;
+.toast-title,
+.toast-message {
+  font-family: $font-family-content;
+  font-size: $font-size-xlarge;
 }
 
-.toast {
-  &.error {
-    background-color: $error-color;
-  }
+.toast-message {
+  word-wrap: break-word;
+}
+.toast-message a:hover {
+  text-decoration: none;
+}
+.toast-close-button {
+  position: relative;
+  right: -0.3em;
+  top: -0.3em;
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  -webkit-text-shadow: 0 1px 0 #ffffff;
+  text-shadow: 0 1px 0 #ffffff;
+  opacity: 0.8;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  filter: alpha(opacity=80);
+}
+.toast-close-button:hover,
+.toast-close-button:focus {
+  color: #000000;
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 0.4;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);
+  filter: alpha(opacity=40);
+}
+/*Additional properties for button version
+ iOS requires the button element instead of an anchor tag.
+ If you want the anchor version, it requires `href="#"`.*/
+button.toast-close-button {
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  -webkit-appearance: none;
+}
+.toast-top-center {
+  top: 0;
+  right: 0;
+  width: 100%;
+}
+.toast-bottom-center {
+  bottom: 0;
+  right: 0;
+  width: 100%;
+}
+.toast-top-full-width {
+  top: 0;
+  right: 0;
+  width: 100%;
+}
+.toast-bottom-full-width {
+  bottom: 0;
+  right: 0;
+  width: 100%;
+}
+.toast-top-left {
+  top: 12px;
+  left: 12px;
+}
+.toast-top-right {
+  top: 12px;
+  right: 12px;
+}
+.toast-bottom-right {
+  right: 12px;
+  bottom: 12px;
+}
+.toast-bottom-left {
+  bottom: 12px;
+  left: 12px;
+}
+#toast-container {
+  position: fixed;
+  z-index: 999999;
+  /*overrides*/
 
-  &.success {
-    background-color: $success-color;
-  }
+}
+#toast-container * {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#toast-container > div {
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 6px;
+  padding: 15px 15px 15px 70px;
+  width: 350px;
+  -moz-border-radius: 3px 3px 3px 3px;
+  -webkit-border-radius: 3px 3px 3px 3px;
+  border-radius: 3px 3px 3px 3px;
+  background-position: 15px center;
+  background-repeat: no-repeat;
+  -moz-box-shadow: 0 0 12px #999999;
+  -webkit-box-shadow: 0 0 12px #999999;
+  box-shadow: 0 0 12px #999999;
+  opacity: 0.8;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  filter: alpha(opacity=80);
+}
+#toast-container > :hover {
+  -moz-box-shadow: 0 0 12px #000000;
+  -webkit-box-shadow: 0 0 12px #000000;
+  box-shadow: 0 0 12px #000000;
+  opacity: 1;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  filter: alpha(opacity=100);
+  cursor: pointer;
+}
 
-  &.warning {
-    background-color: $warning-color;
+#toast-container.toast-top-center > div,
+#toast-container.toast-bottom-center > div {
+  width: 350px;
+  margin: auto;
+}
+#toast-container.toast-top-full-width > div,
+#toast-container.toast-bottom-full-width > div {
+  width: 96%;
+  margin: auto;
+}
+
+.light-theme {
+  .toast {
+    background-color: $background-dark-color;
+    color: $content-light-color;
+  }
+}
+
+.dark-theme {
+  .toast {
+    background-color: $background-light-color;
+    color: $content-dark-color;
+  }
+}
+
+.toast-success {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAABIAAAASABGyWs+AAAACXZwQWcAAAAwAAAAMADO7oxXAAABb0lEQVRo3u2WQU7CQBRA3+DGHR4GcEuCUTecA70ACyUBkhbiCWA4Bwu1hOhS42W4QMfNmGAT2tqWmar/JU2TaZu+l2mnBUEQBEEQhL9HsKQ10wyzzjvxLXpIXikioN/rw3bN668J2JM/s0PdtIiGb+EM+S/UoWsUNcHKb4Bm4tD0fsCk1gFF5WsRUEbee0BZefC4Cs1XtKGcPHiagfmKdmyIysp7CahSHhw/QsGCDqo6eXA4A8GCjmrwXKU85PwSzzTDYEmrbvK5AkLN2MCDUkRFIo4pDxmPUKgZw7eb7IzhYnTDRx3kIXsGkoFNpdjYNTyVmeb82PKZAfZG02REbIiCBZ00eQNPx5aHnKtQqJkA48TwzsRcjm559yWfOyAtQsHV3YA3H/I/CkiLMA2uAVTMo0v5HwekRdi9U3ko8CuxXfPS66OA7t7wqd2cyhcKSIlwLl84ICPCmXypgAMRTuUrI9RM7MstCIIgCMK/4hPbEJ2Rug/8AAAAAABJRU5ErkJggg==');
+}
+.toast-error {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAABIAAAASABGyWs+AAAACXZwQWcAAAAwAAAAMADO7oxXAAABMklEQVRo3u2YQQrCMBBFf+xRim4t9iZCQMHjCV0UvIngujXeRMZNC6WITcwPGpi3EQQn70k1aQFFURRFUTJBrC3uu23T15Vlz+7ryt5320asLUI+twqRf7iuAXAwItSIvq6sEWkAHB6uC4rwDnCuOwswShesiIl8AQACWOe6Mz1AjLkAeE7eio6Yyw88h7W8MKQFj+vrrf3FrKAA1sLMLyI4IFaAKf91wLcibPmogFChFPLRAb5iqeQpAUuCAJBKnhbwKWJ4TSJPDfgQMYUqTw9YiKDLAwFHiX9FL6EF+Tx+xFn/jWa9kWV9lMj6MJf1cTrrG5qsbylTXL+Mmd5HCSOyZ8oDwPp6a4e9Yv60Y+87wzugLDcnA4yytI1oHmGAtiw3p9i5b/nHR4uKoiiKovySF6nwlq42bbQAAAAAAElFTkSuQmCC');
+}
+.toast-info {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAABIAAAASABGyWs+AAAACXZwQWcAAAAwAAAAMADO7oxXAAAEnUlEQVRo3u2ZX0xTVxzHv79bblEp8IDGuMCL1AJpbJfBTORJfVtcZrIsmUbfXMKiuIdBxe2FS0y2SO0eNjVrMt8ksGTZAxmZT8jTXEZZ1ts0Eyi+rJlZJg9Aq7aX3t8eLOH+a+k/Wh18387vnnN+n+/pvef0/i6wq13tbFFFZpFYONIgv00QThHQzcwuEFoBNGR7JMGIE9ECA3MMdXox6ZmFRGpNDThvhFsFgfoBnAfQWuTwOIAxVeVbsSFvvKoGXDdD+8H1IwB/BMBeziIASAP0HSg1vDDY83TbDRy5GT5HLHwN8P4ywY0oT5nUTxYHvePbYqA7GBITq/ZvGOjL0SUB4ilmegDwH6xkHten61cAIGVPNZNoOwzQm0R8EkynAThyAAUPJZf7Z6ST6xUz8IYU2udwiN+D6V3TRcZjCPyluLduInrZnShkPvftqEN5vn4WKn0GwmEzFf+USCgf/i31PCvbQHcwJK6u2H8gwnuGSykwJPGZ7auo5E4XAm4yIkXtyr7MpyBIAOp168KYbGpOfzDX16OUZaDDL39rum0Y/wg2ev/RwNFfSgE3qjMQ6VUz/CMIBw1wwXmf5+OSDbj84bMAjRtGRDNE7ywNHP2rEvAbag9E2mzMP4Ph1l/hcws+70TRBjq/+LNFFZV5AC2a8L+qym+Vs2/nU/Zc+R3AAU14WVDEjkefdy1bjanLNVlGXL9Oevi0CpwpFN7ll1nbXvB5trxdY0PeuNMvnxGAGWyeLy0Zcf06gEtWY4RcK0Hgi7ogYzjm8zyszFrnMeHzPARjWBsj8EXnjbDlSW9pQLDRZehP2KXG5nRgu+E3lM21pAnZs0wFGJBYAOOCLkYY3Wo7q6Tm+noUEEZ1QcYFSGziNT0Dzkb5GFTS/lyJPcxjxUIUcs/n0x7msRegADZP7FZno3wsBvyq7WdyJGTohC5APCX7vMkyF7VoyT5vEsRTedmsDBBRjyEyXW34XLnNbBYGVHCHts3M4VrhG3Mb2QCLZ4CAQ3rXyhJKUCnngImFlCXw5mZoZAOst9FGbUNM7F0tdQXLlUXuRmMfocC5XllZGVjTNhTH86ZawVnkXjP2MRlg4ImuzWJ7rQwYcxvZLA0IoHltm4i8tTJgzG1kszTAzCFD5FStDBhzm9mszgEbz+jnoNMef7gBVZbHH27IvvznZrMyEFvz/IaXRacNOV4Qna+2gWxObeUinmXLbwASqSDc08UYV7uDIbFa8N3BkAjGVV2QcM+qFGl5DqgZvg1AW2loX1uxD1TLQDaXdgdKZ5lMsjQQG/LGGXTXsAIjTr98fLvhnX75OAgj2hiD7uZ6lX3tX+pz/pV4OYD7DeEDgo3utwcibZWGbw9E2gQb3TfAA+D+XPB5DQDAgs87QUBQPx/ctgzPdgYivZWC7wxEem0ZnjXWhAgI5qsJbWkAABxN6SvMmNQFCQdVladdo/I1txQtubzulqJ216h8TVV52liVY8akoyl9Zas5/v/F3Q2dkB7UPWloufValte1etU+cBT9QrM46B0HpboAugP9YVeq0gDdAaW6ioUHdupHPpNq+Jl1V7va6foPsXsUlax8h1UAAAAASUVORK5CYII=');
+}
+.toast-warning {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAABIAAAASABGyWs+AAAACXZwQWcAAAAwAAAAMADO7oxXAAADfUlEQVRo3u2YP0xTURjFf99r0IBDJ+KGk0ldTEgwTsSJpdgVdSUat0YiFmwwecGkUmSBuBgNm9G9UAcnY+IiwYTEQIITG7AAQ42SvuvABe57fS195T7t0LO0Pbnfn/O+9t57Ch100EFsWJpheGmG4ThrSFyJV17Ttb3PGsDlJNcHHnIYRx0nLgE7e2RRpFCkdvbIxlUnlgmUC/SqBJtAUlP7UuVqOs+u7VqxTEAlKBjNAyQ1Zx3WJ1B+Qb9yWAl5OJ54DKSf8t1mPasTUApRDvN18jrKYV4puw8tYTPZzUvcAR43WHLl51fW333ih62a1p5GyaXH6WYd6DPoZf1qngVb3i+uZVwqNupa+wo53TwJNH/oVRn3qoyD7wzo02vt1LWRpDRDH5AzOQULmTwbmTwbChYCITkd0x4CHGEW6DGo3YuK58cf9HvzDOjRMf9fwNIsg8CIjxTyQ5PsH38cmmQfIR8IHdGx/0+A6+KIYh5jMxBY/VZhMbj2W4VFgVVTpijmXfd8PZwr+EYPo0C/QSlPeOS6eCFiPU94BCiD7tc5WkbL2+inGZJ/hE2g10j2IT3BvUZx5SLvFdw1qN0LiqvmVy4KWp7Ab+GZ2TxQqSomzorTa8wzoFfnagktCSgVSAn+K7ISiplJts6KzUyypYSiyQlkSwVS/0yAk2AO6DKoLVVhrtl4vdYU26Vzxi9AW0SfTVTCeJSrQcalooTxAN2S/Yz0Iz6xico37i/pHLdEfLvLmVAKKc/yGYyzQNiIaj8jTeDEJp6iipCN2jyACAohC1RPVUW3n01PIMQmArwdnuBB1OZNLBd5A9w3qEj2s+kJhNjEPanWXA8iQ+fYM6hI9rMpAeUX9EPgxBSmbZj0dJ5dhOkAPaprnl9AqE08+rG9Om/zx7ic5BXChtlXs/bzTAEfXzICNbfGMZt/VOlcYwF6UNduiIYK69nE4Qlu22rexHKRJSLaz4YTCLWJUvOkrEHnjmQ/6wqoaxNzbMYlIJNjM6r9rCsgxCZuO901u4V16BrbBtXQfoYKqGMTp9JZDuIWkM5ygDAVoOvazxoBYTYRWAmziXFB11oxqLr2s4YIs4mOYizMJsYF18VzFGM0YT9922iYTWwz1NhP3wRCbGK7ocZ+nkygVCDlJFjD77TaEYdeleuZ/NHV42QCITaxXdGy/eyggw46sI+/Xy01itQguNkAAAAASUVORK5CYII=');
+}
+
+.toast-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  background-color: #000000;
+  opacity: 0.4;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);
+  filter: alpha(opacity=40);
+}
+
+@media all and (max-width: 240px) {
+  #toast-container > div {
+    padding: 8px 8px 8px 70px;
+    width: 11em;
+  }
+  #toast-container .toast-close-button {
+    right: -0.2em;
+    top: -0.2em;
+  }
+}
+@media all and (min-width: 241px) and (max-width: 480px) {
+  #toast-container > div {
+    padding: 8px 8px 8px 70px;
+    width: 18em;
+  }
+  #toast-container .toast-close-button {
+    right: -0.2em;
+    top: -0.2em;
+  }
+}
+@media all and (min-width: 481px) and (max-width: 768px) {
+  #toast-container > div {
+    padding: 15px 15px 15px 70px;
+    width: 25em;
   }
 }

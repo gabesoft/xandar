@@ -20,6 +20,7 @@ const AddFeedPopup = require('./add-feed-popup.jsx');
 const EditFeedPopup = require('./edit-feed-popup.jsx');
 const DeleteFeedPopup = require('./delete-feed-popup.jsx');
 const EditPostPopup = require('./edit-post-popup.jsx');
+const Toast = require('./toast.jsx');
 
 module.exports = class HomePage extends React.Component {
   constructor(props) {
@@ -194,6 +195,7 @@ module.exports = class HomePage extends React.Component {
     return (
       <div className="app-main">
         <input hidden value={user.id} readOnly />
+        <Toast />
         <Header className="app-header" user={user} />
 
         <div className="app-content">

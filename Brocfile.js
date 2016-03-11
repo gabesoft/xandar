@@ -14,6 +14,7 @@ function buildSass() {
   const vendorFonts = path.join('vendor', 'fonts');
   const vendorStyle = path.join('vendor', 'style');
 
+  const animateCssDir = path.join(modulesDir, 'animate.css');
   const materializeDir = path.join(modulesDir, 'materialize-css');
   const mdiCommunityFontsDir = path.join(vendorFonts, 'mdi');
 
@@ -22,20 +23,22 @@ function buildSass() {
     include: ['**/*.scss']
   });
 
+  const animateCss = new Funnel(animateCssDir, {
+    destDir: 'animate',
+    include: ['animate.css'],
+    getDestinationPath: () => '_animatecss.scss'
+  });
+
   const mdiCommunityFonts = new Funnel(mdiCommunityFontsDir, { destDir: 'fonts' });
   const mdiCommunityStyle = new Funnel(vendorStyle, {
     destDir: 'mdi',
     include: ['mdi.css'],
-    getDestinationPath: () => {
-      return '_materialdesignicons.scss';
-    }
+    getDestinationPath: () => '_materialdesignicons.scss'
   });
 
-  const sass = new Funnel('style', {
-    destDir: '/',
-    include: ['**/*.scss']
-  });
-  const css = new Sass([sass, materialize, mdiCommunityStyle], 'app.scss', 'app.css');
+  const sass = new Funnel('style', { destDir: '/', include: ['**/*.scss'] });
+  const sassFiles = [sass, materialize, mdiCommunityStyle, animateCss];
+  const css = new Sass(sassFiles, 'app.scss', 'app.css');
   const cssPrefixed = new Autoprefixer(css);
   const cssMinified = new UglifyCss(cssPrefixed);
 
@@ -47,11 +50,9 @@ function buildJs() {
     'awesomplete',
     'events',
     'flux',
-    'hammerjs',
     'highlight.js',
     'jquery',
-    'materialize-css/js/toasts',
-    'materialize-css/js/velocity.min',
+    'react-toastr',
     'moment',
     'marked',
     'react',
@@ -74,13 +75,13 @@ function buildJs() {
   const lib = new Browserify({
     debug: !prod,
     external: vendorRequire,
-    entries: [ 'app.js' ],
-    inputNodes: [ 'lib' ],
+    entries: ['app.js'],
+    inputNodes: ['lib'],
     outputFile: 'app.js',
     name: 'browserify-lib',
     transforms: [{ name: 'babelify', options: { presets: ['es2015', 'react'] } }]
   });
-  const all = new Merge([ vendor, lib ]);
+  const all = new Merge([vendor, lib]);
 
   return prod ? new UglifyJs(all) : all;
 }
