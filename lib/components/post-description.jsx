@@ -17,7 +17,6 @@ const escape = require('../util').regexpEscape;
 const cls = require('../util').cls;
 const Awesomplete = require('awesomplete');
 const Loader = require('./loader.jsx');
-const $ = require('jquery');
 const langs = require('../data/lang');
 const feeds = require('../data/iframe-feeds');
 const actions = require('../flux/post-actions');
@@ -28,11 +27,14 @@ const LangButton = require('./lang-button.jsx');
 const buttonFactory = React.createFactory(LangButton);
 const LangInput = require('./lang-input.jsx');
 const inputFactory = React.createFactory(LangInput);
+const marked = require('marked');
+const $ = window.$;
+const $$ = window.$$;
+
 const langMap = langs.reduce((acc, ln) => {
   acc[ln[1]] = true;
   return acc;
 }, {});
-const marked = require('marked');
 
 module.exports = class PostDescription extends React.Component {
   constructor(props) {
@@ -84,7 +86,7 @@ module.exports = class PostDescription extends React.Component {
     const tags = this.props.post._source.tags || [];
     const markdown = tags.find(tag => tag === 'markdown-format');
     return markdown ? marked(data) : data;
-}
+  }
 
   renderDefault() {
     return (
@@ -158,14 +160,14 @@ module.exports = class PostDescription extends React.Component {
 
   initAwesomplete(input) {
     const awesomplete = new Awesomplete(input);
-    const $$ = Awesomplete.$;
+    const util = Awesomplete.$;
     const contains = Awesomplete.FILTER_CONTAINS;
 
     awesomplete.list = langs.map(ln => `${ln[1]}:${ln[0]}`);
     awesomplete.autoFirst = true;
     awesomplete.minChars = 1;
     awesomplete.item = (text, search) => {
-      const value = RegExp($$.regExpEscape(search.trim()), 'gi');
+      const value = RegExp(util.regExpEscape(search.trim()), 'gi');
       const textParts = text.split(/:/);
       const html = ReactServer.renderToString(itemFactory({
         value: textParts[0].replace(value, '<mark>$&</mark>'),
@@ -173,7 +175,7 @@ module.exports = class PostDescription extends React.Component {
         separator: ':'
       }));
 
-      return $$.create('div', { innerHTML: html }).firstChild;
+      return util.create('div', { innerHTML: html }).firstChild;
     };
 
     awesomplete.filter = (text, inputStr) => {
@@ -201,64 +203,65 @@ module.exports = class PostDescription extends React.Component {
 
   highlightBlock(index) {
     const block = this.blocks[index];
-    const $block = $(block.el);
     const lang = block.lang || this.getLangFromTags();
     const text = block.text;
 
-    $block.removeAttr('style');
+    block.el.removeAttribute('style');
 
     if (lang === 'none') {
-      $block.html(block.html);
+      block.el.innerHTML = block.html;
     } else {
       const hl = lang ? hljs.highlight(lang, text, true) : hljs.highlightAuto(text);
 
       block.lang = hl.language;
 
-      $block.html(hl.value);
-      $block.removeClass();
-      $block.addClass(`hljs ${block.lang}`);
+      block.el.innerHTML = hl.value;
+      block.el.classList.remove();
+      block.el.classList.add('hljs', block.lang);
     }
   }
 
   addEditButton(index) {
     const block = this.blocks[index];
     const button = buttonFactory({ lang: block.lang, className: classes.button });
-    const $block = $(block.el);
 
-    $block.prepend(ReactServer.renderToString(button));
-    $block
-      .find(selectors.button)
-      .one('click', event => this.addEditInput(index, event));
+    block.el.insertAdjacentHTML('afterbegin', ReactServer.renderToString(button));
+
+    const buttonEl = $(selectors.button, block.el);
+    buttonEl.addEventListener('click', event => {
+      this.addEditInput(index, event);
+      $.unbind(buttonEl);
+    });
   }
 
   addEditInput(index) {
     const block = this.blocks[index];
     const input = inputFactory({ className: classes.input });
-    const $block = $(block.el);
 
-    $block.find(selectors.button).remove();
-    $block.prepend(ReactServer.renderToString(input));
-    $block.parent().addClass(classes.langEdit);
+    this.removeElements(selectors.button, block.el);
 
-    const $input = $block.find(selectors.input);
-    const awesomplete = this.initAwesomplete($input[0]);
+    block.el.insertAdjacentHTML('afterbegin', ReactServer.renderToString(input));
+    block.el.parentElement.classList.add(classes.langEdit);
+
+    const inputEl = $(selectors.input, block.el);
+    const awesomplete = this.initAwesomplete(inputEl);
     const reset = () => {
-      $input.off();
-      $input.remove();
-      $block.parent().removeClass(classes.langEdit);
+      $.unbind(inputEl);
+      inputEl.remove();
+      block.el.parentElement.classList.remove(classes.langEdit);
       this.initializeBlock(index);
     };
 
-    $input.focus();
-    $input.one('awesomplete-select', event => {
-      block.lang = awesomplete.replace(event.originalEvent.text);
+    inputEl.focus();
+    inputEl.addEventListener('awesomplete-select', event => {
+      block.lang = awesomplete.replace(event.text);
       block.userEdited = true;
       reset();
       this.saveCodeBlocks();
     });
 
-    $input.on('blur', reset);
-    $input.on('keydown', event => {
+    inputEl.addEventListener('blur', reset);
+    inputEl.addEventListener('keydown', event => {
       if (event.which === 27) {
         reset();
       }
@@ -274,16 +277,15 @@ module.exports = class PostDescription extends React.Component {
     if (this.refs.content) {
       const el = ReactDOM.findDOMNode(this.refs.content);
 
-      $(el).find('pre code').each((i, codeEl) => {
+      $$('pre code', el).forEach((codeEl, i) => {
         const block = this.blocks[i] || {};
-        const $codeEl = $(codeEl);
 
-        $codeEl.find(selectors.button).remove();
-        $codeEl.find(selectors.input).remove();
+        this.removeElements(selectors.button, codeEl);
+        this.removeElements(selectors.input, codeEl);
 
         block.el = codeEl;
-        block.text = $codeEl.text();
-        block.html = $codeEl.html();
+        block.text = codeEl.textContent;
+        block.html = codeEl.innerHtml;
 
         this.blocks[i] = block;
       });
@@ -293,19 +295,30 @@ module.exports = class PostDescription extends React.Component {
   }
 
   clearEventHandlers() {
-    const el = ReactDOM.findDOMNode(this.refs.content);
-    if (el) {
-      $(el).find(selectors.button).off();
-      $(el).find(selectors.input).off();
+    const parent = ReactDOM.findDOMNode(this.refs.content);
+    if (parent) {
+      $$(selectors.button, parent).forEach($.unbind.bind($));
+      $$(selectors.input);
     }
   }
 
+  removeElements(selector, parent, removeParent) {
+    $$(selector, parent).forEach(el => {
+      return removeParent ? el.parentElement.remove() : el.remove();
+    });
+  }
+
   removeSharing() {
-    const el = ReactDOM.findDOMNode(this.refs.content);
-    if (el) {
-      $('a[title="Like on Facebook"]').parent().remove();
-      $('a[href="http://dwf.tw/fluent2016"]').remove();
-      $('img[src="http://www.virtumundo.com/images/spacer.gif"]').remove();
+    const parent = ReactDOM.findDOMNode(this.refs.content);
+    const remove = (selector, removeParent) => {
+      this.removeElements(selector, parent, removeParent);
+    };
+
+    if (parent) {
+      remove('a[title="Like on Facebook"]', true);
+      remove('a[href="http://dwf.tw/fluent2016"]');
+      remove('img[src="http://www.virtumundo.com/images/spacer.gif"]');
+      remove('.a2a_kit');
     }
   }
 

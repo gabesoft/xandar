@@ -3,7 +3,8 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 const Button = require('./icon-button.jsx');
-const $ = require('jquery');
+const $ = window.$;
+
 const Store = require('../store').Store;
 
 module.exports = class CollapsiblePanel extends React.Component {
@@ -18,7 +19,9 @@ module.exports = class CollapsiblePanel extends React.Component {
   }
 
   resize(width, pageX, pageY) {
-    $(ReactDOM.findDOMNode(this)).width(width);
+    const el = ReactDOM.findDOMNode(this);
+
+    $.style(el, { width: `${width}px` });
 
     this.store.set('width', width);
     this.store.set('collapsed', false);
@@ -28,23 +31,23 @@ module.exports = class CollapsiblePanel extends React.Component {
 
   onResize(event) {
     if (this.state.drag) {
-      const $el = $(ReactDOM.findDOMNode(this));
+      const el = ReactDOM.findDOMNode(this);
       const dist = event.pageX - this.state.pageX;
-      const width = $el.width() + ((this.props.direction || 1) * dist);
+      const width = el.offsetWidth + ((this.props.direction || 1) * dist);
       this.resize(width, event.pageX, event.pageY);
     }
   }
 
   onMouseDown(event) {
     this.setState({ drag: true, pageX: event.pageX, pageY: event.pageY });
-    $(document).on(`mousemove.${this.props.id}`, this.onResize);
-    $('body').addClass('noselect');
+    document.addEventListener('mousemove', this.onResize);
+    document.body.classList.add('noselect');
   }
 
   onMouseUp(event) {
     this.setState({ drag: false, pageX: event.pageX, pageY: event.pageY });
-    $(document).off(`mousemove.${this.props.id}`);
-    $('body').removeClass('noselect');
+    document.removeEventListener('mousemove', this.onResize);
+    document.body.classList.remove('noselect');
   }
 
   onToggleCollapse() {
@@ -60,8 +63,7 @@ module.exports = class CollapsiblePanel extends React.Component {
   }
 
   componentDidMount() {
-    $(document).on(`mouseup.${this.props.id}`, this.onMouseUp);
-
+    document.addEventListener('mouseup', this.onMouseUp);
     const width = this.store.get('width');
     if (typeof width !== 'undefined' && !this.state.collapsed) {
       this.resize(width);
@@ -69,9 +71,8 @@ module.exports = class CollapsiblePanel extends React.Component {
   }
 
   componentWillUnmount() {
-    $(document)
-      .off('mouseup.${this.props.id}')
-      .off(`mousemove.${this.props.id}`);
+    document.removeEventListener('mouseup', this.onMouseUp);
+    document.removeEventListener('mousemove', this.onResize);
   }
 
   render() {

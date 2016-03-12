@@ -51,7 +51,7 @@ function buildJs() {
     'events',
     'flux',
     'highlight.js',
-    'jquery',
+    'blissfuljs',
     'react-toastr',
     'moment',
     'marked',

@@ -3,30 +3,32 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 const cls = require('../util').cls;
-const $ = require('jquery');
 const genId = require('../util').genId;
+const $ = window.$;
 
 module.exports = class Popup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
     this.id = genId();
+    this.onHtmlClick = this.onHtmlClick.bind(this);
+  }
+
+  onHtmlClick(event) {
+    const parent = ReactDOM.findDOMNode(this);
+    const isSelf = parent.isSameNode(event.target);
+    const isInside = parent.contains(event.target);
+    if (parent && !isSelf && !isInside && this.props.active) {
+      this.props.onClose();
+    }
   }
 
   componentDidMount() {
-    $('html').on('click.popup', event => {
-      const parent = ReactDOM.findDOMNode(this);
-      const isSelf = $(parent).is(event.target);
-      const isInside = $.contains(parent, event.target);
-
-      if (parent && !isSelf && !isInside && this.props.active) {
-        this.props.onClose();
-      }
-    });
+    $('html').addEventListener('click', this.onHtmlClick);
   }
 
   componentWillUnmount() {
-    $('html').off('click.popup');
+    $('html').removeEventListener('click', this.onHtmlClick);
   }
 
   render() {
