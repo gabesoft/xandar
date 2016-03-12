@@ -21,6 +21,7 @@
         "react/prop-types": 0,
         "react/jsx-closing-bracket-location": 0,
         "react/jsx-no-bind": 0,
-        "arrow-body-style": 0
+        "arrow-body-style": 0,
+        "no-return-assign": 0
     }
 }

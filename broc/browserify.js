@@ -32,7 +32,7 @@ module.exports = class BrowserifyBuilder extends Writer {
     mkdirp.sync(path.dirname(outputPath));
 
     return new RSVP.Promise((resolve, reject) => {
-      const br = browserify(pick(opts, [ 'debug' ]));
+      const br = browserify(pick(opts, ['debug']));
 
       (opts.require || []).forEach(name => br.require(name));
       (opts.external || []).forEach(name => br.external(name));

@@ -57,12 +57,13 @@ function buildJs() {
     'marked',
     'react',
     'react-dom',
+    'react-dom/server',
     'react-router',
     'react-tagsinput',
     'trans'
   ];
   const vendor = new Browserify({
-    debug: !prod,
+    debug: !prod && !process.env.DISABLE_SOURCEMAPS,
     inputNodes: trans(vendorRequire)
       .map('.', ['replace', /\/[^/]*$/, ''])
       .uniq()
@@ -73,7 +74,7 @@ function buildJs() {
     require: vendorRequire
   });
   const lib = new Browserify({
-    debug: !prod,
+    debug: !prod && !process.env.DISABLE_SOURCEMAPS,
     external: vendorRequire,
     entries: ['app.js'],
     inputNodes: ['lib'],

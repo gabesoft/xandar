@@ -72,7 +72,9 @@ module.exports = class TagsInput extends React.Component {
 
   renderTag(props) {
     const { tag, key, onRemove } = props;
-    return (<TagItem key={key} keyValue={key} tag={tag} onRemove={onRemove}/>);
+    return (
+      <TagItem key={key} keyValue={key} tag={tag} onRemove={onRemove} />
+    );
   }
 
   initAwesomplete() {
