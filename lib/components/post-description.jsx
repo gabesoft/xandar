@@ -285,7 +285,7 @@ module.exports = class PostDescription extends React.Component {
 
         block.el = codeEl;
         block.text = codeEl.textContent;
-        block.html = codeEl.innerHtml;
+        block.html = codeEl.innerHTML;
 
         this.blocks[i] = block;
       });
