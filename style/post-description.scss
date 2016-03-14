@@ -144,7 +144,7 @@
     height: 1px;
   }
 
-  img:not(.ql-img-inline-formula) {
+  img:not(.ql-img-inline-formula):not(.attachment-thumbnail) {
     display: block !important;
     float: none !important;
     height: auto !important;

@@ -41,6 +41,7 @@ module.exports = class NavHeader extends React.Component {
   }
 
   getQueryValue(query) {
+    query = query || {};
     return query.userText || query.text || query.toString();
   }
 

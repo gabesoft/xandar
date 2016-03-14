@@ -2,6 +2,7 @@
 
 const latestPattern = /:latest(\d+)?(h|d)?/i;
 const unreadPattern = /:unread|:new/;
+const tagPattern = /^:(.+)$/;
 const unitFactor = { h: 60 * 60 * 1000, d: 24 * 60 * 60 * 1000 };
 
 const React = require('react');
@@ -88,6 +89,18 @@ module.exports = class FeedList extends React.Component {
       });
   }
 
+  filterByTag(filter) {
+    const match = filter.match(tagPattern);
+    const value = match[1];
+    return store
+      .getFeeds()
+      .filter(feed => {
+        const subscription = feed.subscription || {};
+        const tags = new Set(subscription.tags);
+        return tags.has(value);
+      });
+  }
+
   filterByLatest(filter) {
     const match = filter.match(latestPattern);
     const value = parseInt(match[1] || 24, 10);
@@ -117,6 +130,8 @@ module.exports = class FeedList extends React.Component {
       feeds = this.filterByUnread();
     } else if (filter.match(latestPattern)) {
       feeds = this.filterByLatest(filter);
+    } else if (filter.match(tagPattern)) {
+      feeds = this.filterByTag(filter);
     } else {
       feeds = this.filterByQuery(filter);
     }
