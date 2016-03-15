@@ -52,7 +52,7 @@ module.exports = class PostItemOpen extends React.Component {
 
     return (
       <div className="feed-info">
-        <Avatar text={feedTitle} ref={avatarRef}/>
+        <Avatar text={feedTitle} ref={avatarRef} />
         <div className="title">{feedTitle}</div>
       </div>
     );
@@ -65,8 +65,8 @@ module.exports = class PostItemOpen extends React.Component {
     const top = position === 'top';
     const className = top ? 'header' : 'footer';
     const avatarRef = top ? 'avatarTop' : 'avatarBottom';
-    const date = <Date value={post.date}/>;
-    const end = <Icon name="minus" className="end-icon"/>;
+    const date = <Date value={post.date} />;
+    const end = <Icon name="minus" className="end-icon" />;
 
     return (
       <div onClick={() => this.props.onClose(data, scroll)} className={className}>
@@ -83,7 +83,7 @@ module.exports = class PostItemOpen extends React.Component {
       <li className="post-item-detail">
         {this.renderNav('top')}
         <div className="content">
-          <Description post={this.props.post}/>
+          <Description post={this.props.post} />
         </div>
         {this.renderNav('bottom')}
       </li>
