@@ -43,9 +43,10 @@ module.exports = class Carousel extends React.Component {
   }
 
   onPanEnd() {
-    if (this.moveAmount > translate.center && !this.isFirst()) {
+    const threshold = 8;
+    if ((this.moveAmount - translate.center) > threshold && !this.isFirst()) {
       this.moveLeft();
-    } else if (this.moveAmount < translate.center && !this.isLast()) {
+    } else if ((translate.center - this.moveAmount) > threshold && !this.isLast()) {
       this.moveRight();
     } else {
       this.move(translate.center, true);
@@ -154,10 +155,11 @@ module.exports = class Carousel extends React.Component {
     }
   }
 
-  makeItem(post) {
+  makeItem(post, active) {
     return (
       <Item
         post={post}
+        className={active ? 'active' : null}
         onClose={this.props.onClose}
         onMoveRight={this.moveRight}
         onMoveLeft={this.moveLeft}
@@ -170,7 +172,7 @@ module.exports = class Carousel extends React.Component {
     return (
       <ul className="carousel">
         {this.makeItem(store.getPostByIndex(this.props.index - 1))}
-        {this.makeItem(store.getPostByIndex(this.props.index))}
+        {this.makeItem(store.getPostByIndex(this.props.index), true)}
         {this.makeItem(store.getPostByIndex(this.props.index + 1))}
       </ul>
     );
