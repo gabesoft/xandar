@@ -35,7 +35,7 @@ module.exports = class Carousel extends React.Component {
   }
 
   onPanMove(event) {
-    const speed = (this.isFirst() || this.isLast()) ? 0.4 : 1.0;
+    const speed = (this.isFirst() || this.isLast()) ? 0.4 : 0.8;
     const el = ReactDOM.findDOMNode(this);
     const width = el.getBoundingClientRect().width;
     const delta = (event.deltaX / width) * 100 * speed;

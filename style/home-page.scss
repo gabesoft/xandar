@@ -1,5 +1,6 @@
 .home-page {
   $header-height: 80px;
+  $header-height-small: 55px;
   $footer-height: 15px;
 
   position: relative;
@@ -86,6 +87,10 @@
   }
 
   @media (max-width: 760px) {
+    .app-header {
+      height: $header-height-small;
+    }
+
     .app-content {
       height: none;
     }

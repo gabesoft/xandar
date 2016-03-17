@@ -15,7 +15,7 @@
   .nav-left,
   .nav-right {
     @include flex();
-    padding: 0 20px;
+    padding: 0 30px;
     position: relative;
   }
 
@@ -151,7 +151,6 @@
       display: none;
     }
 
-    .nav-left,
     .nav-right {
       padding: 0 5px;
     }
