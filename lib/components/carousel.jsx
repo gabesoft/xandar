@@ -1,65 +1,116 @@
 'use strict';
 
+const translate = { start: 1, center: -29, end: -59 };
+
 const React = require('react');
 const ReactDOM = require('react-dom');
-const Avatar = require('./text-avatar.jsx');
-const Date = require('./date.jsx');
-const Button = require('./icon-button.jsx');
-const Actions = require('./post-item-actions.jsx');
-const Description = require('./post-description.jsx');
-const Scrolled = require('./scrolled.jsx');
+const Item = require('./carousel-item.jsx');
 const store = require('../flux/post-store');
 const actions = require('../flux/post-actions');
+const Hammer = require('hammerjs');
+const isSmallScreen = require('../util').isSmallScreen;
+const transitionEnd = require('../util').transitionEnd;
 
 module.exports = class Carousel extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { scrolled: false, scrollValue: 0 };
+    this.state = { scrollValue: 0 };
 
     this.moveLeft = this.moveLeft.bind(this);
     this.moveRight = this.moveRight.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
-    this.onTagsEdit = this.onTagsEdit.bind(this);
-    this.onScroll = this.onScroll.bind(this);
+    this.navigateLeft = this.navigateLeft.bind(this);
+    this.navigateRight = this.navigateRight.bind(this);
+    this.onPanMove = this.onPanMove.bind(this);
+    this.onPanEnd = this.onPanEnd.bind(this);
   }
 
-  scrollElement(parent, selector) {
-    if (parent) {
-      const el = parent.querySelector(selector);
-      if (el) {
-        el.scrollTop = 0;
-      }
+  isFirst() {
+    return this.props.index === 0;
+  }
+
+  isLast() {
+    return this.props.index === store.getPostCount() - 1;
+  }
+
+  onPanMove(event) {
+    const speed = (this.isFirst() || this.isLast()) ? 0.4 : 1.0;
+    const el = ReactDOM.findDOMNode(this);
+    const width = el.getBoundingClientRect().width;
+    const delta = (event.deltaX / width) * 100 * speed;
+    this.move(translate.center + delta);
+  }
+
+  onPanEnd() {
+    if (this.moveAmount > translate.center && !this.isFirst()) {
+      this.moveLeft();
+    } else if (this.moveAmount < translate.center && !this.isLast()) {
+      this.moveRight();
+    } else {
+      this.move(translate.center, true);
     }
   }
 
-  scrollToTop() {
+  navigateLeft() {
+    this.navigate('onMoveLeft');
+  }
+
+  navigateRight() {
+    this.navigate('onMoveRight');
+  }
+
+  navigate(moveFn) {
+    this.move(translate.center);
+    this.props[moveFn]();
+  }
+
+  move(amount, animate, cb) {
+    if (this.moving) {
+      return;
+    }
+
+    cb = cb || (() => {});
+
+    this.moving = true;
+    this.moveAmount = amount;
+
     const el = ReactDOM.findDOMNode(this);
-    this.scrollElement(el, '.content');
-    this.scrollElement(el, '.post-description');
+    const done = () => {
+      el.removeEventListener(transitionEnd, done);
+      el.classList.remove('animate');
+      this.moving = false;
+      cb();
+    };
+
+    if (animate) {
+      el.classList.add('animate');
+    }
+
+    el._.style({ transform: `translateX(${amount}%)` });
+
+    if (animate) {
+      el.addEventListener(transitionEnd, done);
+    } else {
+      this.moving = false;
+      cb();
+    }
   }
 
   moveLeft() {
-    this.props.onMoveLeft();
-    this.scrollToTop();
+    if (this.isFirst()) {
+      actions.carouselAtTop();
+    } else {
+      this.move(translate.start, true, this.navigateLeft);
+    }
   }
 
   moveRight() {
-    this.props.onMoveRight();
-    this.scrollToTop();
-  }
-
-  onScroll(event, value) {
-    ReactDOM.findDOMNode(this.refs.progress).value = value;
-  }
-
-  onTagsEdit() {
-    const el = ReactDOM.findDOMNode(this.refs.avatar);
-    const rect = el.getBoundingClientRect();
-    actions.showEditPostPopup({
-      rect: { top: rect.top, left: rect.left },
-      post: this.props.post
-    });
+    if (this.isLast()) {
+      actions.carouselAtEnd();
+    } else {
+      this.move(translate.end, true, this.navigateRight);
+    }
   }
 
   onKeyDown(event) {
@@ -81,59 +132,47 @@ module.exports = class Carousel extends React.Component {
   componentDidMount() {
     document.addEventListener('keydown', this.onKeyDown);
     document.addEventListener('keyup', this.onKeyUp);
-  }
 
-  componentWillReceiveProps() {
-    this.setState({ scrollValue: 0 });
+    this.move(translate.center);
+
+    if (isSmallScreen()) {
+      const element = ReactDOM.findDOMNode(this);
+      this.hammer = new Hammer(element, {
+        recognizers: [[Hammer.Pan, { direction: Hammer.DIRECTION_HORIZONTAL }]]
+      });
+
+      this.hammer.on('panstart panright panleft', this.onPanMove);
+      this.hammer.on('panend', this.onPanEnd);
+    }
   }
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.onKeyDown);
     document.removeEventListener('keyup', this.onKeyUp);
+    if (this.hammer) {
+      this.hammer.off('panstart panright panleft panend');
+    }
+  }
+
+  makeItem(post) {
+    return (
+      <Item
+        post={post}
+        onClose={this.props.onClose}
+        onMoveRight={this.moveRight}
+        onMoveLeft={this.moveLeft}
+        index={this.props.index}
+      />
+    );
   }
 
   render() {
-    const data = this.props.post;
-    const post = data._source.post;
-    const feedTitle = data._source.title;
-
     return (
-      <div className="carousel">
-        <progress className="read-progress" ref="progress" max="100" value="0" />
-        <div className="header" onClick={() => this.props.onClose(data)}>
-          <div className="feed-info">
-            <Avatar text={feedTitle} ref="avatar" />
-            <div className="title">{feedTitle}</div>
-          </div>
-          <div className="title">{post.title}</div>
-          <Actions
-            showViewList
-            post={data}
-            onTagsEdit={this.onTagsEdit}
-            onViewListClick={() => this.props.onClose(data)}
-          />
-          <Date value={post.date} />
-        </div>
-        <Scrolled className="content" onChildScroll={this.onScroll}>
-          <Description post={data} />
-        </Scrolled>
-        <div className="sidepanel right">
-          <Button
-            onClick={this.moveRight}
-            icon="chevron-right"
-            size="xlarge"
-            disabled={this.props.index === store.getPostCount() - 1}
-          />
-        </div>
-        <div className="sidepanel left">
-          <Button
-            onClick={this.moveLeft}
-            icon="chevron-left"
-            size="xlarge"
-            disabled={this.props.index === 0}
-          />
-        </div>
-      </div>
+      <ul className="carousel">
+        {this.makeItem(store.getPostByIndex(this.props.index - 1))}
+        {this.makeItem(store.getPostByIndex(this.props.index))}
+        {this.makeItem(store.getPostByIndex(this.props.index + 1))}
+      </ul>
     );
   }
 };

@@ -165,10 +165,8 @@ module.exports = class HomePage extends React.Component {
   }
 
   renderCarousel() {
-    const post = store.getPostByIndex(this.state.carouselIndex);
     return (
       <Carousel
-        post={post}
         index={this.state.carouselIndex}
         onMoveLeft={this.onCarouselLeft}
         onMoveRight={this.onCarouselRight}
@@ -189,7 +187,8 @@ module.exports = class HomePage extends React.Component {
     );
     const centerClass = cls(
       'app-content-center',
-      this.state.loadingMore ? 'loading-more' : null
+      this.state.loadingMore ? 'loading-more' : null,
+      (this.state.carouselIndex !== null) ? 'no-scroll' : null
     );
 
     return (

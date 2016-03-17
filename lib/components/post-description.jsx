@@ -317,6 +317,10 @@ module.exports = class PostDescription extends React.Component {
     if (parent) {
       remove('a[title="Like on Facebook"]', true);
       remove('a[href="http://dwf.tw/fluent2016"]');
+      remove('[href*="rss.buysellads.com"]');
+      remove('[href*="auslieferung"]');
+      remove('img[src*="statisches.auslieferung"]');
+      remove('img[src*="featured_advert.jpg"]');
       remove('img[src="http://www.virtumundo.com/images/spacer.gif"]');
       remove('.a2a_kit');
     }

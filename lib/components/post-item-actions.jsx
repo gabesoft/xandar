@@ -36,7 +36,12 @@ module.exports = class PostItemActions extends React.Component {
       <div className={className} onClick={event => event.stopPropagation()}>
         {this.props.showClose ? closeButton : null}
         {this.props.showViewList ? viewListButton : null}
-        <Button icon="open-in-new" href={post.link} target="_blank" title="Open in new window"/>
+        <Button
+          icon="open-in-new"
+          href={post.link}
+          target="_blank"
+          title="Open in new window"
+        />
         {this.props.showViewCarousel ? viewCarouselButton : null}
         <Button
           icon="tag"

@@ -57,6 +57,12 @@ module.exports = class Toast extends React.Component {
         case constants.feeds.DELETE_FEED_FAIL:
           this.error(`Failed to delete feed ${action.feed.title}`);
           break;
+        case constants.posts.CAROUSEL_AT_TOP:
+          this.warning('At top');
+          break;
+        case constants.posts.CAROUSEL_AT_END:
+          this.warning('At end');
+          break;
         case constants.feeds.ADD_FEED_DONE:
           feed = action.data.feed;
           if (feed.isNew) {

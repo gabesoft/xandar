@@ -60,6 +60,10 @@
     overflow-y: auto;
     position: relative;
     -webkit-overflow-scrolling: touch;
+
+    &.no-scroll {
+      overflow: hidden;
+    }
   }
 
   .app-content-loader {
@@ -81,7 +85,7 @@
     transition: height 0.7s;
   }
 
-  @media (max-width: 650px) {
+  @media (max-width: 760px) {
     .app-content {
       height: none;
     }

@@ -2,12 +2,15 @@
   $font-size: 1.1rem;
 
   margin: 0 auto;
-  overflow: auto;
   padding: 0;
   position: relative;
   text-rendering: optimizeLegibility;
   transform: translate3d(0, 0, 0);
   -webkit-overflow-scrolling: touch;
+
+  &:not(.no-scroll) {
+    overflow: auto;
+  }
 
   @mixin theme($color) {
     .hljs {

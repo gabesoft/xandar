@@ -50,6 +50,7 @@ function buildJs() {
     'awesomplete',
     'events',
     'flux',
+    'hammerjs',
     'highlight.js',
     'blissfuljs',
     'react-toastr',

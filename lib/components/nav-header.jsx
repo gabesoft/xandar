@@ -70,8 +70,11 @@ module.exports = class NavHeader extends React.Component {
           actions.loadFeeds();
           break;
         case constants.search.LOAD_FEEDS_DONE:
-          this.setState({ searchValue: this.store.get('searchValue') });
-          wait(1000).then(this.updateQuery);
+          const savedValue = this.store.get('searchValue');
+          if (this.state.searchValue !== savedValue) {
+            this.setState({ searchValue: savedValue });
+            wait(1000).then(this.updateQuery);
+          }
           break;
         default:
           break;

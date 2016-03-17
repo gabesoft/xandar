@@ -1,0 +1,148 @@
+.carousel-item {
+  $content-padding: 30px;
+
+  box-sizing: border-box;
+  display: inline-block;
+  float: left;
+  height: 100%;
+  padding: 0 1%;
+  position: relative;
+  width: 30%;
+
+  &:not(.active) {
+    .read-progress {
+      opacity: 0;
+    }
+  }
+
+  .read-progress {
+    appearance: none;
+    border: none;
+    color: $accent-blue-color;
+    height: 1px;
+    width: 100%;
+
+    &:not(.no-animate) {
+      transition: width $delay-xshort ease-out;
+    }
+
+    &::-webkit-progress-value {
+      background-color: $accent-blue-color;
+    }
+
+    &::-webkit-progress-value:not(.no-animate) {
+      transition: width .2s ease-out;
+    }
+
+    &::-moz-progress-bar {
+      background-color: $accent-blue-color;
+    }
+  }
+
+  .post-description {
+    height: calc(100% - #{$content-padding});
+    padding: $content-padding 0;
+
+    iframe {
+      height: calc(100% - 100px);
+    }
+  }
+
+  .header {
+    @include header-item();
+
+    font-size: $font-size-normal;
+
+    .title {
+      @include item-title(
+        $font-weight: $font-weight-bold,
+        $font-family: $font-family-headers,
+        $font-size: $font-size-xlarge
+      );
+
+      text-align: center;
+    }
+
+    .date {
+      @include item-date();
+
+      min-width: $feed-info-width;
+      width: $feed-info-width;
+    }
+
+    .actions {
+      @include item-actions();
+    }
+
+    .feed-info {
+      @include feed-info-item();
+    }
+  }
+
+  .content {
+    animation: fade-in $delay-short;
+    flex: 1;
+    height: 100%;
+    opacity: 1;
+    width: 100%;
+  }
+
+  .sidepanel {
+    $side-position: 15px;
+
+    @mixin theme($color-bg) {
+      .icon-button {
+        background-color: $color-bg;
+      }
+    }
+
+    @include flex($flex-direction: column);
+    @include absolute(0px, 0, 0px, 0);
+
+    margin: auto;
+    max-height: $sidepanel-height;
+    opacity: 0;
+    transition: opacity $delay-short linear;
+    width: $sidepanel-width;
+
+    .dark-theme & {
+      @include theme($background-dark-highlight-color);
+    }
+
+    .light-theme & {
+      @include theme($background-light-highlight-color);
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &.left {
+      left: $side-position;
+    }
+
+    &.right {
+      right: $side-position;
+    }
+
+    .icon-button {
+      box-sizing: border-box;
+      cursor: pointer;
+      opacity: 0.5;
+
+      &:hover:not([disabled]) {
+        border: 1px solid currentColor;
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  @media (max-width: 760px) {
+    .sidepanel .icon-button {
+      display: none;
+    }
+  }
+}

@@ -107,7 +107,7 @@ strong {
 }
 
 .hidden {
-  display: block;
+  display: none;
 }
 
 .invisible {
@@ -116,4 +116,12 @@ strong {
 
 .transparent {
   opacity: 0;
+}
+
+.no-animate {
+  transition: none;
+}
+
+.no-scroll {
+  overflow: hidden;
 }
