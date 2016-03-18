@@ -9,7 +9,7 @@ const store = require('../flux/post-store');
 const actions = require('../flux/post-actions');
 const Hammer = require('hammerjs');
 const isSmallScreen = require('../util').isSmallScreen;
-const transitionEnd = require('../util').transitionEnd;
+const transitionEnd = require('../util').transitionEndEventName();
 
 module.exports = class Carousel extends React.Component {
   constructor(props) {
