@@ -8,6 +8,7 @@ const Button = require('./icon-button.jsx');
 const Actions = require('./post-item-actions.jsx');
 const Description = require('./post-description.jsx');
 const Scrolled = require('./scrolled.jsx');
+const DelaySeries = require('../util').DelaySeries;
 const store = require('../flux/post-store');
 const actions = require('../flux/post-actions');
 const cls = require('../util').cls;
@@ -18,6 +19,8 @@ module.exports = class CarouselItem extends React.Component {
     super(props);
     this.onTagsEdit = this.onTagsEdit.bind(this);
     this.onScroll = this.onScroll.bind(this);
+    this.updateScrollPosition = this.updateScrollPosition.bind(this);
+    this.delay = new DelaySeries(100);
   }
 
   onTagsEdit() {
@@ -29,20 +32,37 @@ module.exports = class CarouselItem extends React.Component {
     });
   }
 
+  updateScrollPosition() {
+    this.delay.run(() => {
+        ReactDOM.findDOMNode(this.refs.progress).value = this.scrollValue || 0;
+    });
+  }
+
   onScroll(event, value) {
-    ReactDOM.findDOMNode(this.refs.progress).value = value;
+    this.scrollValue = value;
+    this.updateScrollPosition();
+  }
+
+  componentWillUnmount() {
+    this.delay.clear();
+  }
+
+  componentDidMount() {
+    this.updateScrollPosition();
   }
 
   componentDidUpdate() {
     const parent = ReactDOM.findDOMNode(this);
     const progress = ReactDOM.findDOMNode(this.refs.progress);
 
+    this.delay.clear();
     progress.classList.add('invisible');
     progress.value = 0;
 
     this.scrollElement(parent, '.post-description');
 
     wait(500).then(() => progress.classList.remove('invisible'));
+    this.updateScrollPosition();
   }
 
   scrollElement(parent, selector) {

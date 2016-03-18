@@ -1,6 +1,8 @@
 'use strict';
 
 const translate = { start: 1, center: -29, end: -59 };
+const moveThreshold = 30;
+const navigateThreshold = 4;
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -35,18 +37,22 @@ module.exports = class Carousel extends React.Component {
   }
 
   onPanMove(event) {
-    const speed = (this.isFirst() || this.isLast()) ? 0.4 : 0.8;
+    if (Math.abs(event.deltaX) < moveThreshold && this.moveAmount === translate.center) {
+      return;
+    }
+
+    const speed = (this.isFirst() || this.isLast()) ? 0.4 : 1.0;
     const el = ReactDOM.findDOMNode(this);
     const width = el.getBoundingClientRect().width;
     const delta = (event.deltaX / width) * 100 * speed;
+
     this.move(translate.center + delta);
   }
 
   onPanEnd() {
-    const threshold = 8;
-    if ((this.moveAmount - translate.center) > threshold && !this.isFirst()) {
+    if ((this.moveAmount - translate.center) > navigateThreshold && !this.isFirst()) {
       this.moveLeft();
-    } else if ((translate.center - this.moveAmount) > threshold && !this.isLast()) {
+    } else if ((translate.center - this.moveAmount) > navigateThreshold && !this.isLast()) {
       this.moveRight();
     } else {
       this.move(translate.center, true);
@@ -67,7 +73,7 @@ module.exports = class Carousel extends React.Component {
   }
 
   move(amount, animate, cb) {
-    if (this.moving) {
+    if (this.moving && animate) {
       return;
     }
 

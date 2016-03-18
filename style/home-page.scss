@@ -7,10 +7,12 @@
 
   .app-container {
     height: 100%;
+    overflow: hidden;
   }
 
   .app-main {
     height: 100%;
+    overflow: hidden;
   }
 
   .app-header,
@@ -60,7 +62,6 @@
     margin: 0 15px;
     overflow-y: auto;
     position: relative;
-    -webkit-overflow-scrolling: touch;
 
     &.no-scroll {
       overflow: hidden;

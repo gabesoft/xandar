@@ -1,5 +1,5 @@
 .carousel-item {
-  $content-padding: 30px;
+  $content-padding: 15px;
 
   box-sizing: border-box;
   display: inline-block;
@@ -16,22 +16,18 @@
   }
 
   .read-progress {
+    $progress-transition: width $delay-medium linear;
+
     appearance: none;
     border: none;
     color: $accent-blue-color;
     height: 1px;
     width: 100%;
-
-    &:not(.no-animate) {
-      transition: width $delay-xshort ease-out;
-    }
+    transition: $progress-transition;
 
     &::-webkit-progress-value {
       background-color: $accent-blue-color;
-    }
-
-    &::-webkit-progress-value:not(.no-animate) {
-      transition: width .2s ease-out;
+      transition: $progress-transition;
     }
 
     &::-moz-progress-bar {

@@ -2,10 +2,13 @@ html {
   -webkit-font-smoothing: antialiased;
   font-family: $font-family-content;
   line-height: 1.5;
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
-  height: 100vh;
+  height: 100%;
+  overflow: hidden;
 
   &::selection,
   *::selection {
@@ -29,6 +32,10 @@ body {
       @include color($background-light-color, $background-dark-highlight-color);
     }
   }
+}
+
+* {
+  -webkit-overflow-scrolling: touch;
 }
 
 a:not(.icon-button) {

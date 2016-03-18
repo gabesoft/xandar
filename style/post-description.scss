@@ -4,9 +4,7 @@
   margin: 0 auto;
   padding: 0;
   position: relative;
-  text-rendering: optimizeLegibility;
   transform: translate3d(0, 0, 0);
-  -webkit-overflow-scrolling: touch;
 
   &:not(.no-scroll) {
     overflow: auto;
@@ -43,7 +41,11 @@
     color: currentColor !important;
     font-size: $font-size !important;
     margin: 0 auto;
-    max-width: 650px;
+    max-width: 700px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    text-rendering: optimizeLegibility;
+    transform: translate3d(0, 0, 0);
   }
 
   span {

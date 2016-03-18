@@ -13,10 +13,9 @@
   .feed-list-items {
     @include absolute($header-height, 0px, 0px, 0px);
 
-    height: calc(100% - $header-height);
+    height: calc(100% - #{$header-height});
     overflow-y: auto;
     padding: 5px;
-    -webkit-overflow-scrolling: touch;
   }
 
   &.grouped {
