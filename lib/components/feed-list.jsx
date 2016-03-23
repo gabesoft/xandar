@@ -2,8 +2,10 @@
 
 const latestPattern = /:latest(\d+)?(h|d)?/i;
 const unreadPattern = /:unread|:new/;
+const allPattern = /:all/;
 const tagPattern = /^:(.+)$/;
 const unitFactor = { h: 60 * 60 * 1000, d: 24 * 60 * 60 * 1000 };
+const showMaxFeeds = 100;
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -26,14 +28,11 @@ module.exports = class FeedList extends React.Component {
   constructor(props) {
     super(props);
 
-    const feeds = store.getFeeds();
-    this.state = {
-      feeds,
+    this.state = Object.assign({
       filter: null,
       grouped: true,
-      groupedFeeds: this.groupFeeds(feeds),
       closedGroups: defaultGroups()
-    };
+    }, this.computeFeedsData());
 
     this.delay = new DelaySeries(2000);
     this.store = new Store({ prefix: 'side-feed-list' });
@@ -71,12 +70,27 @@ module.exports = class FeedList extends React.Component {
     this.setState({ feeds: this.state.feeds });
   }
 
-  updateFeeds(feeds) {
+  computeFeedsData(feeds) {
     feeds = feeds || store.getFeeds() || [];
-    this.setState({
-      feeds,
-      groupedFeeds: this.groupFeeds(feeds)
-    });
+
+    const showFeeds = (this.state && this.state.filter === ':all')
+      ? feeds : feeds.slice(0, showMaxFeeds);
+
+    const subscriptionCount = feeds
+      .map(feed => feed.subscription)
+      .filter(Boolean)
+      .length;
+
+    return {
+      showFeeds,
+      subscriptionCount,
+      feedCount: feeds.length,
+      groupedFeeds: this.groupFeeds(showFeeds)
+    };
+  }
+
+  updateFeeds(feeds) {
+    this.setState(this.computeFeedsData(feeds));
   }
 
   filterByQuery(filter) {
@@ -126,7 +140,9 @@ module.exports = class FeedList extends React.Component {
 
     let feeds = null;
 
-    if (filter.match(unreadPattern)) {
+    if (filter.match(allPattern)) {
+      feeds = store.getFeeds();
+    } else if (filter.match(unreadPattern)) {
       feeds = this.filterByUnread();
     } else if (filter.match(latestPattern)) {
       feeds = this.filterByLatest(filter);
@@ -214,7 +230,7 @@ module.exports = class FeedList extends React.Component {
         }
       })
       .sort('key', 'toLowerCase', comparer)
-      .value();
+      .value() || [];
   }
 
   onStoreChange(data) {
@@ -326,10 +342,6 @@ module.exports = class FeedList extends React.Component {
       this.props.className || '',
       this.state.grouped ? 'grouped' : 'ungrouped'
     );
-    const subscriptionCount = this.state.feeds
-      .map(feed => feed.subscription)
-      .filter(Boolean)
-      .length;
 
     return (
       <div className={className}>
@@ -339,8 +351,8 @@ module.exports = class FeedList extends React.Component {
           expandAllGroups={this.expandAllGroups}
           allGroupsExpanded={this.allGroupsExpanded()}
           allGroupsCollapsed={this.allGroupsCollapsed()}
-          feedCount={this.state.feeds.length}
-          subscriptionCount={subscriptionCount}
+          feedCount={this.state.feedCount}
+          subscriptionCount={this.state.subscriptionCount}
           onFilterChange={this.onFilterChange}
           filter={this.state.filter}
           grouped={this.state.grouped}
