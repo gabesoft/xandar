@@ -82,10 +82,10 @@ module.exports = class FeedList extends React.Component {
       .length;
 
     return {
-      showFeeds,
-      subscriptionCount,
       feedCount: feeds.length,
-      groupedFeeds: this.groupFeeds(showFeeds)
+      feeds: showFeeds,
+      groupedFeeds: this.groupFeeds(showFeeds),
+      subscriptionCount
     };
   }
 
