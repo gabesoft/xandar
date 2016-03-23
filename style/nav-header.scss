@@ -146,6 +146,12 @@
     margin: 0 10px;
   }
 
+  @media (max-width: 760px) {
+    .nav-center {
+      padding: 5px 15px;
+    }
+  }
+
   @media (max-width: 480px) {
     .nav-center {
       display: none;
