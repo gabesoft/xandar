@@ -1,8 +1,8 @@
 'use strict';
 
 const translate = { start: 1, center: -29, end: -59 };
-const moveThreshold = 30;
-const navigateThreshold = 4;
+const moveThreshold = 10;
+const navigateThreshold = 2;
 
 const React = require('react');
 const ReactDOM = require('react-dom');
