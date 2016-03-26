@@ -21,7 +21,7 @@ $sidepanel-height: 400px;
   &.animate {
     transition: transform $delay-short;
 
-    .sidepanel {
+    .sidepanel .icon-button {
       display: none;
     }
   }

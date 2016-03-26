@@ -126,10 +126,6 @@
       cursor: pointer;
       opacity: 0.5;
 
-      &:hover:not([disabled]) {
-        border: 1px solid currentColor;
-      }
-
       &:hover {
         opacity: 1;
       }
@@ -137,8 +133,13 @@
   }
 
   @media (max-width: 760px) {
-    .sidepanel .icon-button {
-      display: none;
+    .sidepanel {
+      max-height: 100%;
+      width: 30%;
+
+      .icon-button {
+        display: none;
+      }
     }
   }
 }

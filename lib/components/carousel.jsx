@@ -37,6 +37,10 @@ module.exports = class Carousel extends React.Component {
   }
 
   onPanMove(event) {
+    if (!event.target.classList.contains('sidepanel')) {
+      return;
+    }
+
     if (Math.abs(event.deltaX) < moveThreshold && this.moveAmount === translate.center) {
       return;
     }
