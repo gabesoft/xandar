@@ -15,8 +15,6 @@ const Hapi = require('hapi'),
       ReactViews = require('hapi-react-views'),
       Auth = require('hapi-auth-cookie'),
       Inert = require('inert'),
-      Good = require('good'),
-      GoodConsole = require('good-console'),
       StatusDecorator = require('http-status-decorator'),
       Vision = require('vision'),
       server = new Hapi.Server({});
@@ -35,10 +33,12 @@ function setupServer(cb) {
 
 function registerPlugins(cb) {
   server.register([Inert, Vision, Auth, StatusDecorator, {
-    register: Good,
+    register: require('pstatus/lib/hapi')
+  }, {
+    register: require('good'),
     options: {
       reporters: [{
-        reporter: GoodConsole,
+        reporter: require('good-console'),
         events: { log: '*', response: '*', error: '*' },
         config: { format: 'hh:mm:ss.SSS' }
       }]
