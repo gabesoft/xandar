@@ -15,7 +15,7 @@ module.exports = class TagItem extends React.Component {
 
   render() {
     return (
-      <div key={this.props.key} className="tag-item" props>
+      <div key={this.props.keyValue} className="tag-item" props>
         <div className="content">
           <span className="tag-name">{this.props.tag}</span>
           <Button

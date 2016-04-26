@@ -99,7 +99,7 @@ module.exports = class AddFeedPopup extends React.Component {
         ref="input"
         onChange={this.onUriChange}
         onKeyDown={this.onKeyDown}
-        value={this.state.uri}
+        value={this.state.uri || ''}
       />
     );
     const loader = (

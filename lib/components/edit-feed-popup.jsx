@@ -110,10 +110,10 @@ module.exports = class EditFeedPopup extends React.Component {
         left={this.state.left}
         onClose={this.close}>
         <div className="header" onClick={this.close}>
-          <Avatar text={title}/>
+          <Avatar text={title} />
           <div className="title">{title.toLowerCase()}</div>
           <div className="actions">
-            <Button icon="close" color="red" onClick={this.close}/>
+            <Button icon="close" color="red" onClick={this.close} />
           </div>
         </div>
         <div className="content">
@@ -125,7 +125,7 @@ module.exports = class EditFeedPopup extends React.Component {
               type="text"
               className="title-input"
               id={titleId}
-              value={subscription.title}
+              value={subscription.title || ''}
               onChange={this.onTitleChange}
               onKeyDown={this.onKeyDown}
             />

@@ -47,6 +47,11 @@ function registerPlugins(cb) {
 }
 
 function setupAuth(cb) {
+  const cache = server.cache({
+    segment: 'sessions',
+    expiresIn: 3 * 24 * 60 * 60 * 1000
+  });
+  server.app.cache = cache;
   server.auth.strategy('session', 'cookie', {
     clearInvalid: true,
     cookie: 'sid',

@@ -269,7 +269,7 @@ module.exports = class NavHeader extends React.Component {
               onChange={this.onSearchChange}
               onFocus={this.onSearchFocus}
               onBlur={this.onSearchBlur}
-              value={this.state.searchValue}
+              value={this.state.searchValue || ''}
               ref={this.initAwesomplete}
             />
             <Icon name="magnify" className="search-icon" />
