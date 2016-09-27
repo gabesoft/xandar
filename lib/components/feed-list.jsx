@@ -1,6 +1,7 @@
 'use strict';
 
 const latestPattern = /:latest(\d+)?(h|d)?/i;
+const addedPattern = /:added/i;
 const unreadPattern = /:unread|:new/;
 const allPattern = /:all/;
 const tagPattern = /^:(.+)$/;
@@ -74,7 +75,7 @@ module.exports = class FeedList extends React.Component {
     feeds = feeds || store.getFeeds() || [];
 
     const showFeeds = (this.state && this.state.filter === ':all')
-      ? feeds : feeds.slice(0, showMaxFeeds);
+                    ? feeds : feeds.slice(0, showMaxFeeds);
 
     const subscriptionCount = feeds
       .map(feed => feed.subscription)
@@ -129,6 +130,14 @@ module.exports = class FeedList extends React.Component {
       });
   }
 
+  sortByRecentlyAdded() {
+    return trans(store.getFeeds())
+      .filter('subscription')
+      .sort('subscription.createdAt:descending')
+      .take(showMaxFeeds)
+      .value();
+  }
+
   filterByUnread() {
     return store
       .getFeeds()
@@ -146,6 +155,8 @@ module.exports = class FeedList extends React.Component {
       feeds = this.filterByUnread();
     } else if (filter.match(latestPattern)) {
       feeds = this.filterByLatest(filter);
+    } else if (filter.match(addedPattern)) {
+      feeds = this.sortByRecentlyAdded(filter);
     } else if (filter.match(tagPattern)) {
       feeds = this.filterByTag(filter);
     } else {

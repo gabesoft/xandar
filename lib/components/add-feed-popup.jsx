@@ -33,7 +33,7 @@ module.exports = class AddFeedPopup extends React.Component {
     this.setState({ loading: true });
 
     if (this.isYoutubeId(this.state.uri)) {
-      actions.addFeed(`https://www.youtube.com/feeds/videos.xml?channel_id=${this.state.uri}`);
+      actions.addFeed(`http://www.youtube.com/feeds/videos.xml?channel_id=${this.state.uri}`);
     } else {
       actions.addFeed(this.state.uri);
     }

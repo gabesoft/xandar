@@ -353,7 +353,6 @@ module.exports = class PostDescription extends React.Component {
     const processors = feeds.map(feed => () => this.processMissingContent(feed));
 
     processors.push(() => this.processHackerNews());
-    processors.push(() => this.processReddit());
     processors.push(() => this.processYoutube());
     processors.push(() => this.renderDefault());
 
