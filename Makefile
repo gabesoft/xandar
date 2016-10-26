@@ -62,3 +62,12 @@ clean-dep:
 	@rm -rf node_modules
 
 deploy: setup build-prod
+
+package:
+	node2nix --include-peer-dependencies
+
+package-build: package
+	nix-build default.nix
+
+package-install: package
+	nix-env -if default.nix

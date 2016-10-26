@@ -43,7 +43,17 @@
     "request": "^2.69.0",
     "srunner": "^0.1.14",
     "trans": "^0.1.0",
-    "vision": "^4.0.1"
+    "vision": "^4.0.1",
+    "eslint-plugin-jsx-a11y": "^1.0.2",
+    "eslint-plugin-import": "^1.6.0",
+    "boom": "^3.1.2",
+    "hoek": "^3.0.4"
+  },
+  "peerDependencies": {
+    "eslint-plugin-jsx-a11y": "^1.0.2",
+    "eslint-plugin-import": "^1.6.0",
+    "boom": "^3.1.2",
+    "hoek": "^3.0.4"
   },
   "description": "Blog reader",
   "devDependencies": {
