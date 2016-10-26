@@ -3,20 +3,25 @@
 const nconf = require('nconf'),
       path = require('path'),
       env = process.env.NODE_ENV || 'development',
-      root = process.cwd();
+      root = process.cwd(),
+      configPath = (name) => `${path.join(root, 'config', name)}.json`,
+      githubPath = configPath('github'),
+      defaultPath = configPath('default');
+
+
 
 nconf.overrides({
   env,
-  github: require('./github.json'),
+  github: require(githubPath),
   path: {
     root,
-    config: path.join(root, 'config', env) + '.json'
+    config: configPath(env)
   }
 });
 
 nconf.env();
 nconf.argv();
 nconf.file(env, nconf.get('path:config'));
-nconf.defaults(require('./default.json'));
+nconf.defaults(require(defaultPath));
 
 module.exports = nconf;
