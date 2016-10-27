@@ -3,19 +3,17 @@
 const nconf = require('nconf'),
       path = require('path'),
       env = process.env.NODE_ENV || 'development',
-      root = process.cwd(),
-      configPath = (name) => `${path.join(root, 'config', name)}.json`,
+      dir = __dirname,
+      configPath = (name) => `${path.join(dir, name)}.json`,
       githubPath = configPath('github'),
       defaultPath = configPath('default');
-
-
 
 nconf.overrides({
   env,
   github: require(githubPath),
   path: {
-    root,
-    config: configPath(env)
+    root: path.join(dir, '..'),
+    config: process.env.XANDAR_CONFIG_PATH || configPath(env)
   }
 });
 
