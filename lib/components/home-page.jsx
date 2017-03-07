@@ -25,7 +25,7 @@ const Toast = require('./toast.jsx');
 module.exports = class HomePage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { carouselIndex: null, loading: false };
+    this.state = { carouselIndex: null, loading: false, page: 0 };
     this.postQuery = null;
     this.onScroll = this.onScroll.bind(this);
     this.onOpenInCarousel = this.onOpenInCarousel.bind(this);
@@ -81,8 +81,8 @@ module.exports = class HomePage extends React.Component {
   }
 
   updateReadStatus(post, read) {
-    if (post._source.read !== read) {
-      post._source.read = read;
+    if (post.read !== read) {
+      post.read = read;
       actions.savePost(post);
       actions.updateReadStatus({ data: post });
     }
@@ -93,13 +93,15 @@ module.exports = class HomePage extends React.Component {
       return;
     }
 
-    const total = store.getTotalPostCount();
-    const count = store.getPostCount();
+    const total = store.getTotalPages();
+    const page = (this.state.page || 0) + 1;
 
-    if (total === 0) {
+    this.setState({ page });
+
+    if (!store.hasPosts()) {
       actions.loadPosts();
-    } else if (count < total) {
-      actions.addPosts(this.postQuery, count);
+    } else if (page < total) {
+      actions.addPosts(this.postQuery, page);
     }
   }
 

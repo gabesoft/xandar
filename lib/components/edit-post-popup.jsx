@@ -28,7 +28,7 @@ module.exports = class EditPostPopup extends React.Component {
   onTagsChange(tags) {
     if (this.state.post) {
       const post = this.state.post;
-      post._source.tags = tags;
+      post.tags = tags;
       this.setState({ post });
       actions.savePost(post);
     }
@@ -63,7 +63,7 @@ module.exports = class EditPostPopup extends React.Component {
   }
 
   render() {
-    const data = (this.state.post || {})._source || {};
+    const data = (this.state.post || {}) || {};
     const tags = data.tags || [];
     const post = data.post || {};
     const feedTitle = data.title;

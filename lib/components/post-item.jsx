@@ -32,10 +32,10 @@ module.exports = class PostItemClosed extends React.Component {
 
   render() {
     const data = this.props.post;
-    const post = data._source.post;
-    const read = data._source.read;
-    const tags = data._source.tags || [];
-    const feedTitle = data._source.title;
+    const post = data.post;
+    const read = data.read;
+    const tags = data.tags || [];
+    const feedTitle = data.title;
     const newIcon = <span className="new-icon">NEW</span>;
     const className = cls(
       'post-item',
@@ -47,7 +47,7 @@ module.exports = class PostItemClosed extends React.Component {
     return (
       <li onClick={() => this.props.onOpen(data)} className={className}>
         <div className="feed-info">
-          <Avatar ref="avatar" text={feedTitle}/>
+          <Avatar ref="avatar" text={feedTitle} />
           <div className="title">{feedTitle}</div>
         </div>
         <div className="title">{post.title}</div>
@@ -58,7 +58,7 @@ module.exports = class PostItemClosed extends React.Component {
           onTagsEdit={this.onTagsEdit}
         />
         {read ? null : newIcon}
-        <Date value={post.date}/>
+        <Date value={post.date} />
       </li>
     );
   }

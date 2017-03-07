@@ -5,7 +5,7 @@
         "auth-secret": "874A5AE1-7925-4294-9F62-34F5B0BAB237"
     },
     "api": {
-        "url": "http://localhost:8006"
+        "url": "http://localhost:8001"
     },
     "feed-finder": {
         "url": "http://localhost:8008"

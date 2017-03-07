@@ -12,6 +12,13 @@
   transition: all $item-transition;
 }
 
+@mixin highlight($color) {
+  > .text,
+  > .title {
+    color: $color;
+  }
+}
+
 @mixin header-item($highlight-background: false) {
   @include flex();
 
@@ -26,13 +33,6 @@
   &:hover {
     .actions {
       opacity: 1;
-    }
-  }
-
-  @mixin highlight($color) {
-    > .text,
-    > .title {
-      color: $color;
     }
   }
 

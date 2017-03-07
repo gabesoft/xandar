@@ -50,7 +50,7 @@ module.exports = class PostDescription extends React.Component {
   }
 
   readCodeBlocks() {
-    const blocks = this.props.post._source.codeBlocks || [];
+    const blocks = this.props.post.codeBlocks || [];
     this.blocks = blocks.map(block => ({
       userEdited: block.userEdited,
       lang: block.lang
@@ -59,7 +59,7 @@ module.exports = class PostDescription extends React.Component {
 
   saveCodeBlocks() {
     const post = this.props.post;
-    post._source.codeBlocks = this.blocks
+    post.codeBlocks = this.blocks
       .map(block => ({
         lang: block.userEdited ? block.lang : null,
         userEdited: block.userEdited
@@ -81,9 +81,9 @@ module.exports = class PostDescription extends React.Component {
   }
 
   getPostContent() {
-    const post = this.props.post._source.post;
+    const post = this.props.post.post;
     const data = post.description;
-    const tags = this.props.post._source.tags || [];
+    const tags = this.props.post.tags || [];
     const markdown = tags.find(tag => tag === 'markdown-format');
     return markdown ? marked(data) : data;
   }
@@ -101,7 +101,7 @@ module.exports = class PostDescription extends React.Component {
   }
 
   renderIframe(src) {
-    const post = this.props.post._source.post;
+    const post = this.props.post.post;
     const html = { __html: post.description };
 
     return (
@@ -125,14 +125,14 @@ module.exports = class PostDescription extends React.Component {
   }
 
   processYoutube() {
-    const post = this.props.post._source.post;
+    const post = this.props.post.post;
     const link = post.link || '';
     const src = this.processYoutubeLink(link);
     return src ? this.renderIframe(src) : null;
   }
 
   processMissingContent(pattern) {
-    const post = this.props.post._source.post;
+    const post = this.props.post.post;
     const link = post.link || '';
     const regex = new RegExp(escape(pattern), 'i');
     const match = link.match(regex);
@@ -140,7 +140,7 @@ module.exports = class PostDescription extends React.Component {
   }
 
   processHackerNews() {
-    const post = this.props.post._source.post;
+    const post = this.props.post.post;
     const link = post.link || '';
     const regex = new RegExp('news.ycombinator.com');
     const match = (post.comments || '').match(regex);
@@ -148,7 +148,7 @@ module.exports = class PostDescription extends React.Component {
   }
 
   processReddit() {
-    const post = this.props.post._source.post;
+    const post = this.props.post.post;
     const link = post.link || '';
     const regex = new RegExp('<a href="([^"]+)">\\[link\\]<\/a>', 'i');
     const match = (post.description || '').match(regex);
@@ -192,7 +192,7 @@ module.exports = class PostDescription extends React.Component {
   }
 
   getLangFromTags() {
-    const tags = this.props.post._source.tags || [];
+    const tags = this.props.post.tags || [];
     const pattern = /^([^-]+)-lang/;
     const lang = tags.find(tag => {
       const match = tag.match(pattern);

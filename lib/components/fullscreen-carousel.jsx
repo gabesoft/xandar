@@ -61,14 +61,14 @@ module.exports = class FullscreenCarousel extends React.Component {
 
   render() {
     const data = this.props.post;
-    const post = data._source.post;
+    const post = data.post;
     return (
       <div className="post-carousel-old">
         <div className="post-header">
-          <span className="feed-title">{data._source.title}</span>
+          <span className="feed-title">{data.title}</span>
           <span className="post-title right">{post.title}</span>
         </div>
-        <Description post={this.props.post}/>
+        <Description post={this.props.post} />
         <div className="panel-left">
           <IconBtn
             icon="chevron_left"

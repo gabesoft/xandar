@@ -78,8 +78,8 @@ module.exports = class CarouselItem extends React.Component {
     const hasPost = Boolean(this.props.post);
     const className = cls('carousel-item', this.props.className, hasPost ? null : 'invisible');
     const data = this.props.post || {};
-    const post = (data._source || {}).post || {};
-    const feedTitle = (data._source || {}).title;
+    const post = (data || {}).post || {};
+    const feedTitle = (data || {}).title;
     const postActions = (
       <Actions
         showViewList

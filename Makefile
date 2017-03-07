@@ -50,7 +50,7 @@ lint-fix:
 loc:
 	@find src/ -name *.js | xargs wc -l
 
-run:
+run: setup
 	@$(NODE_DEV) server.js
 
 deps: setup

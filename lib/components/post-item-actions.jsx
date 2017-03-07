@@ -7,7 +7,7 @@ const cls = require('../util').cls;
 module.exports = class PostItemActions extends React.Component {
   render() {
     const data = this.props.post;
-    const post = data._source.post;
+    const post = data.post;
     const className = cls('actions', this.props.className);
     const closeButton = (
       <Button

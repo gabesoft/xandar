@@ -48,7 +48,7 @@ module.exports = class PostItemOpen extends React.Component {
 
   renderFeedInfo(avatarRef) {
     const data = this.props.post;
-    const feedTitle = data._source.title;
+    const feedTitle = data.title;
 
     return (
       <div className="feed-info">
@@ -60,7 +60,7 @@ module.exports = class PostItemOpen extends React.Component {
 
   renderNav(position) {
     const data = this.props.post;
-    const post = data._source.post;
+    const post = data.post;
     const scroll = position !== 'top';
     const top = position === 'top';
     const className = top ? 'header' : 'footer';
