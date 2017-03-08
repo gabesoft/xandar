@@ -195,7 +195,7 @@ module.exports = class HomePage extends React.Component {
 
     return (
       <div className="app-main">
-        <input hidden value={user.id} readOnly />
+        <input hidden value={user._id} readOnly />
         <Toast />
         <Header className="app-header" user={user} />
 

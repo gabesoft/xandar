@@ -41,10 +41,14 @@ module.exports = class TagsInput extends React.Component {
   }
 
   onTagsChange(tags) {
+    const tagsId = store.getTagsId();
+
     this.setState({ value: tags });
     this.props.onChange(tags);
+
     if (store.anyNew(tags)) {
-      actions.saveTags(tags);
+      const all = store.getTags();
+      actions.saveTags({ tags: all.concat(tags), _id: tagsId });
     }
   }
 
