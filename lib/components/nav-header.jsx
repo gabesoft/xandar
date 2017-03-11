@@ -11,7 +11,7 @@ const Item = require('./nav-header-item.jsx');
 const itemFactory = React.createFactory(Item);
 const Awesomplete = require('awesomplete');
 const constants = require('../constants');
-const parse = require('../post-query').parse;
+const buildQuery = require('../query-builder').build;
 const searchStore = require('../flux/search-store');
 const tagStore = require('../flux/tag-store');
 const actions = require('../flux/search-actions');
@@ -127,8 +127,7 @@ module.exports = class NavHeader extends React.Component {
       });
 
       const value = (this.state.searchValue || '').trim();
-      const queryObj = parse(value);
-      queryObj.lastUsed = new Date();
+      const queryObj = buildQuery(value);
 
       actions.updateQuerySearch({ query: queryObj });
 

@@ -62,7 +62,7 @@ module.exports = class FeedList extends React.Component {
   }
 
   onFeedEditClick(feed) {
-    this.setState({ editOpenFeedId: feed.id });
+    this.setState({ editOpenFeedId: feed._id });
   }
 
   onFeedMarkAsRead(feed) {
@@ -259,7 +259,7 @@ module.exports = class FeedList extends React.Component {
     const feed = data.feed;
     const subscription = data.subscription;
     const groupKey = (subscription.tags[0] || 'uncategorized').toLowerCase();
-    this.setState({ highlightFeedId: feed.id });
+    this.setState({ highlightFeedId: feed._id });
     this.toggleGroupOpen(groupKey, true);
     this.delay.run(() => this.setState({ highlightFeedId: null }));
   }
@@ -329,17 +329,17 @@ module.exports = class FeedList extends React.Component {
     return feeds.map((feed, index) => {
       const itemClass = cls(
         className,
-        this.state.editOpenFeedId === feed.id ? 'edit-open' : null
+        this.state.editOpenFeedId === feed._id ? 'edit-open' : null
       );
 
       return (
         <FeedItem
-          key={`${feed.id}-${index}`}
+          key={`${feed._id}-${index}`}
           feed={feed}
           className={itemClass}
           onMarkAsRead={this.onFeedMarkAsRead}
           onEditClick={this.onFeedEditClick}
-          highlight={feed.id === this.state.highlightFeedId}
+          highlight={feed._id === this.state.highlightFeedId}
           onScrollIntoView={this.onScrollIntoView}
           showDelete={this.props.user.admin}
         />

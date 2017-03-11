@@ -34,7 +34,7 @@ module.exports = class PostQueryList extends React.Component {
   }
 
   onPinUpdate(query, value) {
-    query.pin = value;
+    query.pinState = value;
     this.saveQuery(query);
   }
 
@@ -78,7 +78,7 @@ module.exports = class PostQueryList extends React.Component {
     const queries = this.state.queries.map(query => {
       return (
         <Item
-          key={query.id}
+          key={query._id}
           query={query}
           onPin={this.onPin}
           onUnpin={this.onUnpin}

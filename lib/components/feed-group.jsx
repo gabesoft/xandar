@@ -7,7 +7,7 @@ const Button = require('./icon-button.jsx');
 const cls = require('../util').cls;
 const postActions = require('../flux/post-actions');
 const searchActions = require('../flux/search-actions');
-const parse = require('../post-query').parse;
+const buildQuery = require('../query-builder').build;
 
 module.exports = class FeedGroup extends React.Component {
   constructor(props) {
@@ -22,10 +22,9 @@ module.exports = class FeedGroup extends React.Component {
     }
 
     const tag = this.props.group.key;
-    const query = parse(`#${tag}`);
+    const query = buildQuery(`#${tag}`);
 
     query.title = `${tag.replace(/-/g, ' ')} Posts`;
-    query.lastUsed = new Date();
 
     searchActions.selectPostQuery({ query });
     searchActions.savePostQuery({ query });

@@ -8,7 +8,7 @@ const Avatar = require('./text-avatar.jsx');
 const feedActions = require('../flux/feed-actions');
 const postActions = require('../flux/post-actions');
 const searchActions = require('../flux/search-actions');
-const parse = require('../post-query').parse;
+const buildQuery = require('../query-builder').build;
 const searchStore = require('../flux/search-store');
 const cls = require('../util').cls;
 const actions = require('../flux/feed-actions');
@@ -58,10 +58,9 @@ module.exports = class Feed extends React.Component {
     const subscription = feed.subscription;
     const data = Object.assign({}, { title: feed.title }, subscription);
     const titleId = searchStore.getFeedTitleId(data);
-    const query = parse(`@${titleId}`);
+    const query = buildQuery(`@${titleId}`);
 
     query.title = data.title;
-    query.lastUsed = new Date();
 
     searchActions.selectPostQuery({ query });
     searchActions.savePostQuery({ query });
@@ -91,9 +90,9 @@ module.exports = class Feed extends React.Component {
 
     return (
       <li className={className} onClick={this.onClick}>
-        <Avatar text={title} ref="avatar" className={subscribed ? '' : 'invisible'}/>
+        <Avatar text={title} ref="avatar" className={subscribed ? '' : 'invisible'} />
         <div className="title">{title.toLowerCase()}</div>
-        <Counts feed={feed}/>
+        <Counts feed={feed} />
         <Actions
           feed={feed}
           onEdit={this.onEdit}

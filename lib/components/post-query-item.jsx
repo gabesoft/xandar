@@ -15,7 +15,7 @@ module.exports = class PostQueryItem extends React.Component {
     super(props);
     this.state = {
       edit: false,
-      title: this.props.query.title
+      title: this.props.query.title || ''
     };
 
     this.delay = new DelaySeries(highlightDelay);
@@ -89,7 +89,7 @@ module.exports = class PostQueryItem extends React.Component {
     const query = this.props.query;
     const pin = <Button icon="pin" title="Pin query" onClick={this.onPin} />;
     const unpin = <Button icon="pin-off" title="Unpin query" onClick={this.onUnpin} />;
-    const pinned = query.pin === 1;
+    const pinned = query.pinState === 1;
     const title = query.title || query.text;
     const titleClass = query.title ? 'title' : 'text';
     const className = cls(
@@ -125,7 +125,7 @@ module.exports = class PostQueryItem extends React.Component {
 
     return (
       <li className={className} onClick={this.onClick}>
-        <Avatar text={title}/>
+        <Avatar text={title} />
         {this.state.edit ? titleInput : titleDisplay}
         {this.state.edit ? null : actions}
       </li>
