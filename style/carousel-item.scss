@@ -1,5 +1,6 @@
 .carousel-item {
-  $content-padding: 15px;
+  $content-padding-top: 15px;
+  $content-padding-bottom: 75px;
 
   box-sizing: border-box;
   display: inline-block;
@@ -36,8 +37,8 @@
   }
 
   .post-description {
-    height: calc(100% - #{$content-padding});
-    padding: $content-padding 0;
+    height: calc(100% - #{$content-padding-top + $content-padding-bottom});
+    padding: $content-padding-top 0 $content-padding-bottom 0;
 
     iframe {
       height: calc(100% - 100px);
@@ -93,11 +94,11 @@
     }
 
     @include flex($flex-direction: column);
-    @include absolute(0px, 0, 0px, 0);
+    @include absolute(null, null, 10px, null);
 
     margin: auto;
     max-height: $sidepanel-height;
-    opacity: 0;
+    opacity: 1;
     transition: opacity $delay-short linear;
     width: $sidepanel-width;
 

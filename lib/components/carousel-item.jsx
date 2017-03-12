@@ -111,7 +111,7 @@ module.exports = class CarouselItem extends React.Component {
           <Button
             onClick={this.props.onMoveRight}
             icon="chevron-right"
-            size="xlarge"
+            size="large"
             disabled={this.props.index === store.getPostCount() - 1}
           />
         </div>
@@ -119,7 +119,7 @@ module.exports = class CarouselItem extends React.Component {
           <Button
             onClick={this.props.onMoveLeft}
             icon="chevron-left"
-            size="xlarge"
+            size="large"
             disabled={this.props.index === 0}
           />
         </div>
