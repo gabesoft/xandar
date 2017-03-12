@@ -11,7 +11,7 @@
   }
 
   .lang-button {
-    @include absolute(3px, 3px, 0, 0);
+    @include absolute(3px, 3px);
 
     font-family: $font-family-content;
     font-size: $font-size-small;

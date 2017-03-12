@@ -30,6 +30,7 @@ module.exports = class NavHeader extends React.Component {
     this.onFeedDataChange = this.onFeedDataChange.bind(this);
     this.onSearchFocus = this.onSearchFocus.bind(this);
     this.onSearchBlur = this.onSearchBlur.bind(this);
+    this.onEscKey = this.onEscKey.bind(this);
     this.updateQuery = this.updateQuery.bind(this);
     this.awesomplete = null;
     this.awesompleteInitialized = false;
@@ -43,6 +44,10 @@ module.exports = class NavHeader extends React.Component {
   getQueryValue(query) {
     query = query || {};
     return query.userText || query.text || query.toString();
+  }
+
+  componentWillMount() {
+    document.addEventListener('keydown', this.onEscKey, false);
   }
 
   componentDidMount() {
@@ -86,6 +91,7 @@ module.exports = class NavHeader extends React.Component {
     tagStore.removeListener(constants.tags.STORE_CHANGE, this.onTagsDataChange);
     searchStore.removeListener(constants.search.STORE_CHANGE, this.onFeedDataChange);
     dispatcher.unregister(this.tokenId);
+    document.removeEventListener('keydown', this.onEscKey, false);
   }
 
   onSearchFocus() {
@@ -115,6 +121,12 @@ module.exports = class NavHeader extends React.Component {
           this.awesomplete.list = this.getCompletionList();
         }
       });
+    }
+  }
+
+  onEscKey(event) {
+    if (event.keyCode === 27) {
+      this.setState({ searchValue: '' }, this.updateQuery);
     }
   }
 
