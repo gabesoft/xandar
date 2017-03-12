@@ -7,7 +7,8 @@
   transform: translate3d(0, 0, 0);
 
   &:not(.no-scroll) {
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   @mixin theme($color) {
