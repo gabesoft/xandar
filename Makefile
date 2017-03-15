@@ -70,7 +70,7 @@ nix-build: nix-package
 	nix-build default.nix
 
 nix-build-local: nix-package
-	nix-build default.nix -I nixpkgs=$HOME/nixpkgs
+	nix-build default.nix -I nixpkgs=$$HOME/nixpkgs
 
 nix-install: nix-package
 	nix-env -if default.nix
