@@ -63,14 +63,22 @@ clean-dep:
 
 deploy: setup build-prod
 
-nix-package:
-	node2nix --include-peer-dependencies
+nix-clean:
+	$(RM) -f node-packages.nix
+	$(RM) -f node-env.nix
+	$(RM) -f default.nix
 
-nix-build: nix-package
+nix-package: nix-clean
+	node2nix --input package.json --output node-packages.nix --composition default.nix --node-env node-env.nix --include-peer-dependencies --development
+
+nix-package-local: nix-clean
+	node2nix --input package.json --output node-packages.nix --composition default.nix --node-env node-env.nix --include-peer-dependencies --development -I nixpkgs=$$HOME/nixpkgs
+
+nix-build:
 	nix-build default.nix
 
-nix-build-local: nix-package
+nix-build-local:
 	nix-build default.nix -I nixpkgs=$$HOME/nixpkgs
 
-nix-install: nix-package
+nix-install:
 	nix-env -if default.nix

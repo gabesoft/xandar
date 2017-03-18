@@ -24,6 +24,3 @@ config/github.json
 .#*
 config/production.json
 result*
-default.nix
-node-env.nix
-node-packages.nix
