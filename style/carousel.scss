@@ -20,10 +20,6 @@ $sidepanel-height: 200px;
 
   &.animate {
     transition: transform $delay-short;
-
-    .sidepanel .icon-button {
-      display: none;
-    }
   }
 
   .light-theme & {
